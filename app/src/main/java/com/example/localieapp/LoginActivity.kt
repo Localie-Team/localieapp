@@ -1,4 +1,4 @@
-package com.example.localie
+package com.example.localieapp
 
 import android.app.AlertDialog
 import android.app.ProgressDialog

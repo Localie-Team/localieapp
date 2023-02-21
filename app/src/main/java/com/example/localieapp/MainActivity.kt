@@ -1,4 +1,4 @@
-package com.example.localie
+package com.example.localieapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
