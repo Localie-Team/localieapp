@@ -10,8 +10,8 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.localie.DashboardActivity
-import com.example.localie.RegistrationActivity
+import com.example.localieapp.DashboardActivity
+import com.example.localieapp.RegistrationActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth

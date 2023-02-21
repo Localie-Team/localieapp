@@ -10,8 +10,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.localie.DashboardActivity
-import com.example.localie.LoginActivity
+import com.example.localieapp.DashboardActivity
+import com.example.localieapp.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
