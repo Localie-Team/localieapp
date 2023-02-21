@@ -33,4 +33,8 @@ Please create a new pull request when you are ready to merge the project into th
 A link to the Github Actions CI build log
 https://github.com/Localie-Team/applicaton/actions
   
-TEST111
+# Firebase Setup 
+
+1. Go to tools, select Firebase 
+2. Connect with Google (Localie email), under Firestore
+3. Manage in UI
