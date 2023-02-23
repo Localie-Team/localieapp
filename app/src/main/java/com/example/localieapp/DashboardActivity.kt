@@ -2,10 +2,7 @@ package com.example.localieapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
-import com.example.localieapp.ProfileFragment
-import com.example.localieapp.DealsFragment
-import com.example.localieapp.EarnFragment
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -25,31 +22,19 @@ class DashboardActivity : AppCompatActivity() {
         navigationView!!.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                    var fragment: Fragment? = null;
+
                     when (tab!!.id) {
 
-                        R.id.nav_profile ->
-                        {
-//                            ProfileFragment fragment = new ProfileFragment();
-                            val fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content, ProfileFragment(), "");
-                            fragmentTransaction.commit();
-                        }
+                        R.id.nav_profile -> fragment = ProfileFragment();
+                        R.id.nav_deals -> fragment = DealsFragment();
+                        R.id.nav_earn -> fragment = EarnFragment();
+                    }
 
-                        R.id.nav_deals ->
-                        {
-//                            DealsFragment fragment = new DealsFragment();
-                            val fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content, DealsFragment(), "");
-                            fragmentTransaction.commit();
-                        }
-
-                        R.id.nav_earn ->
-                        {
-//                            EarnFragment fragment = new EarnFragment();
-                            val fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content, EarnFragment(), "");
-                            fragmentTransaction.commit();
-                        }
+                    if(null != fragment) {
+                        val ft = supportFragmentManager.beginTransaction();
+                        ft.replace(R.id.content, fragment);
+                        ft.commit();
                     }
 
                     // Handle tab select
