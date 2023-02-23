@@ -1,5 +1,6 @@
 package com.example.localieapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,7 +23,7 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private var settings: ImageView? = null
     private var pDrop: ImageView? = null
     private var sDrop: ImageView? = null
     private var aDrop: ImageView? = null
@@ -54,6 +55,13 @@ class ProfileFragment : Fragment() {
         pDrop = view.findViewById(R.id.products_arrow);
         sDrop = view.findViewById(R.id.services_arrow);
         aDrop = view.findViewById(R.id.attractions_arrow);
+        settings = view.findViewById(R.id.profile_settings);
+
+        settings?.setOnClickListener(View.OnClickListener {
+            val mainIntent = Intent(activity, EditUserSettings::class.java)
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(mainIntent)
+        })
 
         pDrop?.setOnClickListener {
 
