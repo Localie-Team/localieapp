@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +22,13 @@ class DealsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var pDrop: ImageView? = null
+    private var sDrop: ImageView? = null
+    private var aDrop: ImageView? = null
+    var pState = false;
+    var sState = false;
+    var aState = false;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,6 +43,49 @@ class DealsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_deals, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        pDrop = view.findViewById(R.id.deals_products_arrow);
+        sDrop = view.findViewById(R.id.deals_services_arrow);
+        aDrop = view.findViewById(R.id.deals_attractions_arrow);
+
+        pDrop?.setOnClickListener {
+
+            if (!pState) {
+                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+                pState = true;
+            }
+            else {
+                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                pState = false;
+            }
+        }
+
+        sDrop?.setOnClickListener {
+            if (!sState) {
+                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+                sState = true;
+            }
+            else {
+                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                sState = false;
+            }
+        }
+
+        aDrop?.setOnClickListener {
+            if (!aState) {
+                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+                aState = true;
+            }
+            else {
+                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                aState = false;
+            }
+        }
+
     }
 
     companion object {
