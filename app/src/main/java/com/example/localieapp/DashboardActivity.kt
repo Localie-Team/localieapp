@@ -1,6 +1,7 @@
 package com.example.localieapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
@@ -19,22 +20,27 @@ class DashboardActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
         navigationView = findViewById(R.id.dashboard_tab_layout)
+        val tab = navigationView!!.getTabAt(1);
+        tab?.select();
+
         navigationView!!.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                     var fragment: Fragment? = null;
 
-                    when (tab!!.id) {
+                    when (tab!!.position) {
 
-                        R.id.nav_profile -> fragment = ProfileFragment();
-                        R.id.nav_deals -> fragment = DealsFragment();
-                        R.id.nav_earn -> fragment = EarnFragment();
+                        0 -> fragment = ProfileFragment();
+                        1 -> fragment = DealsFragment();
+                        2-> fragment = EarnFragment();
                     }
 
-                    if(null != fragment) {
-                        val ft = supportFragmentManager.beginTransaction();
-                        ft.replace(R.id.content, fragment);
-                        ft.commit();
+
+                    if(fragment != null) {
+                        Log.d("TAG", fragment.toString());
+                        val fragmentTransaction = supportFragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content, fragment, "");
+                        fragmentTransaction.commit();
                     }
 
                     // Handle tab select
