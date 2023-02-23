@@ -2,6 +2,7 @@
 <resources>
     <color name="secondary_red">#FFDAD7</color>
     <color name="main_red">#410005</color>
+    <color name="logo_red">#F37373</color>
     <color name="brown">#857371</color>
     <color name="dark_brown">#201A1A</color>
     <color name="teal_700">#FF018786</color>
