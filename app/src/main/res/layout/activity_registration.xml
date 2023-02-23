@@ -82,7 +82,7 @@
         android:layout_below="@+id/register_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="Register"
+        android:text="Login"
         android:textAlignment="center"
         android:textColor="@color/main_red"
         android:textSize="15sp"
