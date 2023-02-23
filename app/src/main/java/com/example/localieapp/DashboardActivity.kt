@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.example.localieapp.ProfileFragment
+import com.example.localieapp.DealsFragment
+import com.example.localieapp.EarnFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -27,25 +29,25 @@ class DashboardActivity : AppCompatActivity() {
 
                         R.id.nav_profile ->
                         {
-                            ProfileFragment fragment = new ProfileFragment();
-                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content, fragment, "");
+//                            ProfileFragment fragment = new ProfileFragment();
+                            val fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.content, ProfileFragment(), "");
                             fragmentTransaction.commit();
                         }
 
                         R.id.nav_deals ->
                         {
-                            DealsFragment fragment = new DealsFragment();
-                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content, fragment, "");
+//                            DealsFragment fragment = new DealsFragment();
+                            val fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.content, DealsFragment(), "");
                             fragmentTransaction.commit();
                         }
 
                         R.id.nav_earn ->
                         {
-                            EarnFragment fragment = new EarnFragment();
-                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content, fragment, "");
+//                            EarnFragment fragment = new EarnFragment();
+                            val fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.content, EarnFragment(), "");
                             fragmentTransaction.commit();
                         }
                     }
