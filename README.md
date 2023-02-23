@@ -34,3 +34,10 @@ A link to the Github Actions CI build log
 https://github.com/Localie-Team/applicaton/actions
   
 # Firebase
+
+1. Go to Tools > Firebase 
+2. Authentication > Google [KOTLIN]
+  a. Sign in with Localie Dev account
+  b. Add SDK
+3. (Back in Android Studio) Firebase > Cloud Firestore
+  a. Add SDK
