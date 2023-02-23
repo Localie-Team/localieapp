@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "52368032338",
+    "project_id": "localieapp-e8e0e",
+    "storage_bucket": "localieapp-e8e0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52368032338:android:1b1925b48f92c0d313558b",
+        "android_client_info": {
+          "package_name": "com.example.localieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52368032338-a16caet6p3qthjdl3h7tvg6orl3jp48d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuVABJ2nJ_WbEbuTPXrp1QVDRSQ7_x7t4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52368032338-a16caet6p3qthjdl3h7tvg6orl3jp48d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

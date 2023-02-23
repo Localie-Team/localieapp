@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        tools:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,8 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:textAlignment="center"
                 android:text="Welcome!"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -39,7 +40,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -54,7 +55,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -66,7 +67,7 @@
                 android:layout_marginTop="15dp"
                 android:text="Forget Password?"
                 android:textAlignment="center"
-                android:textColor="@color/design_default_color_primary_dark"
+                android:textColor="@color/main_red"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -74,14 +75,13 @@
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginHorizontal="30dp"
                 android:layout_below="@+id/forgetp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
                 android:text="Login"
-                android:textStyle="bold"
                 android:textSize="20sp"
-            />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/register"
@@ -92,7 +92,7 @@
                 android:layout_marginTop="15dp"
                 android:text="Register"
                 android:textAlignment="center"
-                android:textColor="@color/design_default_color_primary_dark"
+                android:textColor="@color/main_red"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </RelativeLayout>
