@@ -34,10 +34,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
-//        val actionBar = supportActionBar
-//        actionBar!!.setTitle("Create Account")
-//        actionBar.setDisplayShowHomeEnabled(true)
-//        actionBar.setDisplayHomeAsUpEnabled(true)
+
         // initialising the layout items
         email = findViewById(R.id.login_email)
         password = findViewById(R.id.login_password)
