@@ -16,6 +16,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 
 class RegistrationActivity : AppCompatActivity() {
     private var email: TextInputEditText? = null
@@ -26,6 +29,9 @@ class RegistrationActivity : AppCompatActivity() {
     private var progressDialog: ProgressDialog? = null
     private var mAuth: FirebaseAuth? = null
 
+    private var db = Firebase.firestore
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
@@ -33,11 +39,13 @@ class RegistrationActivity : AppCompatActivity() {
         email = findViewById(R.id.register_email)
         name = findViewById(R.id.register_name)
         password = findViewById(R.id.register_password)
-        mRegister = findViewById(R.id.register_button)
+        mRegister = findViewById(R.id.register_button) as Button
         existaccount = findViewById(R.id.homepage)
         mAuth = FirebaseAuth.getInstance()
         progressDialog = ProgressDialog(this)
         progressDialog!!.setMessage("Register")
+
+
 
         mRegister?.setOnClickListener(View.OnClickListener {
             val emaill = email?.getText().toString().trim { it <= ' ' }
@@ -64,40 +72,56 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun registerUser(emaill: String, pass: String, uname: String) {
-        progressDialog!!.show()
-        mAuth!!.createUserWithEmailAndPassword(emaill, pass).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
+        //progressDialog!!.show()
+        val userMap = hashMapOf(
+            "email" to emaill,
+            "pass" to pass,
+            "name" to uname
+        )
+
+        db.collection("users").add(userMap)
+            .addOnSuccessListener {
+                Toast.makeText(this, "successfully added!", Toast.LENGTH_SHORT).show()
+
+
+                }
+            .addOnFailureListener{
                 progressDialog!!.dismiss()
-                val user = mAuth!!.currentUser
-                val email = user!!.email
-                val uid = user.uid
-                val hashMap = HashMap<Any, String?>()
-                hashMap["email"] = email
-                hashMap["uid"] = uid
-                hashMap["name"] = uname
-                hashMap["onlineStatus"] = "online"
-                hashMap["typingTo"] = "noOne"
-                hashMap["image"] = ""
-                val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-                val reference: DatabaseReference = database.getReference("Users")
-                reference.child(uid).setValue(hashMap)
-                Toast.makeText(
-                    this@RegistrationActivity,
-                    "Registered User " + user.email,
-                    Toast.LENGTH_LONG
-                ).show()
-                val mainIntent = Intent(this@RegistrationActivity, DashboardActivity::class.java)
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(mainIntent)
-                finish()
-            } else {
-                progressDialog!!.dismiss()
-                Toast.makeText(this@RegistrationActivity, "Error", Toast.LENGTH_LONG).show()
-            }
-        }.addOnFailureListener {
-            progressDialog!!.dismiss()
             Toast.makeText(this@RegistrationActivity, "Error Occurred", Toast.LENGTH_LONG).show()
-        }
+            }
+//        mAuth!!.createUserWithEmailAndPassword(emaill, pass).addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                progressDialog!!.dismiss()
+//                val user = mAuth!!.currentUser
+//                val email = user!!.email
+//                val uid = user.uid
+//                val hashMap = HashMap<Any, String?>()
+//                hashMap["email"] = email
+//                hashMap["uid"] = uid
+//                hashMap["name"] = uname
+//                hashMap["onlineStatus"] = "online"
+//                hashMap["typingTo"] = "noOne"
+//                hashMap["image"] = ""
+//                val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+//                val reference: DatabaseReference = database.getReference("Users")
+//                reference.child(uid).setValue(hashMap)
+//                Toast.makeText(
+//                    this@RegistrationActivity,
+//                    "Registered User " + user.email,
+//                    Toast.LENGTH_LONG
+//                ).show()
+//                val mainIntent = Intent(this@RegistrationActivity, DashboardActivity::class.java)
+//                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                startActivity(mainIntent)
+//                finish()
+//            } else {
+//                progressDialog!!.dismiss()
+//                Toast.makeText(this@RegistrationActivity, "Error", Toast.LENGTH_LONG).show()
+//            }
+//        }.addOnFailureListener {
+//            progressDialog!!.dismiss()
+//            Toast.makeText(this@RegistrationActivity, "Error Occurred", Toast.LENGTH_LONG).show()
+//        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
