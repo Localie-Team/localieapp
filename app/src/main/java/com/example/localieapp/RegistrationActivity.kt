@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+
 class RegistrationActivity : AppCompatActivity() {
     private var email: TextInputEditText? = null
     private var password: TextInputEditText? = null
@@ -41,11 +42,13 @@ class RegistrationActivity : AppCompatActivity() {
         email = findViewById(R.id.register_email)
         name = findViewById(R.id.register_name)
         password = findViewById(R.id.register_password)
-        mRegister = findViewById(R.id.register_button)
+        mRegister = findViewById(R.id.register_button) as Button
         existaccount = findViewById(R.id.homepage)
         mAuth = FirebaseAuth.getInstance()
         progressDialog = ProgressDialog(this)
         progressDialog!!.setMessage("Register")
+
+
 
         mRegister?.setOnClickListener(View.OnClickListener {
             val emaill = email?.getText().toString().trim { it <= ' ' }
@@ -72,24 +75,18 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun registerUser(emaill: String, pass: String, uname: String) {
-        progressDialog!!.show()
+        //progressDialog!!.show()
         val userMap = hashMapOf(
             "email" to emaill,
             "pass" to pass,
             "name" to uname
         )
 
-        val uid = FirebaseAuth.getInstance().currentUser!!.uid
-
-        db.collection("user").document(uid).set(userMap)
+        db.collection("users").add(userMap)
             .addOnSuccessListener {
                 Toast.makeText(this, "successfully added!", Toast.LENGTH_SHORT).show()
 
-//                Toast.makeText(
-//                    this@RegistrationActivity,
-//                    "Registered User " + emaill,
-//                    Toast.LENGTH_LONG
-//                ).show()
+
                 }
             .addOnFailureListener{
                 progressDialog!!.dismiss()
