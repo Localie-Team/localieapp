@@ -35,10 +35,7 @@ class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
-//        val actionBar = supportActionBar
-//        actionBar!!.setTitle("Create Account")
-//        actionBar.setDisplayShowHomeEnabled(true)
-//        actionBar.setDisplayHomeAsUpEnabled(true)
+
         email = findViewById(R.id.register_email)
         name = findViewById(R.id.register_name)
         password = findViewById(R.id.register_password)
