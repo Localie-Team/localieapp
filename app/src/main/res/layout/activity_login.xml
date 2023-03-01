@@ -50,6 +50,7 @@
                 android:layout_below="@+id/login_email_layout"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="25dp"
+                app:endIconMode="password_toggle"
                 android:hint="Password">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -95,6 +96,21 @@
                 android:textColor="@color/main_red"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/guest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:alpha="0.50"
+                android:text="Browse as Guest"
+                android:textAlignment="center"
+                android:textColor="@color/main_red"
+                android:textSize="15sp"
+                android:textStyle="normal" />
         </RelativeLayout>
 
     </ScrollView>
