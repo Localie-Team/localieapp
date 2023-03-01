@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RegistrationActivity">
 
     <TextView
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:textAlignment="center"
-        android:text="Welcome to Localie!"
+        android:text="@string/welcome_message"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -24,7 +25,7 @@
         android:layout_below="@+id/teacher"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="145dp"
-        android:hint="Name">
+        android:hint="@string/name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_name"
@@ -39,7 +40,7 @@
         android:layout_below="@+id/register_name_layout"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="25dp"
-        android:hint="Email">
+        android:hint="@string/email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_email"
@@ -54,7 +55,8 @@
         android:layout_below="@+id/register_email_layout"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="25dp"
-        android:hint="Password">
+        app:endIconMode="password_toggle"
+        android:hint="@string/password">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_password"
@@ -70,7 +72,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_below="@+id/register_password_layout"
         android:layout_centerHorizontal="true"
-        android:text="Register"
+        android:text="@string/register"
         android:textStyle="bold"
         android:textSize="20sp"
         />
@@ -82,108 +84,24 @@
         android:layout_below="@+id/register_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textAlignment="center"
         android:textColor="@color/main_red"
         android:textSize="15sp"
         android:textStyle="bold" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/names"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/teacher"-->
-<!--        android:layout_marginStart="35dp"-->
-<!--        android:layout_marginTop="120dp"-->
-<!--        android:text="Name"-->
-<!--        android:textColor="@color/black" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/register_name"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/names"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_marginLeft="30dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginRight="30dp"-->
-<!--        android:hint="Your Name..."-->
-<!--        android:inputType="text"-->
-<!--        android:padding="8dp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/email"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/register_name"-->
-<!--        android:layout_marginStart="35dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:text="Email"-->
-<!--        android:textColor="@color/black" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/register_email"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/email"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_marginLeft="30dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginRight="30dp"-->
-<!--        android:hint="Email..."-->
-<!--        android:inputType="textEmailAddress"-->
-<!--        android:padding="8dp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/pass"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/register_email_layout"-->
-<!--        android:layout_marginStart="35dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:text="Password"-->
-<!--        android:textColor="@color/black" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/register_password"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/pass"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_marginLeft="30dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginRight="30dp"-->
-<!--        android:hint="Password..."-->
-<!--        android:inputType="textPassword"-->
-<!--        android:padding="8dp" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/register_button"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/register_password"-->
-<!--        android:layout_marginLeft="30dp"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:layout_marginRight="30dp"-->
-<!--        android:padding="4dp"-->
-<!--        android:text="Create Account"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:textColor="@android:color/background_light"-->
-<!--        android:textSize="24sp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/homepage"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/register_button"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginStart="15dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginEnd="23dp"-->
-<!--        android:text=" Already Have a Account? Sign In"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="17sp"-->
-<!--        android:textStyle="bold" />-->
+    <TextView
+        android:id="@+id/guest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/browse_as_guest"
+        android:alpha="0.50"
+        android:textAlignment="center"
+        android:textColor="@color/main_red"
+        android:textSize="15sp"
+        android:textStyle="normal" />
 
 </RelativeLayout>

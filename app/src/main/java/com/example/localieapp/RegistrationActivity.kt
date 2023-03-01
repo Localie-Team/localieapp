@@ -26,6 +26,7 @@ class RegistrationActivity : AppCompatActivity() {
     private var name: TextInputEditText? = null
     private var mRegister: Button? = null
     private var existaccount: TextView? = null
+    private var browseguest: TextView? = null
     private var progressDialog: ProgressDialog? = null
     private var mAuth: FirebaseAuth? = null
 

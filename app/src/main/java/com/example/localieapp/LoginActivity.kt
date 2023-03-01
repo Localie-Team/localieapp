@@ -25,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private var mlogin: Button? = null
     private var newdnewaccount: TextView? = null
     private var reocverpass: TextView? = null
+    private var browseguest: TextView? = null
     var currentUser: FirebaseUser? = null
     private var loadingBar: ProgressDialog? = null
     private var mAuth: FirebaseAuth? = null
@@ -63,17 +64,28 @@ class LoginActivity : AppCompatActivity() {
         })
 
         // If new account then move to Registration Activity
-        newdnewaccount?.setOnClickListener(View.OnClickListener {
+        newdnewaccount?.setOnClickListener {
             startActivity(
                 Intent(
                     this@LoginActivity,
                     RegistrationActivity::class.java
                 )
             )
-        })
+        }
 
         // Recover Your Password using email
         reocverpass?.setOnClickListener(View.OnClickListener { showRecoverPasswordDialog() })
+
+
+        // Allows user to browse as Guest
+        browseguest?.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@LoginActivity,
+                    DashboardActivity::class.java
+                )
+            )
+        }
     }
 
     private fun showRecoverPasswordDialog() {

@@ -6,12 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LoginActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        tools:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
-                android:text="Welcome!"
+                android:text="@string/welcome_message"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -35,7 +29,7 @@
                 android:layout_below="@+id/welcome"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="145dp"
-                android:hint="Email">
+                android:hint="@string/email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_email"
@@ -50,7 +44,8 @@
                 android:layout_below="@+id/login_email_layout"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="25dp"
-                android:hint="Password">
+                app:endIconMode="password_toggle"
+                android:hint="@string/password">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_password"
@@ -65,7 +60,7 @@
                 android:layout_below="@+id/login_password_layout"
                 android:layout_alignEnd="@id/login_password_layout"
                 android:layout_marginTop="15dp"
-                android:text="Forget Password?"
+                android:text="@string/forgot_password"
                 android:textAlignment="center"
                 android:textColor="@color/main_red"
                 android:textSize="15sp"
@@ -79,7 +74,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="15dp"
-                android:text="Login"
+                android:text="@string/login"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -90,13 +85,26 @@
                 android:layout_below="@+id/login_button"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="Register"
+                android:text="@string/register"
                 android:textAlignment="center"
                 android:textColor="@color/main_red"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-        </RelativeLayout>
 
-    </ScrollView>
+
+            <TextView
+                android:id="@+id/guest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:alpha="0.50"
+                android:text="@string/browse_as_guest"
+                android:textAlignment="center"
+                android:textColor="@color/main_red"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+        </RelativeLayout>
 
 </LinearLayout>
