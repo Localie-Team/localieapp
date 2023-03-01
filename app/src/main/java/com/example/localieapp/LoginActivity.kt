@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         email = findViewById(R.id.login_email)
         password = findViewById(R.id.login_password)
         newdnewaccount = findViewById(R.id.register)
+        browseguest = findViewById(R.id.guest)
         reocverpass = findViewById(R.id.forgetp)
         mAuth = FirebaseAuth.getInstance()
         mlogin = findViewById(R.id.login_button)
