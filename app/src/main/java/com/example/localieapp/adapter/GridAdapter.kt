@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
 
-class ItemAdapter(private val context: Context, private val dataset: List<Coupon>)
-    : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class GridAdapter(private val context: Context, private val dataset: List<Coupon>)
+    : RecyclerView.Adapter<GridAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.item_title);
