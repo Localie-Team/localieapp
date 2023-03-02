@@ -72,56 +72,41 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun registerUser(emaill: String, pass: String, uname: String) {
-        //progressDialog!!.show()
-        val userMap = hashMapOf(
-            "email" to emaill,
-            "pass" to pass,
-            "name" to uname
-        )
+        progressDialog!!.show()
 
-        db.collection("users").add(userMap)
-            .addOnSuccessListener {
-                Toast.makeText(this, "successfully added!", Toast.LENGTH_SHORT).show()
-
-
-                }
-            .addOnFailureListener{
+        mAuth!!.createUserWithEmailAndPassword(emaill, pass).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 progressDialog!!.dismiss()
-            Toast.makeText(this@RegistrationActivity, "Error Occurred", Toast.LENGTH_LONG).show()
+                val user = mAuth!!.currentUser
+                val email = user!!.email
+                val uid = user.uid
+                val hashMap = HashMap<Any, String?>()
+                hashMap["email"] = email
+                hashMap["uid"] = uid
+                hashMap["name"] = uname
+                hashMap["onlineStatus"] = "online"
+                hashMap["typingTo"] = "noOne"
+                hashMap["image"] = ""
+                val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+                val reference: DatabaseReference = database.getReference("Users")
+                reference.child(uid).setValue(hashMap)
+                Toast.makeText(
+                    this@RegistrationActivity,
+                    "Registered User " + user.email,
+                    Toast.LENGTH_LONG
+                ).show()
+                val mainIntent = Intent(this@RegistrationActivity, DashboardActivity::class.java)
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(mainIntent)
+                finish()
+            } else {
+                progressDialog!!.dismiss()
+                Toast.makeText(this@RegistrationActivity, "Error", Toast.LENGTH_LONG).show()
             }
-//        mAuth!!.createUserWithEmailAndPassword(emaill, pass).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                progressDialog!!.dismiss()
-//                val user = mAuth!!.currentUser
-//                val email = user!!.email
-//                val uid = user.uid
-//                val hashMap = HashMap<Any, String?>()
-//                hashMap["email"] = email
-//                hashMap["uid"] = uid
-//                hashMap["name"] = uname
-//                hashMap["onlineStatus"] = "online"
-//                hashMap["typingTo"] = "noOne"
-//                hashMap["image"] = ""
-//                val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-//                val reference: DatabaseReference = database.getReference("Users")
-//                reference.child(uid).setValue(hashMap)
-//                Toast.makeText(
-//                    this@RegistrationActivity,
-//                    "Registered User " + user.email,
-//                    Toast.LENGTH_LONG
-//                ).show()
-//                val mainIntent = Intent(this@RegistrationActivity, DashboardActivity::class.java)
-//                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//                startActivity(mainIntent)
-//                finish()
-//            } else {
-//                progressDialog!!.dismiss()
-//                Toast.makeText(this@RegistrationActivity, "Error", Toast.LENGTH_LONG).show()
-//            }
-//        }.addOnFailureListener {
-//            progressDialog!!.dismiss()
-//            Toast.makeText(this@RegistrationActivity, "Error Occurred", Toast.LENGTH_LONG).show()
-//        }
+        }.addOnFailureListener {
+            progressDialog!!.dismiss()
+            Toast.makeText(this@RegistrationActivity, "Error Occurred", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
