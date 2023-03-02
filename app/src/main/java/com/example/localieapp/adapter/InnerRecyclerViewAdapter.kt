@@ -41,7 +41,7 @@ class InnerRecyclerViewAdapter(
         viewType: Int
     ): ViewHolder {
         val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card_expand_item_view, parent, false)
+            .inflate(R.layout.adapter_grid_item, parent, false)
         return ViewHolder(v)
     }
 

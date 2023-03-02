@@ -46,23 +46,23 @@ class ExpandableGridListAdapter(
         groupPosition: Int, childPosition: Int,
         isLastChild: Boolean, convertView: View?, parent: ViewGroup
     ): View? {
-        var v: View? = convertView
-        if (v == null) {
-            v = LayoutInflater.from(parent.context).inflate(
+        var convertView: View? = convertView
+        if (convertView == null) {
+            convertView = LayoutInflater.from(parent.context).inflate(
                 R.layout.childs, parent,
                 false
             )
         }
 //        v = LayoutInflater.from(parent.context).inflate(R.layout.childs, parent, false)
         val groupname = header[groupPosition]
-        recyclerView = v!!.findViewById(R.id.recyclerview)
-        val sbc = InnerRecyclerViewAdapter(
+        recyclerView = convertView!!.findViewById(R.id.recyclerview)
+        val sbc = GridAdapter(
             _context,
-            child, groupPosition, groupname
+            child[groupname]!!
         )
         recyclerView!!.layoutManager = GridLayoutManager(_context, 3)
         recyclerView!!.adapter = sbc
-        return v
+        return convertView
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
