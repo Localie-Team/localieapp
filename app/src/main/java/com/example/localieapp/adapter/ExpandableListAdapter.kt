@@ -26,7 +26,7 @@ class ExpandableListAdapter(
 
     override fun getChildView(
         groupPosition: Int, childPosition: Int,
-        isLastChild: Boolean, convertView: View, parent: ViewGroup
+        isLastChild: Boolean, convertView: View?, parent: ViewGroup
     ): View {
         var convertView = convertView
         val childText = getChild(groupPosition, childPosition) as String
@@ -35,7 +35,7 @@ class ExpandableListAdapter(
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = infalInflater.inflate(R.layout.adapter_list_item, null)
         }
-        val txtListChild = convertView.findViewById<View>(R.id.text_child) as TextView
+        val txtListChild = convertView!!.findViewById<View>(R.id.text_child) as TextView
         txtListChild.text = childText
         return convertView
     }
@@ -59,7 +59,7 @@ class ExpandableListAdapter(
 
     override fun getGroupView(
         groupPosition: Int, isExpanded: Boolean,
-        convertView: View, parent: ViewGroup
+        convertView: View?, parent: ViewGroup
     ): View {
         var convertView = convertView
         val headerTitle = getGroup(groupPosition) as String
@@ -68,7 +68,7 @@ class ExpandableListAdapter(
                 _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = infalInflater.inflate(R.layout.adapter_list_group, null)
         }
-        val lblListHeader = convertView
+        val lblListHeader = convertView!!
             .findViewById<View>(R.id.header_title) as TextView
         lblListHeader.setTypeface(null, Typeface.BOLD)
         lblListHeader.text = headerTitle

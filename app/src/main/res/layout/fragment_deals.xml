@@ -6,52 +6,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.SearchView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-            <RelativeLayout
-                xmlns:tools="https://schemas.android.com/tools"
-                android:layout_width="match_parent"
+            <ExpandableListView
+                android:id="@+id/expandableListView"
                 android:layout_height="match_parent"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                tools:context=".MainActivity">
-
-                <ExpandableListView
-                    android:id="@+id/expandableListView"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-                    android:divider="@android:color/darker_gray"
-                    android:dividerHeight="0.5dp" />
-
-            </RelativeLayout>
+                android:layout_width="match_parent"
+                android:indicatorRight="?android:expandableListPreferredItemIndicatorRight" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@id/expandableListView"
                 android:scrollbars="vertical" />
 
-        </LinearLayout>
-    </ScrollView>
-
+        </RelativeLayout>
 </FrameLayout>

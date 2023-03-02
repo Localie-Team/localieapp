@@ -56,10 +56,6 @@ class DealsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        pDrop = view.findViewById(R.id.deals_products_arrow);
-//        sDrop = view.findViewById(R.id.deals_services_arrow);
-//        aDrop = view.findViewById(R.id.deals_attractions_arrow);
-
         coupons = Datasource().loadCoupons()
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view);
@@ -70,14 +66,14 @@ class DealsFragment : Fragment() {
         // in content do not change the layout size of the RecyclerView
         recyclerView!!.setHasFixedSize(true)
 
-        expListView = view.findViewById(R.id.expandableListView) as ExpandableListView
+        expListView = view.findViewById(R.id.expandableListView)
 
         var (listDataParent, listDataChild) = Datasource().createListData()
 
         var listAdapter = ExpandableListAdapter(requireContext(), listDataParent, listDataChild)
         expListView!!.setAdapter(listAdapter)
 
-        // Expandable Listview on group click listerner
+        // Expandable Listview on group click listener
         expListView!!.setOnGroupClickListener(OnGroupClickListener { parent, v, groupPosition, id -> // TODO GroupClickListener work
             false
         })
