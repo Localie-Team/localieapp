@@ -21,7 +21,7 @@ class ItemAdapter(private val context: Context, private val dataset: List<Coupon
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // create a new view
         val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item, parent, false)
+            .inflate(R.layout.adapter_grid_item, parent, false)
 
         return ItemViewHolder(adapterLayout)
     }

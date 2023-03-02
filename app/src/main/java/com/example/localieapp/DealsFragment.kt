@@ -1,16 +1,17 @@
 package com.example.localieapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.ExpandableListView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.ItemAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,12 +28,12 @@ class DealsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private var pDrop: ImageView? = null
-    private var sDrop: ImageView? = null
-    private var aDrop: ImageView? = null
-    var pState = false;
-    var sState = false;
-    var aState = false;
+//    private var pDrop: ImageView? = null
+//    private var sDrop: ImageView? = null
+//    private var aDrop: ImageView? = null
+//    var pState = false;
+//    var sState = false;
+//    var aState = false;
 
     private var recyclerView: RecyclerView? = null
     private var coupons: List<Coupon>? = null
@@ -56,9 +57,9 @@ class DealsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pDrop = view.findViewById(R.id.deals_products_arrow);
-        sDrop = view.findViewById(R.id.deals_services_arrow);
-        aDrop = view.findViewById(R.id.deals_attractions_arrow);
+//        pDrop = view.findViewById(R.id.deals_products_arrow);
+//        sDrop = view.findViewById(R.id.deals_services_arrow);
+//        aDrop = view.findViewById(R.id.deals_attractions_arrow);
 
         coupons = Datasource().loadCoupons()
 
@@ -70,39 +71,40 @@ class DealsFragment : Fragment() {
         // in content do not change the layout size of the RecyclerView
         recyclerView!!.setHasFixedSize(true)
 
-        pDrop?.setOnClickListener {
 
-            if (!pState) {
-                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-                pState = true;
-            }
-            else {
-                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                pState = false;
-            }
-        }
-
-        sDrop?.setOnClickListener {
-            if (!sState) {
-                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-                sState = true;
-            }
-            else {
-                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                sState = false;
-            }
-        }
-
-        aDrop?.setOnClickListener {
-            if (!aState) {
-                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-                aState = true;
-            }
-            else {
-                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                aState = false;
-            }
-        }
+//        pDrop?.setOnClickListener {
+//
+//            if (!pState) {
+//                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+//                pState = true;
+//            }
+//            else {
+//                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+//                pState = false;
+//            }
+//        }
+//
+//        sDrop?.setOnClickListener {
+//            if (!sState) {
+//                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+//                sState = true;
+//            }
+//            else {
+//                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+//                sState = false;
+//            }
+//        }
+//
+//        aDrop?.setOnClickListener {
+//            if (!aState) {
+//                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+//                aState = true;
+//            }
+//            else {
+//                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+//                aState = false;
+//            }
+//        }
 
     }
 

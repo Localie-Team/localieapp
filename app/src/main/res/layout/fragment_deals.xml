@@ -6,12 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
-    <!--    &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-    <!--    <TextView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:text="Profile Fragment" />-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -31,106 +25,25 @@
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-            <LinearLayout
-                android:id="@+id/deals_products_layout"
+            <RelativeLayout
+                xmlns:tools="https://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                tools:context=".MainActivity">
 
-                <TextView
-                    android:id="@+id/deals_products_text"
-                    android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="50dp"
-                    android:text="Products"
-                    android:layout_marginStart="10dp"
-                    android:textAlignment="textStart"
-                    android:gravity="center"/>
-
-                <ImageView
-                    android:id="@+id/deals_products_arrow"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <ExpandableListView
+                    android:id="@+id/expandableListView"
                     android:layout_height="match_parent"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_up_24"/>
+                    android:layout_width="match_parent"
+                    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                    android:divider="@android:color/darker_gray"
+                    android:dividerHeight="0.5dp" />
 
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:dividerInsetStart="10dp"
-                app:dividerInsetEnd="10dp"
-                app:dividerThickness="1dp"/>
-
-            <LinearLayout
-                android:id="@+id/deals_services_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/deals_services_text"
-                    android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="50dp"
-                    android:text="Services"
-                    android:layout_marginStart="10dp"
-                    android:textAlignment="textStart"
-                    android:gravity="center"/>
-
-                <ImageView
-                    android:id="@+id/deals_services_arrow"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_up_24"/>
-
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:dividerInsetStart="10dp"
-                app:dividerInsetEnd="10dp"
-                app:dividerThickness="1dp"/>
-
-            <LinearLayout
-                android:id="@+id/deals_attractions_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/deals_attractions_text"
-                    android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="50dp"
-                    android:text="Attractions"
-                    android:layout_marginStart="10dp"
-                    android:textAlignment="textStart"
-                    android:gravity="center"/>
-
-                <ImageView
-                    android:id="@+id/deals_attractions_arrow"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_up_24"/>
-
-            </LinearLayout>
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
