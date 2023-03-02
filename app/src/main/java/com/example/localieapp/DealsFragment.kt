@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.ItemAdapter
 import com.example.localieapp.data.Datasource
@@ -62,7 +63,8 @@ class DealsFragment : Fragment() {
         coupons = Datasource().loadCoupons()
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view);
-        recyclerView!!.adapter = ItemAdapter(requireContext(), coupons!!)
+        recyclerView!!.adapter = ItemAdapter(requireContext(), coupons!!);
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
         // Use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
