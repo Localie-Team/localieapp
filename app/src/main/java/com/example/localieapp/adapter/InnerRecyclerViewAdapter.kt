@@ -4,9 +4,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.R
+import com.google.android.material.card.MaterialCardView
 
 
 class InnerRecyclerViewAdapter(
@@ -28,7 +28,7 @@ class InnerRecyclerViewAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView
-        var cardView: CardView
+        var cardView: MaterialCardView
 
         init {
             name = itemView.findViewById(R.id.deals_text_child)
@@ -59,9 +59,9 @@ class InnerRecyclerViewAdapter(
         return child.size
     }
 
-    fun getChild(groupPosition: Int, childPosititon: Int): Any {
+    fun getChild(groupPosition: Int, childPosition: Int): Any {
 
         // This will return the child
-        return child[groupname]!![childPosititon]
+        return child[groupname]!![childPosition]
     }
 }

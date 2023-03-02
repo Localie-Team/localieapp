@@ -59,13 +59,13 @@ class DealsFragment : Fragment() {
 
         coupons = Datasource().loadCoupons()
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-        recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
-        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
-
-        // Use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView!!.setHasFixedSize(true)
+//        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+//        recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
+//        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
+//
+//        // Use this setting to improve performance if you know that changes
+//        // in content do not change the layout size of the RecyclerView
+//        recyclerView!!.setHasFixedSize(true)
 
         expListView = view.findViewById(R.id.deals_exp_list_view)
 
@@ -133,31 +133,37 @@ class DealsFragment : Fragment() {
         val child1: MutableList<String> = ArrayList()
         val child2: MutableList<String> = ArrayList()
         val child3: MutableList<String> = ArrayList()
+        val child4: MutableList<String> = ArrayList()
+
 
         // Hash map for both header and child
         val hashMap = HashMap<String, List<String>>()
 
         // Adding headers to list
-        for (i in 1..3) {
-            header.add("Group $i")
+        header.add("Products")
+        header.add("Services")
+        header.add("Attractions")
+        // Adding child data
+        for (i in 1..6) {
+            child1.add("Product Coupon $i")
         }
         // Adding child data
-        for (i in 1..4) {
-            child1.add("Group 1  -  : Child$i")
+        for (i in 1..6) {
+            child2.add("Service Coupon $i")
         }
         // Adding child data
-        for (i in 1..4) {
-            child2.add("Group 2  -  : Child$i")
+        for (i in 1..6) {
+            child3.add("Attraction Coupon $i")
         }
-        // Adding child data
-        for (i in 1..5) {
-            child3.add("Group 3  -  : Child$i")
+        for (i in 1..7) {
+            child4.add("Attraction Coupon $i")
         }
 
         // Adding header and childs to hash map
         hashMap[header[0]] = child1
         hashMap[header[1]] = child2
         hashMap[header[2]] = child3
+        hashMap[header[2]] = child4
 
         adapter = ExpandableGridListAdapter(requireContext(), header, hashMap)
 

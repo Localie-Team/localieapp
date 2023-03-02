@@ -52,25 +52,16 @@ class ExpandableGridListAdapter(
                 R.layout.childs, parent,
                 false
             )
-            val groupname = header[groupPosition]
-            recyclerView = v.findViewById(R.id.recyclerview)
-            val sbc = InnerRecyclerViewAdapter(
-                _context,
-                child, groupPosition, groupname
-            )
-            recyclerView!!.layoutManager = GridLayoutManager(_context, 2)
-            recyclerView!!.adapter = sbc
-        } else {
-            v = LayoutInflater.from(parent.context).inflate(R.layout.childs, parent, false)
-            val groupname = header[groupPosition]
-            recyclerView = v.findViewById(R.id.recyclerview)
-            val sbc = InnerRecyclerViewAdapter(
-                _context,
-                child, groupPosition, groupname
-            )
-            recyclerView!!.layoutManager = GridLayoutManager(_context, 2)
-            recyclerView!!.adapter = sbc
         }
+//        v = LayoutInflater.from(parent.context).inflate(R.layout.childs, parent, false)
+        val groupname = header[groupPosition]
+        recyclerView = v!!.findViewById(R.id.recyclerview)
+        val sbc = InnerRecyclerViewAdapter(
+            _context,
+            child, groupPosition, groupname
+        )
+        recyclerView!!.layoutManager = GridLayoutManager(_context, 3)
+        recyclerView!!.adapter = sbc
         return v
     }
 
@@ -109,28 +100,30 @@ class ExpandableGridListAdapter(
         if (convertView == null) {
             val infalInflater = _context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = infalInflater.inflate(R.layout.header, parent, false)
+            convertView = infalInflater.inflate(R.layout.adapter_list_group, parent, false)
         }
-        val header_text = convertView!!.findViewById(R.id.header) as TextView
-        header_text.text = headerTitle
+        val lblListHeader = convertView!!.findViewById(R.id.header_title) as TextView
+        lblListHeader.text = headerTitle
+        lblListHeader.setTypeface(null, Typeface.BOLD)
+
 
         // If group is expanded then change the text into bold and change the
         // icon
-        if (isExpanded) {
-            header_text.setTypeface(null, Typeface.BOLD)
-            header_text.setCompoundDrawablesWithIntrinsicBounds(
-                0, 0,
-                R.drawable.ic_baseline_keyboard_arrow_up_24, 0
-            )
-        } else {
-            // If group is not expanded then change the text back into normal
-            // and change the icon
-            header_text.setTypeface(null, Typeface.NORMAL)
-            header_text.setCompoundDrawablesWithIntrinsicBounds(
-                0, 0,
-                R.drawable.ic_baseline_keyboard_arrow_down_24, 0
-            )
-        }
+//        if (isExpanded) {
+//            header_text.setTypeface(null, Typeface.BOLD)
+//            header_text.setCompoundDrawablesWithIntrinsicBounds(
+//                0, 0,
+//                R.drawable.ic_baseline_keyboard_arrow_up_24, 0
+//            )
+//        } else {
+//            // If group is not expanded then change the text back into normal
+//            // and change the icon
+//            header_text.setTypeface(null, Typeface.NORMAL)
+//            header_text.setCompoundDrawablesWithIntrinsicBounds(
+//                0, 0,
+//                R.drawable.ic_baseline_keyboard_arrow_down_24, 0
+//            )
+//        }
         return convertView
     }
 
