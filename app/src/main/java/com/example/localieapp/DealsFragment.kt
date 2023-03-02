@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.localieapp.adapter.ItemAdapter
+import com.example.localieapp.data.Datasource
+import com.example.localieapp.model.Coupon
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +33,9 @@ class DealsFragment : Fragment() {
     var sState = false;
     var aState = false;
 
+    private var recyclerView: RecyclerView? = null
+    private var coupons: List<Coupon>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -51,6 +58,15 @@ class DealsFragment : Fragment() {
         pDrop = view.findViewById(R.id.deals_products_arrow);
         sDrop = view.findViewById(R.id.deals_services_arrow);
         aDrop = view.findViewById(R.id.deals_attractions_arrow);
+
+        coupons = Datasource().loadCoupons()
+
+        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view);
+        recyclerView!!.adapter = ItemAdapter(requireContext(), coupons!!)
+
+        // Use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView!!.setHasFixedSize(true)
 
         pDrop?.setOnClickListener {
 
