@@ -34,8 +34,6 @@ class DealsFragment : Fragment() {
     private var coupons: List<Coupon>? = null
 
     private var expListView: ExpandableListView? = null
-    private var listDataParent: ArrayList<String>? = null
-    private var listDataChild: HashMap<String, List<String>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +56,7 @@ class DealsFragment : Fragment() {
 
         coupons = Datasource().loadCoupons()
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view);
+        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
         recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
@@ -66,7 +64,7 @@ class DealsFragment : Fragment() {
         // in content do not change the layout size of the RecyclerView
         recyclerView!!.setHasFixedSize(true)
 
-        expListView = view.findViewById(R.id.expandableListView)
+        expListView = view.findViewById(R.id.deals_exp_list_view)
 
         var (listDataParent, listDataChild) = Datasource().createListData()
 
