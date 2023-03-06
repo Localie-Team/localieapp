@@ -9,8 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
 import android.widget.ImageView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.ExpandableListAdapter
+import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.data.Datasource
+import com.example.localieapp.model.Coupon
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +32,10 @@ class ProfileFragment : Fragment() {
     private var param2: String? = null
     private var settings: ImageView? = null
 
-    private var expListView: ExpandableListView? = null
+//    private var expListView: ExpandableListView? = null
+
+    private var recyclerView: RecyclerView? = null
+    private var coupons: List<Coupon>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +58,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         settings = view.findViewById(R.id.profile_settings)
-        expListView = view.findViewById(R.id.profile_exp_list_view)
+//        expListView = view.findViewById(R.id.profile_exp_list_view)
 
         settings?.setOnClickListener(View.OnClickListener {
             val mainIntent = Intent(activity, EditUserSettings::class.java)
@@ -59,30 +66,40 @@ class ProfileFragment : Fragment() {
             startActivity(mainIntent)
         })
 
-        var (listDataParent, listDataChild) = Datasource().createListData()
-        var listAdapter = ExpandableListAdapter(requireContext(), listDataParent, listDataChild)
+        coupons = Datasource().loadCoupons()
 
-        expListView!!.setAdapter(listAdapter)
+        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+        recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
-        // Expandable Listview on group click listener
-        expListView!!.setOnGroupClickListener(ExpandableListView.OnGroupClickListener { parent, v, groupPosition, id -> // TODO GroupClickListener work
-            false
-        })
+        // Use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView!!.setHasFixedSize(true)
 
-        // Expandable Listview Group Expanded Listener
-        expListView!!.setOnGroupExpandListener(ExpandableListView.OnGroupExpandListener {
-            // TODO GroupExpandListener work
-        })
-
-        // Expandable Listview Group Collapsed listener
-        expListView!!.setOnGroupCollapseListener(ExpandableListView.OnGroupCollapseListener {
-            // TODO GroupCollapseListener work
-        })
-
-        // Expandable Listview on child click listener
-        expListView!!.setOnChildClickListener(ExpandableListView.OnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            false
-        })
+//        var (listDataParent, listDataChild) = Datasource().createListData()
+//        var listAdapter = ExpandableListAdapter(requireContext(), listDataParent, listDataChild)
+//
+//        expListView!!.setAdapter(listAdapter)
+//
+//        // Expandable Listview on group click listener
+//        expListView!!.setOnGroupClickListener(ExpandableListView.OnGroupClickListener { parent, v, groupPosition, id -> // TODO GroupClickListener work
+//            false
+//        })
+//
+//        // Expandable Listview Group Expanded Listener
+//        expListView!!.setOnGroupExpandListener(ExpandableListView.OnGroupExpandListener {
+//            // TODO GroupExpandListener work
+//        })
+//
+//        // Expandable Listview Group Collapsed listener
+//        expListView!!.setOnGroupCollapseListener(ExpandableListView.OnGroupCollapseListener {
+//            // TODO GroupCollapseListener work
+//        })
+//
+//        // Expandable Listview on child click listener
+//        expListView!!.setOnChildClickListener(ExpandableListView.OnChildClickListener { parent, v, groupPosition, childPosition, id ->
+//            false
+//        })
 
 
     }
