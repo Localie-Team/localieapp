@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
 
-class GridAdapter(private val context: Context, private val dataset: List<String>)
+class GridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<GridAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -32,7 +32,7 @@ class GridAdapter(private val context: Context, private val dataset: List<String
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
-        holder.textView.text =  item
+        holder.textView.text = item.stringResourceId
         holder.imageView.setImageResource(R.drawable.image1)
     }
 }
