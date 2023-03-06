@@ -68,7 +68,7 @@ class ProfileFragment : Fragment() {
 
         coupons = Datasource().loadCoupons()
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+        recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
         recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
