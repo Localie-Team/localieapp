@@ -17,6 +17,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
     private var email: TextInputEditText? = null
@@ -29,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
     var currentUser: FirebaseUser? = null
     private var loadingBar: ProgressDialog? = null
     private var mAuth: FirebaseAuth? = null
+
+    private var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -135,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
         loadingBar!!.setMessage("Logging In....")
         loadingBar!!.show()
 
-        // sign in with email and password after authenticating
+         //sign in with email and password after authenticating
         mAuth!!.signInWithEmailAndPassword(emaill, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 loadingBar!!.dismiss()
@@ -155,7 +159,7 @@ class LoginActivity : AppCompatActivity() {
                     val database = FirebaseDatabase.getInstance()
 
                     // store the value in Database in "Users" Node
-                    val reference = database.getReference("Users")
+                    val reference = database.getReference("users")
 
                     // storing the value in Firebase
                     reference.child(uid).setValue(hashMap)
