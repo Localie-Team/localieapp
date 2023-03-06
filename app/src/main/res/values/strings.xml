@@ -11,4 +11,15 @@
     <string name="register">Register</string>
     <string name="browse_as_guest">Browse as Guest</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="coupon1">coupon1.</string>
+    <string name="coupon2">coupon2.</string>
+    <string name="coupon3">coupon3.</string>
+    <string name="coupon4">coupon4.</string>
+    <string name="coupon5">coupon5.</string>
+    <string name="coupon6">coupon6.</string>
+    <string name="coupon7">coupon7.</string>
+    <string name="coupon8">coupon8.</string>
+    <string name="coupon9">coupon9.</string>
+    <string name="coupon10">coupon10.</string>
 </resources>

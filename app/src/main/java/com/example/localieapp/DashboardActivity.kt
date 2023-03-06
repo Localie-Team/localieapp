@@ -37,10 +37,11 @@ class DashboardActivity : AppCompatActivity() {
                     var fragment: Fragment? = null
 
                     when (tab!!.position) {
+                    
+                        0 -> fragment = ProfileFragment();
+                        1 -> fragment = DealsFragment();
+                        2-> fragment = EarnFragment();
 
-                        0 -> fragment = ProfileFragment()
-                        1 -> fragment = DealsFragment()
-                        2-> fragment = EarnFragment()
                     }
 
 

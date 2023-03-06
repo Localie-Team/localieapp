@@ -7,7 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ExpandableListView
 import android.widget.ImageView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.localieapp.adapter.ExpandableListAdapter
+import com.example.localieapp.adapter.GridAdapter
+import com.example.localieapp.data.Datasource
+import com.example.localieapp.model.Coupon
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,13 +31,11 @@ class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var settings: ImageView? = null
-    private var pDrop: ImageView? = null
-    private var sDrop: ImageView? = null
-    private var aDrop: ImageView? = null
-    var pState = false;
-    var sState = false;
-    var aState = false;
 
+//    private var expListView: ExpandableListView? = null
+
+    private var recyclerView: RecyclerView? = null
+    private var coupons: List<Coupon>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +57,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pDrop = view.findViewById(R.id.products_arrow);
-        sDrop = view.findViewById(R.id.services_arrow);
-        aDrop = view.findViewById(R.id.attractions_arrow);
-        settings = view.findViewById(R.id.profile_settings);
+        settings = view.findViewById(R.id.profile_settings)
+//        expListView = view.findViewById(R.id.profile_exp_list_view)
 
         settings?.setOnClickListener(View.OnClickListener {
             val mainIntent = Intent(activity, EditUserSettings::class.java)
@@ -63,41 +66,44 @@ class ProfileFragment : Fragment() {
             startActivity(mainIntent)
         })
 
-        pDrop?.setOnClickListener {
+        coupons = Datasource().loadCoupons()
 
-            if (!pState) {
-                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-                pState = true;
-            }
-            else {
-                pDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                pState = false;
-            }
-        }
+        recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
+        recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
-        sDrop?.setOnClickListener {
-            if (!sState) {
-                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-                sState = true;
-            }
-            else {
-                sDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                sState = false;
-            }
-        }
+        // Use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView!!.setHasFixedSize(true)
 
-        aDrop?.setOnClickListener {
-            if (!aState) {
-                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
-                aState = true;
-            }
-            else {
-                aDrop?.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                aState = false;
-            }
-        }
+//        var (listDataParent, listDataChild) = Datasource().createListData()
+//        var listAdapter = ExpandableListAdapter(requireContext(), listDataParent, listDataChild)
+//
+//        expListView!!.setAdapter(listAdapter)
+//
+//        // Expandable Listview on group click listener
+//        expListView!!.setOnGroupClickListener(ExpandableListView.OnGroupClickListener { parent, v, groupPosition, id -> // TODO GroupClickListener work
+//            false
+//        })
+//
+//        // Expandable Listview Group Expanded Listener
+//        expListView!!.setOnGroupExpandListener(ExpandableListView.OnGroupExpandListener {
+//            // TODO GroupExpandListener work
+//        })
+//
+//        // Expandable Listview Group Collapsed listener
+//        expListView!!.setOnGroupCollapseListener(ExpandableListView.OnGroupCollapseListener {
+//            // TODO GroupCollapseListener work
+//        })
+//
+//        // Expandable Listview on child click listener
+//        expListView!!.setOnChildClickListener(ExpandableListView.OnChildClickListener { parent, v, groupPosition, childPosition, id ->
+//            false
+//        })
+
 
     }
+
 
     companion object {
         /**
