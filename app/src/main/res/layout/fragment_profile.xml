@@ -44,26 +44,26 @@
 
     </LinearLayout>
 
-    <ExpandableListView
-        android:id="@+id/profile_exp_list_view"
-        android:layout_below="@id/profile_layout"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:indicatorStart="370dp"
-        android:indicatorEnd="0dp" />
+<!--    <ExpandableListView-->
+<!--        android:id="@+id/profile_exp_list_view"-->
+<!--        android:layout_below="@id/profile_layout"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:indicatorStart="370dp"-->
+<!--        android:indicatorEnd="0dp" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_exp_list_view">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/profile_recycler_view"
+        <LinearLayout
+            android:layout_below="@id/profile_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profile_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
