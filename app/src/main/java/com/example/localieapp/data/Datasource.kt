@@ -1,26 +1,55 @@
 package com.example.localieapp.data
+import android.util.Log
 import com.example.localieapp.R
-import com.example.localieapp.adapter.ExpandableListAdapter
 import com.example.localieapp.model.Coupon
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 
 class Datasource {
-    fun loadCoupons(): List<Coupon> {
-        val dd = Firebase.firestore;
 
-        return listOf<Coupon>(
-            Coupon(R.string.coupon1, R.drawable.image1),
-            Coupon(R.string.coupon2, R.drawable.image2),
-            Coupon(R.string.coupon3, R.drawable.image3),
-            Coupon(R.string.coupon4, R.drawable.image4),
-            Coupon(R.string.coupon5, R.drawable.image5),
-            Coupon(R.string.coupon6, R.drawable.image6),
-            Coupon(R.string.coupon7, R.drawable.image7),
-            Coupon(R.string.coupon8, R.drawable.image8),
-            Coupon(R.string.coupon9, R.drawable.image9),
-            Coupon(R.string.coupon10, R.drawable.image10)
-        )
+
+    private suspend fun getListOfCoupons(): List<DocumentSnapshot>
+    {
+        val db = Firebase.firestore;
+
+        val snapshot = db.collection("coupons").get().await()
+        return snapshot.documents
+    }
+    public suspend fun loadCoupons() : List<Coupon> {
+
+        try {
+            val snapshot = getListOfCoupons();
+            var listOfCoupons = ArrayList<Coupon>()
+            for (document in snapshot)
+            {
+                listOfCoupons.add(Coupon(R.drawable.image1, document.data!!.get("product").toString()))
+            }
+            return listOfCoupons;
+        }
+        catch (e: Exception)
+        {
+            Log.d("Error: ", e.message.toString())
+        }
+
+//        Log.d("LIST: ", listOfCoupons.toString());
+
+
+//        return listOf<Coupon>(
+//            Coupon(R.string.coupon1, R.drawable.image1),
+//            Coupon(R.string.coupon2, R.drawable.image2),
+//            Coupon(R.string.coupon3, R.drawable.image3),
+//            Coupon(R.string.coupon4, R.drawable.image4),
+//            Coupon(R.string.coupon5, R.drawable.image5),
+//            Coupon(R.string.coupon6, R.drawable.image6),
+//            Coupon(R.string.coupon7, R.drawable.image7),
+//            Coupon(R.string.coupon8, R.drawable.image8),
+//            Coupon(R.string.coupon9, R.drawable.image9),
+//            Coupon(R.string.coupon10, R.drawable.image10)
+//        )
+
+        return listOf(Coupon(R.drawable.image1, ""));
     }
 
     fun createListData(): Pair<ArrayList<String>, HashMap<String, List<String>>> {

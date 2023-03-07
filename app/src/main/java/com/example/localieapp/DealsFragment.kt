@@ -56,8 +56,6 @@ class DealsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        coupons = Datasource().loadCoupons()
-
         recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
         recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
