@@ -4,9 +4,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
 class Coupon(
-//    @StringRes val stringResourceId: Int,
+    @StringRes val stringResourceId: Int,
     @DrawableRes val imageResourceId: Int,
 
-    val productName: String,
+//    val productName: String,
 ) {
 }
