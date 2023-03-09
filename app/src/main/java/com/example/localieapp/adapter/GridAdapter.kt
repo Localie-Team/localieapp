@@ -1,14 +1,18 @@
 package com.example.localieapp.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class GridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<GridAdapter.ItemViewHolder>() {
@@ -31,10 +35,18 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        val storage = Firebase.storage
+
         val item = dataset[position]
-        holder.textView.text = context.resources.getString(item.stringResourceId)
-//        holder.textView.text = item.productName;
-        holder.imageView.setImageResource(R.drawable.image1)
+        val httpsReference = storage.getReferenceFromUrl(
+            item.url)
+        Log.d("broke: ", httpsReference.toString())
+//        holder.textView.text = context.resources.getString(item.stringResourceId)
+        holder.textView.text = item.productName;
+//        holder.imageView.setImageResource(R.drawable.image1)
+        GlideApp.with(context)
+            .load(httpsReference)
+            .into(holder.imageView)
 
     }
 }
