@@ -31,21 +31,28 @@
             android:id="@+id/dashboard_tab_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile"
+            android:text="@string/profile"
             />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/dashboard_tab_deals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deals"
+            android:text="@string/deals"
             />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/dashboard_stores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stores"
+            />
+
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/dashboard_tab_earn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Earn"
+            android:text="@string/earn"
             />
 
     </com.google.android.material.tabs.TabLayout>

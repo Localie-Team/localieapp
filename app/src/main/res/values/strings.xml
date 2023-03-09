@@ -22,4 +22,8 @@
     <string name="coupon8">coupon8.</string>
     <string name="coupon9">coupon9.</string>
     <string name="coupon10">coupon10.</string>
+    <string name="stores">Stores</string>
+    <string name="deals">Deals</string>
+    <string name="profile">Profile</string>
+    <string name="earn">Earn</string>
 </resources>
