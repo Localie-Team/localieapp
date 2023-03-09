@@ -17,7 +17,7 @@ object Datasource {
 //        val snapshot = db.collection("coupons").get().await()
 //        return snapshot.documents
 //    }
-    fun loadCoupons() : List<Coupon> {
+//    fun loadCoupons() : List<Coupon> {
 
 //        try {
 //            val snapshot = getListOfCoupons();
@@ -36,21 +36,21 @@ object Datasource {
 //        Log.d("LIST: ", listOfCoupons.toString());
 
 
-        return listOf<Coupon>(
-            Coupon(R.string.coupon1, R.drawable.image1),
-            Coupon(R.string.coupon2, R.drawable.image2),
-            Coupon(R.string.coupon3, R.drawable.image3),
-            Coupon(R.string.coupon4, R.drawable.image4),
-            Coupon(R.string.coupon5, R.drawable.image5),
-            Coupon(R.string.coupon6, R.drawable.image6),
-            Coupon(R.string.coupon7, R.drawable.image7),
-            Coupon(R.string.coupon8, R.drawable.image8),
-            Coupon(R.string.coupon9, R.drawable.image9),
-            Coupon(R.string.coupon10, R.drawable.image10)
-        )
+//        return listOf<Coupon>(
+//            Coupon(R.string.coupon1, R.drawable.image1),
+//            Coupon(R.string.coupon2, R.drawable.image2),
+//            Coupon(R.string.coupon3, R.drawable.image3),
+//            Coupon(R.string.coupon4, R.drawable.image4),
+//            Coupon(R.string.coupon5, R.drawable.image5),
+//            Coupon(R.string.coupon6, R.drawable.image6),
+//            Coupon(R.string.coupon7, R.drawable.image7),
+//            Coupon(R.string.coupon8, R.drawable.image8),
+//            Coupon(R.string.coupon9, R.drawable.image9),
+//            Coupon(R.string.coupon10, R.drawable.image10)
+//        )
 
 //        return listOf(Coupon(R.drawable.image1, ""));
-    }
+//    }
 
     fun createListData(): Pair<ArrayList<String>, HashMap<String, List<String>>> {
         var listDataParent = ArrayList<String>()
