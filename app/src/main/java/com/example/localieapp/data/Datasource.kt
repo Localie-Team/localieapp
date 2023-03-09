@@ -37,16 +37,17 @@ object Datasource {
 
 
         return listOf<Coupon>(
-            Coupon(R.string.coupon1, R.drawable.image1),
-            Coupon(R.string.coupon2, R.drawable.image2),
-            Coupon(R.string.coupon3, R.drawable.image3),
-            Coupon(R.string.coupon4, R.drawable.image4),
-            Coupon(R.string.coupon5, R.drawable.image5),
-            Coupon(R.string.coupon6, R.drawable.image6),
-            Coupon(R.string.coupon7, R.drawable.image7),
-            Coupon(R.string.coupon8, R.drawable.image8),
-            Coupon(R.string.coupon9, R.drawable.image9),
-            Coupon(R.string.coupon10, R.drawable.image10)
+
+            Coupon(R.string.coupon1, R.drawable.image1, 0),
+            Coupon(R.string.coupon2, R.drawable.image2, 0),
+            Coupon(R.string.coupon3, R.drawable.image3, 0),
+            Coupon(R.string.coupon4, R.drawable.image4, 0),
+            Coupon(R.string.coupon5, R.drawable.image5, 0),
+            Coupon(R.string.coupon6, R.drawable.image6, 0),
+            Coupon(R.string.coupon7, R.drawable.image7, 0),
+            Coupon(R.string.coupon8, R.drawable.image8, 0),
+            Coupon(R.string.coupon9, R.drawable.image9, 0)
+//            Coupon(R.string.coupon10, R.drawable.image10, 0)
         )
 
 //        return listOf(Coupon(R.drawable.image1, ""));

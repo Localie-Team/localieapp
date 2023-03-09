@@ -1,6 +1,7 @@
 package com.example.localieapp.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,10 +32,24 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = dataset[position]
-        holder.textView.text = context.resources.getString(item.stringResourceId)
+
+
+        for (i in dataset.indices) {
+//            print(i);
+//            coupons!!.get(i).coordinate = i;
+            if (dataset[i].coordinate == position) {
+                val item = dataset[i]
+                Log.d("TAG", context.resources.getString(item.stringResourceId))
+                holder.textView.text = context.resources.getString(item.stringResourceId)
 //        holder.textView.text = item.productName;
-        holder.imageView.setImageResource(R.drawable.image1)
+                holder.imageView.setImageResource(R.drawable.image1)
+            }
+        }
+
+//        val item = dataset[position]
+//        holder.textView.text = context.resources.getString(item.stringResourceId)
+////        holder.textView.text = item.productName;
+//        holder.imageView.setImageResource(R.drawable.image1)
 
     }
 }

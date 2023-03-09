@@ -67,6 +67,12 @@ class ProfileFragment : Fragment() {
         })
 
         coupons = Datasource.loadCoupons();
+
+        for (i in coupons!!.indices) {
+//            print(i);
+            coupons!![i].coordinate = i;
+        }
+
         recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
         recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);

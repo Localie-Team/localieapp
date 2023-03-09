@@ -1,10 +1,16 @@
 package com.example.localieapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.localieapp.adapter.GridAdapter
+import com.example.localieapp.data.Datasource
+import com.example.localieapp.model.Coupon
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +27,12 @@ class EarnFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var recyclerView: RecyclerView? = null
+//    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
+    private var coupons: List<Coupon>? = null
+
+    private var step: Button? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -36,6 +48,61 @@ class EarnFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_earn, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        step = view.findViewById(R.id.step_forward_psa_button)
+
+        coupons = Datasource.loadCoupons();
+        for (i in coupons!!.indices) {
+//            print(i);
+            coupons!![i].coordinate = i;
+        }
+
+        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+        recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
+
+        // Use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView!!.setHasFixedSize(true)
+        step?.setOnClickListener(View.OnClickListener {
+            val range: Int = coupons!!.size;
+            val used = mutableListOf<Int>()
+            for (i in coupons!!.indices) {
+//            print(i);
+                var current : Int = (0..range-1).random();
+                while (used.contains(current)) {
+                    current = (0..range-1).random();
+                }
+                used.add(current)
+                coupons!![i].coordinate = current;
+            }
+            recyclerView!!.adapter?.notifyItemRangeChanged(0,range)
+
+            used.clear()
+        })
+    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        val range: Int = coupons!!.size;
+//        val used = mutableListOf<Int>()
+//        for (i in coupons!!.indices) {
+////            print(i);
+//            var current : Int = (1..range).random();
+//            while (used.contains(current)) {
+//                current = (1..range).random();
+//            }
+//            used.add(current)
+//            coupons!![i].coordinate = current;
+//        }
+//        recyclerView!!.adapter?.notifyItemRangeChanged(0,range)
+//
+//
+//        // put your code here...
+//    }
+
 
     companion object {
         /**
