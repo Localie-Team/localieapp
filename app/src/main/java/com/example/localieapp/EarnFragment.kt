@@ -1,6 +1,8 @@
 package com.example.localieapp
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +34,8 @@ class EarnFragment : Fragment() {
     private var coupons: List<Coupon>? = null
 
     private var step: Button? = null
+
+    private var isActive: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,25 +71,84 @@ class EarnFragment : Fragment() {
         // in content do not change the layout size of the RecyclerView
         recyclerView!!.setHasFixedSize(true)
         step?.setOnClickListener(View.OnClickListener {
-            val range: Int = coupons!!.size;
-            val used = mutableListOf<Int>()
-            for (i in coupons!!.indices) {
-//            print(i);
-                var current : Int = (0..range-1).random();
-                while (used.contains(current)) {
-                    current = (0..range-1).random();
-                }
-                used.add(current)
-                coupons!![i].coordinate = current;
-            }
-            recyclerView!!.adapter?.notifyItemRangeChanged(0,range)
 
-            used.clear()
+            if (!isActive) {
+                isActive = true
+//            var i = 0
+//            while (i < 10) {
+//                val range: Int = coupons!!.size;
+//                val used = mutableListOf<Int>()
+//                for (i in coupons!!.indices) {
+////            print(i);
+//                    var current: Int = (0..range - 1).random();
+//                    while (used.contains(current)) {
+//                        current = (0..range - 1).random();
+//                    }
+//                    used.add(current)
+//                    coupons!![i].coordinate = current;
+//                }
+//                recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
+//
+//                used.clear()
+                content()
+            }
+            else {
+                isActive = false
+            }
+
+//                i += 1;
+//            }
         })
     }
 
 //    override fun onResume() {
 //        super.onResume()
+//        step?.setOnClickListener(View.OnClickListener {
+////            public fun onClick(View view) {
+////
+////            }
+//        })
+//    }
+
+
+    fun content() {
+        val range: Int = coupons!!.size;
+        val used = mutableListOf<Int>()
+        for (i in coupons!!.indices) {
+//            print(i);
+            var current: Int = (0..range - 1).random();
+            while (used.contains(current)) {
+                current = (0..range - 1).random();
+            }
+            used.add(current)
+            coupons!![i].coordinate = current;
+        }
+        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
+
+        used.clear()
+
+        if (isActive) {
+            // If play is active, call this method at the end of content
+            screenAnimateRefresh(1500)
+        }
+    }
+
+    fun screenAnimateRefresh(milliseconds : Long) {
+       // Looper.prepare()
+        val handler = Handler()
+        val runnable = Runnable() {
+            run();
+        };
+
+        handler.postDelayed(runnable, milliseconds)
+    }
+
+    @Override
+    fun run() {
+        content();
+    }
+
+
 //        val range: Int = coupons!!.size;
 //        val used = mutableListOf<Int>()
 //        for (i in coupons!!.indices) {

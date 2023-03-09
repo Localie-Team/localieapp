@@ -38,7 +38,7 @@ object Datasource {
 
         return listOf<Coupon>(
 
-            Coupon(R.string.coupon1, R.drawable.image1, 0),
+            Coupon(R.string.coupon1, R.drawable.crocs, 0),
             Coupon(R.string.coupon2, R.drawable.image2, 0),
             Coupon(R.string.coupon3, R.drawable.image3, 0),
             Coupon(R.string.coupon4, R.drawable.image4, 0),

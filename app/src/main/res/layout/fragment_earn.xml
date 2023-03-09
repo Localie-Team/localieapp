@@ -39,7 +39,7 @@
                     android:id="@+id/step_forward_psa_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Step"
+                    android:text="@string/goButton"
                     android:layout_gravity="right"/>
             </LinearLayout>
             <!--                    <ImageButton-->

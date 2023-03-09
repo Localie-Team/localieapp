@@ -42,7 +42,9 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
                 Log.d("TAG", context.resources.getString(item.stringResourceId))
                 holder.textView.text = context.resources.getString(item.stringResourceId)
 //        holder.textView.text = item.productName;
-                holder.imageView.setImageResource(R.drawable.image1)
+//                holder.imageView.setImageResource(R.drawable.image1)
+                holder.imageView.setImageResource(item.imageResourceId)
+//                holder.imageView.setImageResource(R.drawable.(context.resources.getDr))
             }
         }
 
