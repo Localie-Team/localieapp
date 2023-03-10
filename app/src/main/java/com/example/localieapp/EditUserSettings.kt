@@ -25,9 +25,10 @@ class EditUserSettings : AppCompatActivity() {
         startActivity(mainIntent)
         })
 
-        logout?.setOnClickListener(View.OnClickListener {
-
-        })
+        logout?.setOnClickListener {
+            startActivity(Intent(this@EditUserSettings, LoginActivity::class.java))
+        }
 
     }
+
 }
