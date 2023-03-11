@@ -15,6 +15,8 @@ import com.example.localieapp.adapter.ExpandableListAdapter
 import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +38,8 @@ class ProfileFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     private var coupons: List<Coupon>? = null
+
+    val db = Firebase.firestore;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,20 +70,26 @@ class ProfileFragment : Fragment() {
             startActivity(mainIntent)
         })
 
-        coupons = Datasource.loadCoupons();
-
-        for (i in coupons!!.indices) {
+        for (i in listOfCoupons!!.indices) {
 //            print(i);
-            coupons!![i].coordinate = i;
+            listOfCoupons!![i].coordinate = i;
         }
+        var listOfCoupons = ArrayList<Coupon>()
+        db.collection("coupons").get()
+            .addOnSuccessListener{ documents ->
+                for(document in documents){
+                    listOfCoupons.add(Coupon(document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+                }
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
-        recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
-        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
-        // Use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView!!.setHasFixedSize(true)
+                recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
+                recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
+
+                // Use this setting to improve performance if you know that changes
+                // in content do not change the layout size of the RecyclerView
+                recyclerView!!.setHasFixedSize(true)
+            }
 
 //        var (listDataParent, listDataChild) = Datasource().createListData()
 //        var listAdapter = ExpandableListAdapter(requireContext(), listDataParent, listDataChild)

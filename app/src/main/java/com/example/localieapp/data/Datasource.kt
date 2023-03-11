@@ -17,7 +17,7 @@ object Datasource {
 //        val snapshot = db.collection("coupons").get().await()
 //        return snapshot.documents
 //    }
-    fun loadCoupons() : List<Coupon> {
+//    fun loadCoupons() : List<Coupon> {
 
 //        try {
 //            val snapshot = getListOfCoupons();
@@ -35,7 +35,6 @@ object Datasource {
 
 //        Log.d("LIST: ", listOfCoupons.toString());
 
-
         return listOf<Coupon>(
 
             Coupon(R.string.coupon1, R.drawable.crocs, 0),
@@ -51,7 +50,7 @@ object Datasource {
         )
 
 //        return listOf(Coupon(R.drawable.image1, ""));
-    }
+//    }
 
     fun createListData(): Pair<ArrayList<String>, HashMap<String, List<String>>> {
         var listDataParent = ArrayList<String>()

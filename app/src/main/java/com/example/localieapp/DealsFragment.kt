@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,6 +37,8 @@ class DealsFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var coupons: List<Coupon>? = null
 
+    val db = Firebase.firestore;
+
 //    private var expListView: ExpandableListView? = null
 //    private var adapter: ExpandableListGridAdapter? = null
 
@@ -42,6 +47,7 @@ class DealsFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+            coupons = ArrayList<Coupon>()
         }
     }
 
@@ -55,21 +61,26 @@ class DealsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var listOfCoupons = ArrayList<Coupon>()
+        db.collection("coupons").get()
+            .addOnSuccessListener{ documents ->
+                for(document in documents){
+                    listOfCoupons.add(Coupon(document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+                }
 
-        coupons = Datasource.loadCoupons();
 
-        for (i in coupons!!.indices) {
+        for (i in listOfCoupons!!.indices) {
 //            print(i);
-            coupons!![i].coordinate = i;
+            listOfCoupons!![i].coordinate = i;
         }
+            recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+            recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+            recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-        recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
-        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
-
-        // Use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView!!.setHasFixedSize(true)
+            // Use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            recyclerView!!.setHasFixedSize(true)
+        }
 
     }
 

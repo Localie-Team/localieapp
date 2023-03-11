@@ -138,7 +138,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:text="Log Out"
-            android:textColor="@android:color/black"
+            android:textColor="@color/main_red"
             android:textSize="20sp" />
 
     </LinearLayout>

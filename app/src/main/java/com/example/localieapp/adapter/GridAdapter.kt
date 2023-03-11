@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class GridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<GridAdapter.ItemViewHolder>() {
@@ -32,6 +35,8 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        val storage = Firebase.storage
+
 
 
         for (i in dataset.indices) {
@@ -39,19 +44,16 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
 //            coupons!!.get(i).coordinate = i;
             if (dataset[i].coordinate == position) {
                 val item = dataset[i]
+                
+                val httpsReference = storage.getReferenceFromUrl(
+                  item.url)
                 Log.d("TAG", context.resources.getString(item.stringResourceId))
-                holder.textView.text = context.resources.getString(item.stringResourceId)
-//        holder.textView.text = item.productName;
-//                holder.imageView.setImageResource(R.drawable.image1)
-                holder.imageView.setImageResource(item.imageResourceId)
-//                holder.imageView.setImageResource(R.drawable.(context.resources.getDr))
+                holder.textView.text = item.productName;
+                GlideApp.with(context)
+                  .load(httpsReference)
+                  .into(holder.imageView)
             }
         }
-
-//        val item = dataset[position]
-//        holder.textView.text = context.resources.getString(item.stringResourceId)
-////        holder.textView.text = item.productName;
-//        holder.imageView.setImageResource(R.drawable.image1)
 
     }
 }

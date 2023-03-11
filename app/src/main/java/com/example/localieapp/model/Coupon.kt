@@ -7,9 +7,7 @@ class Coupon(
     @StringRes val stringResourceId: Int,
     @DrawableRes val imageResourceId: Int,
     var coordinate: Int,
-
-
-
-//    val productName: String,
+    val url: String,
+    val productName: String,
 ) {
 }
