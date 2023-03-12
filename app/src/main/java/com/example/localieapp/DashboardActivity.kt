@@ -40,7 +40,7 @@ class DashboardActivity : AppCompatActivity() {
                     
                         0 -> fragment = ProfileFragment();
                         1 -> fragment = DealsFragment();
-                        2-> fragment = EarnFragment();
+                        2 -> fragment = EarnFragment();
 
                     }
 
