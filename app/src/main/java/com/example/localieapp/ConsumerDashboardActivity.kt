@@ -38,9 +38,9 @@ class ConsumerDashboardActivity : AppCompatActivity() {
 
                     when (tab!!.position) {
                     
-                        0 -> fragment = ProfileFragment();
-                        1 -> fragment = DealsFragment();
-                        2-> fragment = EarnFragment();
+                        0 -> fragment = ConsumerProfileFragment();
+                        1 -> fragment = ConsumerDealsFragment();
+                        2-> fragment = ConsumerEarnFragment();
 
                     }
 
@@ -67,7 +67,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
         // When we open the application first
         // time the fragment should be shown to the user
         // in this case it is home fragment
-        val fragment = DealsFragment()
+        val fragment = ConsumerDealsFragment()
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.content, fragment, "")
         fragmentTransaction.commit()

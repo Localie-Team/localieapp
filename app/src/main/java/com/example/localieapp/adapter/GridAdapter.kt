@@ -37,16 +37,22 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val storage = Firebase.storage
 
-        val item = dataset[position]
-        val httpsReference = storage.getReferenceFromUrl(
-            item.url)
-        Log.d("broke: ", httpsReference.toString())
-//        holder.textView.text = context.resources.getString(item.stringResourceId)
-        holder.textView.text = item.productName;
-//        holder.imageView.setImageResource(R.drawable.image1)
-        GlideApp.with(context)
-            .load(httpsReference)
-            .into(holder.imageView)
+
+
+        for (i in dataset.indices) {
+//            print(i);
+//            coupons!!.get(i).coordinate = i;
+            if (dataset[i].coordinate == position) {
+                val item = dataset[i]
+
+                val httpsReference = storage.getReferenceFromUrl(
+                    item.url)
+                holder.textView.text = item.productName;
+                GlideApp.with(context)
+                    .load(httpsReference)
+                    .into(holder.imageView)
+            }
+        }
 
     }
 }
