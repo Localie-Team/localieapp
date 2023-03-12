@@ -47,7 +47,6 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
                 
                 val httpsReference = storage.getReferenceFromUrl(
                   item.url)
-                Log.d("TAG", context.resources.getString(item.stringResourceId))
                 holder.textView.text = item.productName;
                 GlideApp.with(context)
                   .load(httpsReference)

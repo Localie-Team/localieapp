@@ -65,7 +65,7 @@ class DealsFragment : Fragment() {
         db.collection("coupons").get()
             .addOnSuccessListener{ documents ->
                 for(document in documents){
-                    listOfCoupons.add(Coupon(document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+                    listOfCoupons.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
                 }
 
 

@@ -70,15 +70,16 @@ class ProfileFragment : Fragment() {
             startActivity(mainIntent)
         })
 
-        for (i in listOfCoupons!!.indices) {
-//            print(i);
-            listOfCoupons!![i].coordinate = i;
-        }
         var listOfCoupons = ArrayList<Coupon>()
         db.collection("coupons").get()
             .addOnSuccessListener{ documents ->
                 for(document in documents){
-                    listOfCoupons.add(Coupon(document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+                    listOfCoupons.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+                }
+
+                for (i in listOfCoupons!!.indices) {
+//            print(i);
+                    listOfCoupons!![i].coordinate = i;
                 }
 
 
