@@ -25,6 +25,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".DashboardActivity" />
+        <activity android:name=".MerchantDashboardActivity" />
         <activity android:name=".EditUserSettings" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistrationActivity" />

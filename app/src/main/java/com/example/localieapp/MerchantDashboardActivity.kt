@@ -20,14 +20,14 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        setContentView(R.layout.activity_merchant_dashboard)
 
         // Firebase Storage init
         storage = Firebase.storage
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        navigationView = findViewById(R.id.dashboard_tab_layout)
+        navigationView = findViewById(R.id.merchant_dashboard_tab_layout)
         val tab = navigationView!!.getTabAt(1)
         tab?.select()
 
@@ -38,9 +38,9 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
                 when (tab!!.position) {
 
-                    0 -> fragment = ProfileFragment();
-                    1 -> fragment = DealsFragment();
-                    2-> fragment = EarnFragment();
+                    0 -> fragment = MerchantProfileFragment();
+                    1 -> fragment = MerchantDealsFragment();
+                    2-> fragment = MerchantMetricsFragment();
 
                 }
 
@@ -48,7 +48,7 @@ class MerchantDashboardActivity : AppCompatActivity() {
                 if(fragment != null) {
                     Log.d("TAG", fragment.toString())
                     val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.content, fragment, "")
+                    fragmentTransaction.replace(R.id.merchant_dashboard_content, fragment, "")
                     fragmentTransaction.commit()
                 }
 
@@ -67,9 +67,9 @@ class MerchantDashboardActivity : AppCompatActivity() {
         // When we open the application first
         // time the fragment should be shown to the user
         // in this case it is home fragment
-        val fragment = DealsFragment()
+        val fragment = MerchantDealsFragment()
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.content, fragment, "")
+        fragmentTransaction.replace(R.id.merchant_dashboard_content, fragment, "")
         fragmentTransaction.commit()
     }
 
