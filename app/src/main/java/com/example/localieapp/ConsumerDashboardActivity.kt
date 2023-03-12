@@ -11,7 +11,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 
-class DashboardActivity : AppCompatActivity() {
+class ConsumerDashboardActivity : AppCompatActivity() {
     private var firebaseAuth: FirebaseAuth? = null
     private var storage: FirebaseStorage? = null
     var firebaseUser: FirebaseUser? = null
@@ -20,7 +20,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        setContentView(R.layout.activity_consumer_dashboard)
 
         // Firebase Storage init
         storage = Firebase.storage
