@@ -34,6 +34,7 @@ class ConsumerEarnFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
     private var coupons: List<Coupon>? = null
+    private var listOfCoupons = ArrayList<Coupon>()
 
     private var step: Button? = null
 
@@ -60,7 +61,7 @@ class ConsumerEarnFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var listOfCoupons = ArrayList<Coupon>()
+//        var listOfCoupons = ArrayList<Coupon>()
         step = view.findViewById(R.id.step_forward_psa_button)
 
         db.collection("coupons").get()
@@ -105,17 +106,41 @@ class ConsumerEarnFragment : Fragment() {
 //    }
 
 
+//    fun content() {
+////        val range: Int = coupons!!.size;
+//        val range: Int = listOfCoupons!!.size;
+//        val used = mutableListOf<Int>()
+//        for (i in coupons!!.indices) {
+////            print(i);
+//            var current: Int = (0..range - 1).random();
+//            while (used.contains(current)) {
+//                current = (0..range - 1).random();
+//            }
+//            used.add(current)
+//            coupons!![i].coordinate = current;
+//        }
+//        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
+//
+//        used.clear()
+//
+//        if (isActive) {
+//            // If play is active, call this method at the end of content
+//            screenAnimateRefresh(1500)
+//        }
+//    }
+
     fun content() {
-        val range: Int = coupons!!.size;
+//        val range: Int = coupons!!.size;
+        val range: Int = listOfCoupons!!.size;
         val used = mutableListOf<Int>()
-        for (i in coupons!!.indices) {
+        for (i in listOfCoupons!!.indices) {
 //            print(i);
             var current: Int = (0..range - 1).random();
             while (used.contains(current)) {
                 current = (0..range - 1).random();
             }
             used.add(current)
-            coupons!![i].coordinate = current;
+            listOfCoupons!![i].coordinate = current;
         }
         recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
 
