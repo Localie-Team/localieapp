@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
 import com.google.firebase.ktx.Firebase
@@ -50,6 +51,7 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
                 holder.textView.text = item.productName;
                 GlideApp.with(context)
                   .load(httpsReference)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                   .into(holder.imageView)
             }
         }
