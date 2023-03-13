@@ -165,7 +165,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 Toast.makeText(
                     this@LoginActivity,
-                    "Registered User " + user!!.email,
+                    "Logged In User " + user!!.email,
                     Toast.LENGTH_LONG
                 ).show()
                 db.collection("permissions").whereEqualTo("UID", user.uid).get()

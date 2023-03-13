@@ -93,6 +93,7 @@ class RegistrationActivity : AppCompatActivity() {
                     "Registered User " + user.email,
                     Toast.LENGTH_LONG
                 ).show()
+
                 val mainIntent = Intent(this@RegistrationActivity, ConsumerDashboardActivity::class.java)
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(mainIntent)
