@@ -33,7 +33,7 @@ class ConsumerEarnFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
-    private var coupons: List<Coupon>? = null
+    private var coupons: ArrayList<Coupon>? = ArrayList<Coupon>();
 
     private var step: Button? = null
 
@@ -60,13 +60,13 @@ class ConsumerEarnFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var listOfCoupons = ArrayList<Coupon>()
         step = view.findViewById(R.id.step_forward_psa_button)
+        var listOfCoupons = ArrayList<Coupon>()
 
         db.collection("coupons").get()
             .addOnSuccessListener{ documents ->
                 for(document in documents){
-                    listOfCoupons.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+                    listOfCoupons!!.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
                 }
 
                 for (i in listOfCoupons!!.indices) {
@@ -74,9 +74,11 @@ class ConsumerEarnFragment : Fragment() {
                     listOfCoupons!![i].coordinate = i;
                 }
 
+                coupons!!.addAll(listOfCoupons);
+
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-                recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
