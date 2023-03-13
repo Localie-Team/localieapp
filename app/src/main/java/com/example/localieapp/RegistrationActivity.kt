@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.localieapp.DashboardActivity
-import com.example.localieapp.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -96,7 +93,7 @@ class RegistrationActivity : AppCompatActivity() {
                     "Registered User " + user.email,
                     Toast.LENGTH_LONG
                 ).show()
-                val mainIntent = Intent(this@RegistrationActivity, DashboardActivity::class.java)
+                val mainIntent = Intent(this@RegistrationActivity, ConsumerDashboardActivity::class.java)
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(mainIntent)
                 finish()

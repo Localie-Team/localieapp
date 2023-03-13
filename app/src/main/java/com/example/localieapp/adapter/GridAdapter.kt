@@ -44,7 +44,7 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
 //            coupons!!.get(i).coordinate = i;
             if (dataset[i].coordinate == position) {
                 val item = dataset[i]
-                
+
                 val httpsReference = storage.getReferenceFromUrl(
                   item.url)
                 holder.textView.text = item.productName;

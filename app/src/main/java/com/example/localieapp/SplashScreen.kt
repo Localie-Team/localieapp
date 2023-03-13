@@ -25,7 +25,7 @@ class SplashScreen : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
-                val mainIntent = Intent(this@SplashScreen, DashboardActivity::class.java)
+                val mainIntent = Intent(this@SplashScreen, ConsumerDashboardActivity::class.java)
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(mainIntent)
                 finish()

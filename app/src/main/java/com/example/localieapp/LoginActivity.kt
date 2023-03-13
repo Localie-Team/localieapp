@@ -5,15 +5,11 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.localieapp.DashboardActivity
-import com.example.localieapp.RegistrationActivity
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -87,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(
                 Intent(
                     this@LoginActivity,
-                    DashboardActivity::class.java
+                    ConsumerDashboardActivity::class.java
                 )
             )
         }
@@ -169,7 +165,7 @@ class LoginActivity : AppCompatActivity() {
                     "Registered User " + user!!.email,
                     Toast.LENGTH_LONG
                 ).show()
-                val mainIntent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(mainIntent)
                 finish()

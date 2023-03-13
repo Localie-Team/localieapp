@@ -11,7 +11,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 
-class DashboardActivity : AppCompatActivity() {
+class ConsumerDashboardActivity : AppCompatActivity() {
     private var firebaseAuth: FirebaseAuth? = null
     private var storage: FirebaseStorage? = null
     var firebaseUser: FirebaseUser? = null
@@ -20,7 +20,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        setContentView(R.layout.activity_consumer_dashboard)
 
         // Firebase Storage init
         storage = Firebase.storage
@@ -37,11 +37,9 @@ class DashboardActivity : AppCompatActivity() {
                     var fragment: Fragment? = null
 
                     when (tab!!.position) {
-                    
-                        0 -> fragment = ProfileFragment();
-                        1 -> fragment = DealsFragment();
-                        2 -> fragment = EarnFragment();
-
+                        0 -> fragment = ConsumerProfileFragment();
+                        1 -> fragment = ConsumerDealsFragment();
+                        2-> fragment = ConsumerEarnFragment();
                     }
 
 
@@ -67,7 +65,7 @@ class DashboardActivity : AppCompatActivity() {
         // When we open the application first
         // time the fragment should be shown to the user
         // in this case it is home fragment
-        val fragment = DealsFragment()
+        val fragment = ConsumerDealsFragment()
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.content, fragment, "")
         fragmentTransaction.commit()
