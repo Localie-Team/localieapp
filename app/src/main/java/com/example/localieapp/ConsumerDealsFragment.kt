@@ -69,6 +69,10 @@ class ConsumerDealsFragment : Fragment() {
                 }
 
 
+        for (i in listOfCoupons!!.indices) {
+//            print(i);
+            listOfCoupons!![i].coordinate = i;
+        }
             recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
             recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
             recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);

@@ -46,11 +46,11 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
                 val item = dataset[i]
 
                 val httpsReference = storage.getReferenceFromUrl(
-                    item.url)
+                  item.url)
                 holder.textView.text = item.productName;
                 GlideApp.with(context)
-                    .load(httpsReference)
-                    .into(holder.imageView)
+                  .load(httpsReference)
+                  .into(holder.imageView)
             }
         }
 

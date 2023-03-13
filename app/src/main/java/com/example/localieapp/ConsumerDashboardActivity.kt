@@ -37,11 +37,9 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                     var fragment: Fragment? = null
 
                     when (tab!!.position) {
-                    
                         0 -> fragment = ConsumerProfileFragment();
                         1 -> fragment = ConsumerDealsFragment();
                         2-> fragment = ConsumerEarnFragment();
-
                     }
 
 

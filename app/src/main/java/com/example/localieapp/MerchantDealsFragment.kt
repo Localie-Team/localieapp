@@ -1,10 +1,20 @@
 package com.example.localieapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.localieapp.adapter.GridAdapter
+import com.example.localieapp.data.Datasource
+import com.example.localieapp.model.Coupon
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +31,16 @@ class MerchantDealsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var recyclerView: RecyclerView? = null
+//    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
+    private var coupons: List<Coupon>? = null
+
+    private var step: Button? = null
+
+    private var isActive: Boolean = false
+
+    var db = Firebase.firestore;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -36,6 +56,116 @@ class MerchantDealsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_merchant_deals, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var listOfCoupons = ArrayList<Coupon>()
+
+        step = view.findViewById(R.id.step_forward_psa_button)
+
+        db.collection("coupons").get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    listOfCoupons.add(
+                        Coupon(
+                            0,
+                            document.data!!.get("url").toString(),
+                            document.data!!.get("product").toString()
+                        )
+                    )
+                }
+
+
+                for (i in listOfCoupons!!.indices) {
+//            print(i);
+                    listOfCoupons!![i].coordinate = i;
+                }
+                recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+                recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
+
+                // Use this setting to improve performance if you know that changes
+                // in content do not change the layout size of the RecyclerView
+                recyclerView!!.setHasFixedSize(true)
+
+                step?.setOnClickListener(View.OnClickListener {
+
+                    if (!isActive) {
+                        isActive = true
+                        content()
+                    } else {
+                        isActive = false
+                    }
+                })
+
+            }
+    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        step?.setOnClickListener(View.OnClickListener {
+////            public fun onClick(View view) {
+////
+////            }
+//        })
+//    }
+
+
+    fun content() {
+        val range: Int = coupons!!.size;
+        val used = mutableListOf<Int>()
+        for (i in coupons!!.indices) {
+//            print(i);
+            var current: Int = (0..range - 1).random();
+            while (used.contains(current)) {
+                current = (0..range - 1).random();
+            }
+            used.add(current)
+            coupons!![i].coordinate = current;
+        }
+        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
+
+        used.clear()
+
+        if (isActive) {
+            // If play is active, call this method at the end of content
+            screenAnimateRefresh(1500)
+        }
+    }
+
+    fun screenAnimateRefresh(milliseconds : Long) {
+       // Looper.prepare()
+        val handler = Handler()
+        val runnable = Runnable() {
+            run();
+        };
+
+        handler.postDelayed(runnable, milliseconds)
+    }
+
+    @Override
+    fun run() {
+        content();
+    }
+
+
+//        val range: Int = coupons!!.size;
+//        val used = mutableListOf<Int>()
+//        for (i in coupons!!.indices) {
+////            print(i);
+//            var current : Int = (1..range).random();
+//            while (used.contains(current)) {
+//                current = (1..range).random();
+//            }
+//            used.add(current)
+//            coupons!![i].coordinate = current;
+//        }
+//        recyclerView!!.adapter?.notifyItemRangeChanged(0,range)
+//
+//
+//        // put your code here...
+//    }
+
 
     companion object {
         /**
