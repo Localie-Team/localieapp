@@ -36,6 +36,8 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
 
+        val db = Firebase.firestore;
+
         // initialising the layout items
         email = findViewById(R.id.login_email)
         password = findViewById(R.id.login_password)
@@ -165,10 +167,17 @@ class LoginActivity : AppCompatActivity() {
                     "Registered User " + user!!.email,
                     Toast.LENGTH_LONG
                 ).show()
-                val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(mainIntent)
-                finish()
+                db.collection("permissions").whereEqualTo("UID", user.uid).get()
+                    .addOnSuccessListener { permission ->
+                        if( permission.toString() == "Merchant"){
+
+                        }else{
+                            val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(mainIntent)
+                            finish()
+                    } }
+
             } else {
                 loadingBar!!.dismiss()
                 Toast.makeText(this@LoginActivity, "Login Failed", Toast.LENGTH_LONG).show()
