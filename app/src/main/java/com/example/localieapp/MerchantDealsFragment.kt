@@ -1,5 +1,6 @@
 package com.example.localieapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -35,7 +36,7 @@ class MerchantDealsFragment : Fragment() {
 //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
     private var coupons: List<Coupon>? = null
 
-    private var step: Button? = null
+    private var upload: Button? = null
 
     private var isActive: Boolean = false
 
@@ -61,7 +62,7 @@ class MerchantDealsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var listOfCoupons = ArrayList<Coupon>()
 
-        step = view.findViewById(R.id.step_forward_psa_button)
+        upload = view.findViewById(R.id.merchant_deals_upload)
 
         db.collection("coupons").get()
             .addOnSuccessListener { documents ->
@@ -80,7 +81,7 @@ class MerchantDealsFragment : Fragment() {
 //            print(i);
                     listOfCoupons!![i].coordinate = i;
                 }
-                recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+                recyclerView = view.findViewById<RecyclerView>(R.id.merchant_deals_recycler_view);
                 recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
@@ -88,83 +89,15 @@ class MerchantDealsFragment : Fragment() {
                 // in content do not change the layout size of the RecyclerView
                 recyclerView!!.setHasFixedSize(true)
 
-                step?.setOnClickListener(View.OnClickListener {
-
-                    if (!isActive) {
-                        isActive = true
-                        content()
-                    } else {
-                        isActive = false
-                    }
+                upload?.setOnClickListener(View.OnClickListener {
+                    Intent(
+                        this.context,
+                        MerchantUploadCouponsActivity::class.java
+                    )
                 })
 
             }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        step?.setOnClickListener(View.OnClickListener {
-////            public fun onClick(View view) {
-////
-////            }
-//        })
-//    }
-
-
-    fun content() {
-        val range: Int = coupons!!.size;
-        val used = mutableListOf<Int>()
-        for (i in coupons!!.indices) {
-//            print(i);
-            var current: Int = (0..range - 1).random();
-            while (used.contains(current)) {
-                current = (0..range - 1).random();
-            }
-            used.add(current)
-            coupons!![i].coordinate = current;
-        }
-        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
-
-        used.clear()
-
-        if (isActive) {
-            // If play is active, call this method at the end of content
-            screenAnimateRefresh(1500)
-        }
-    }
-
-    fun screenAnimateRefresh(milliseconds : Long) {
-       // Looper.prepare()
-        val handler = Handler()
-        val runnable = Runnable() {
-            run();
-        };
-
-        handler.postDelayed(runnable, milliseconds)
-    }
-
-    @Override
-    fun run() {
-        content();
-    }
-
-
-//        val range: Int = coupons!!.size;
-//        val used = mutableListOf<Int>()
-//        for (i in coupons!!.indices) {
-////            print(i);
-//            var current : Int = (1..range).random();
-//            while (used.contains(current)) {
-//                current = (1..range).random();
-//            }
-//            used.add(current)
-//            coupons!![i].coordinate = current;
-//        }
-//        recyclerView!!.adapter?.notifyItemRangeChanged(0,range)
-//
-//
-//        // put your code here...
-//    }
 
 
     companion object {
