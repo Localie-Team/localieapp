@@ -62,7 +62,7 @@ class MerchantDealsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var listOfCoupons = ArrayList<Coupon>()
 
-        upload = view.findViewById(R.id.merchant_deals_upload)
+        upload = view.findViewById(R.id.merchant_deals_upload_button)
 
         db.collection("coupons").get()
             .addOnSuccessListener { documents ->

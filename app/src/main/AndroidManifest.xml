@@ -26,11 +26,12 @@
         </activity>
         <activity android:name=".ConsumerDashboardActivity" />
         <activity android:name=".MerchantDashboardActivity" />
+        <activity android:name=".SplashScreen"/>
         <activity android:name=".ConsumerSettingActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".MerchantUploadCouponsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
