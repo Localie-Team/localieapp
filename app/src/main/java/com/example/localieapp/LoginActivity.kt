@@ -170,6 +170,10 @@ class LoginActivity : AppCompatActivity() {
                 db.collection("permissions").whereEqualTo("UID", user.uid).get()
                     .addOnSuccessListener { permission ->
                         if( permission.toString() == "Merchant"){
+                            val mainIntent = Intent(this@LoginActivity, MerchantDashboardActivity::class.java)
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(mainIntent)
+                            finish()
 
                         }else{
                             val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
