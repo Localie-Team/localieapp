@@ -14,10 +14,13 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/title_consumer_dashboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:titleCentered="true"
-            app:title="Localie"/>
+            app:title="Localie"
+            app:subtitle="should be an email"
+            app:subtitleCentered="true"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

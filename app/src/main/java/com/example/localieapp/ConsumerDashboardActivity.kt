@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,6 +18,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
     var firebaseUser: FirebaseUser? = null
     var myuid: String? = null
     var navigationView: TabLayout? = null
+    var userEmail: MaterialToolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,13 @@ class ConsumerDashboardActivity : AppCompatActivity() {
         storage = Firebase.storage
 
         firebaseAuth = FirebaseAuth.getInstance()
+
+        var user = firebaseAuth!!.currentUser
+        val email = user!!.email
+        val emailStr = email.toString()
+
+        userEmail = findViewById(R.id.title_consumer_dashboard)
+        userEmail!!.subtitle = emailStr
 
         navigationView = findViewById(R.id.dashboard_tab_layout)
         val tab = navigationView!!.getTabAt(1)

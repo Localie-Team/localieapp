@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
@@ -35,6 +36,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
+
+        val db = Firebase.firestore;
 
         // initialising the layout items
         email = findViewById(R.id.login_email)
@@ -162,13 +165,37 @@ class LoginActivity : AppCompatActivity() {
                 }
                 Toast.makeText(
                     this@LoginActivity,
-                    "Registered User " + user!!.email,
+                    "Logged In User " + user!!.email,
                     Toast.LENGTH_LONG
                 ).show()
-                val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(mainIntent)
-                finish()
+                db.collection("permissions").whereEqualTo("UID", user.uid).get()
+                    .addOnSuccessListener { permission ->
+                        Log.d("Before:", permission.toString())
+                        for(P in permission){
+                            Log.d("Before:", P.data!!.toString())
+                            if( P.data!!.get("permissions").toString() == "Merchant"){
+                                Log.d("Merchant:", "right here!")
+                                val mainIntent = Intent(this@LoginActivity, MerchantDashboardActivity::class.java)
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(mainIntent)
+                                finish()
+
+                            }else{
+                                Log.d("Consumer:", "right here!")
+                                val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(mainIntent)
+                                finish()
+                            } }}
+                    .addOnFailureListener{
+                        Log.d("Consumer:", "right here!")
+                        val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(mainIntent)
+                        finish()
+
+                    }
+
             } else {
                 loadingBar!!.dismiss()
                 Toast.makeText(this@LoginActivity, "Login Failed", Toast.LENGTH_LONG).show()
