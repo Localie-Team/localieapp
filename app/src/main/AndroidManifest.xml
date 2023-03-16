@@ -17,15 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LocalieApp"
         tools:targetApi="31">
-        <activity
-            android:name=".ConsumerEarnActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+        <activity android:name=".ConsumerEarnActivity"/>
         <activity android:name=".ConsumerDashboardActivity" />
         <activity android:name=".MerchantDashboardActivity" />
+        <activity android:name=".MerchantUploadCouponsActivity"/>
         <activity android:name=".ConsumerSettingActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistrationActivity" />

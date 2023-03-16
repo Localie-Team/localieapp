@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MerchantUploadCouponsActivity">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/merchant_upload_coupons_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="145dp"
+        android:hint="Coupon Name"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/merchant_upload_coupons_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/merchant_upload_coupons_value_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/merchant_upload_coupons_name_layout"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="25dp"
+        android:hint="Value"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/merchant_upload_coupons_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/merchant_upload_coupons_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/merchant_upload_coupons_value_layout"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="25dp"
+        android:paddingVertical="15dp"
+        android:paddingHorizontal="15dp"
+        android:textSize="16sp"
+        android:background="@drawable/border"
+        android:text="Dates"
+        />
+
+    <Button
+        android:id="@+id/merchant_upload_coupons_upload_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_below="@+id/merchant_upload_coupons_date"
+        android:layout_centerHorizontal="true"
+        android:text="Upload"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        />
+
+</RelativeLayout>
