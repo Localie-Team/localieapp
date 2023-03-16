@@ -31,9 +31,9 @@ class SplashScreen : AppCompatActivity() {
             } else {
                 db.collection("permissions").whereEqualTo("UID", user.uid).get()
                     .addOnSuccessListener { permission ->
-                        Log.d("Before:", permission.toString())
+                        Log.d("splash:", permission.toString())
                         for(P in permission){
-                            Log.d("Before:", P.data!!.toString())
+                            Log.d("Splash:", P.data!!.get("permissions").toString())
                             if( P.data!!.get("permissions").toString() == "Merchant"){
                                 Log.d("Merchant:", "right here!")
                                 val mainIntent = Intent(this@SplashScreen, MerchantDashboardActivity::class.java)
