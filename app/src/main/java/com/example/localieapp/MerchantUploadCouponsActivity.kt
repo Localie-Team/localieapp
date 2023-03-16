@@ -95,7 +95,7 @@ class MerchantUploadCouponsActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Toast.makeText(
                         this@MerchantUploadCouponsActivity,
-                        "Upload Coupon",
+                        "Uploaded Coupon",
                         Toast.LENGTH_LONG
                     ).show()
                 }
