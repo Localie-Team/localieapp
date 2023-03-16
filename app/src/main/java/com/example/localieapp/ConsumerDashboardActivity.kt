@@ -30,11 +30,15 @@ class ConsumerDashboardActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         var user = firebaseAuth!!.currentUser
-        val email = user!!.email
-        val emailStr = email.toString()
 
-        userEmail = findViewById(R.id.title_consumer_dashboard)
-        userEmail!!.subtitle = emailStr
+        if (user != null)
+        {
+            val email = user!!.email
+            val emailStr = email.toString()
+
+            userEmail = findViewById(R.id.title_consumer_dashboard)
+            userEmail!!.subtitle = emailStr
+        }
 
         navigationView = findViewById(R.id.dashboard_tab_layout)
         val tab = navigationView!!.getTabAt(1)

@@ -11,6 +11,10 @@ class ConsumerSettingActivity : AppCompatActivity() {
     private var back: ImageButton? = null
     private var logout: TextView? = null
 
+    private var name: TextView? = null
+    private var agerange: TextView? = null
+    private var region: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consumer_settings)
