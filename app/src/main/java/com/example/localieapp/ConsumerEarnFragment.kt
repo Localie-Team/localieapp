@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -36,7 +37,7 @@ class ConsumerEarnFragment : Fragment() {
     private var coupons: List<Coupon>? = null
     private var listOfCoupons = ArrayList<Coupon>()
 
-    private var step: Button? = null
+    private var step: FloatingActionButton? = null
 
     private var isActive: Boolean = false
 
