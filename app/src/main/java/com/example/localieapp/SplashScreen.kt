@@ -48,11 +48,13 @@ class SplashScreen : AppCompatActivity() {
                                 startActivity(mainIntent)
                                 finish()
                             } }
-                        Log.d("Consumer:", "right here!")
-                        val mainIntent = Intent(this@SplashScreen, ConsumerDashboardActivity::class.java)
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(mainIntent)
-                        finish()
+                        if(permission.size() == 0){
+                            Log.d("Consumer:", "right here!")
+                            val mainIntent = Intent(this@SplashScreen, ConsumerDashboardActivity::class.java)
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(mainIntent)
+                            finish()
+                        }
                     }
                     .addOnFailureListener{
                         Log.d("Consumer:", "right here!")

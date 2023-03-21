@@ -179,6 +179,7 @@ class LoginActivity : AppCompatActivity() {
                                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 startActivity(mainIntent)
                                 finish()
+                                Log.d("Merchant:", "after here")
 
                             }else{
                                 Log.d("Consumer:", "right here!")
@@ -187,11 +188,13 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(mainIntent)
                                 finish()
                             } }
-                        Log.d("Consumer:", "right here!")
-                        val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(mainIntent)
-                        finish()
+                        if(permission.size() == 0){
+                            Log.d("Consumer:", "right here!")
+                            val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(mainIntent)
+                            finish()
+                        }
                     }
                     .addOnFailureListener{
                         Log.d("Consumer:", "right here!")
