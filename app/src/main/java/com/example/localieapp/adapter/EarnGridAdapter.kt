@@ -47,8 +47,11 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
             if (dataset[i].coordinate == position) {
                 val item = dataset[i]
                 //this creates a url refrence
-                val httpsReference = storage.getReferenceFromUrl(
-                  item.url)
+                val httpsReference = item.url?.let {
+                    storage.getReferenceFromUrl(
+                        it
+                    )
+                }
                 holder.textView.text = item.productName;
                 //this loads the imageview with the image using glide
                 GlideApp.with(context)

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.EarnGridAdapter
+import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,7 +37,7 @@ class ConsumerEarnFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
-    private var coupons: List<Coupon>? = null
+    private var coupons: ArrayList<Coupon>? = null
     private var listOfCoupons = ArrayList<Coupon>()
 
     private var step: Button? = null
@@ -67,11 +68,11 @@ class ConsumerEarnFragment : Fragment() {
 //        var listOfCoupons = ArrayList<Coupon>()
         step = view.findViewById(R.id.step_forward_psa_button)
 
-        db.collection("coupons").get()
-            .addOnSuccessListener{ documents ->
-                for(document in documents){
-                    listOfCoupons!!.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
-                }
+//        db.collection("coupons").get()
+//            .addOnSuccessListener{ documents ->
+//                for(document in documents){
+//                    listOfCoupons!!.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+//                }
 
                 for (i in listOfCoupons!!.indices) {
 //            print(i);
@@ -98,7 +99,7 @@ class ConsumerEarnFragment : Fragment() {
                 })
             }
 
-    }
+
 
     // Below is the content function with horizontal movement
 
@@ -159,6 +160,7 @@ class ConsumerEarnFragment : Fragment() {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
+                    putParcelableArrayList("coupons", coupons)
                 }
             }
     }

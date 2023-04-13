@@ -34,7 +34,7 @@ class MerchantDealsFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
 //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
-    private var coupons: List<Coupon>? = null
+    private var coupons: ArrayList<Coupon>? = null
 
     private var upload: Button? = null
 
@@ -54,35 +54,36 @@ class MerchantDealsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_merchant_deals, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var listOfCoupons = ArrayList<Coupon>()
+//        var listOfCoupons = ArrayList<Coupon>()
 
         upload = view.findViewById(R.id.merchant_deals_upload_button)
 
-        db.collection("coupons").get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    listOfCoupons.add(
-                        Coupon(
-                            0,
-                            document.data!!.get("url").toString(),
-                            document.data!!.get("product").toString()
-                        )
-                    )
-                }
-
-
-                for (i in listOfCoupons!!.indices) {
-//            print(i);
-                    listOfCoupons!![i].coordinate = i;
-                }
+//        db.collection("coupons").get()
+//            .addOnSuccessListener { documents ->
+//                for (document in documents) {
+//                    listOfCoupons.add(
+//                        Coupon(
+//                            0,
+//                            document.data!!.get("url").toString(),
+//                            document.data!!.get("product").toString()
+//                        )
+//                    )
+//                }
+//
+//
+//                for (i in listOfCoupons!!.indices) {
+//
+//                    listOfCoupons!![i].coordinate = i;
+//                }
                 recyclerView = view.findViewById<RecyclerView>(R.id.merchant_deals_recycler_view);
-                recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
@@ -90,16 +91,15 @@ class MerchantDealsFragment : Fragment() {
                 recyclerView!!.setHasFixedSize(true)
 
                 upload?.setOnClickListener(View.OnClickListener {
-
-                    val mainIntent = Intent(this.context, MerchantUploadCouponsActivity::class.java)
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(mainIntent)
+                    Intent(
+                        this.context,
+                        MerchantUploadCouponsActivity::class.java
+                    )
                 })
 
-
-
             }
-    }
+
+
 
 
     companion object {
