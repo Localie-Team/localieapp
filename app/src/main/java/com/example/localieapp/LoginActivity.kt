@@ -173,6 +173,7 @@ class LoginActivity : AppCompatActivity() {
                         Log.d("Login:", permission.toString())
                         for(P in permission){
                             Log.d("Logging in:", P.data!!.toString())
+                            //Checks if permission of user is Merchant
                             if( P.data!!.get("permissions").toString() == "Merchant"){
                                 Log.d("Merchant:", "right here!")
                                 val mainIntent = Intent(this@LoginActivity, MerchantDashboardActivity::class.java)
@@ -180,7 +181,7 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(mainIntent)
                                 finish()
                                 Log.d("Merchant:", "after here")
-
+                            //if the user has a permission but it isnt Merchant, Provider, or Admin then by default they are sent to consumer
                             }else{
                                 Log.d("Consumer:", "right here!")
                                 val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
@@ -188,6 +189,7 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(mainIntent)
                                 finish()
                             } }
+                        // If the user has no permissions then they are a consumer
                         if(permission.size() == 0){
                             Log.d("Consumer:", "right here!")
                             val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
@@ -197,6 +199,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
                     .addOnFailureListener{
+                        //If the check fails for any reason, then they are a consumer ( change this to an error)
                         Log.d("Consumer:", "right here!")
                         val mainIntent = Intent(this@LoginActivity, ConsumerDashboardActivity::class.java)
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

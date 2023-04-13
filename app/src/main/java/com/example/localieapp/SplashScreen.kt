@@ -34,13 +34,14 @@ class SplashScreen : AppCompatActivity() {
                         Log.d("splash:", permission.toString())
                         for(P in permission){
                             Log.d("Splash:", P.data!!.get("permissions").toString())
+                            //Checks if permission of user is Merchant
                             if( P.data!!.get("permissions").toString() == "Merchant"){
                                 Log.d("Merchant:", "right here!")
                                 val mainIntent = Intent(this@SplashScreen, MerchantDashboardActivity::class.java)
                                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 startActivity(mainIntent)
                                 finish()
-
+                            //if the user has a permission but it isnt Merchant, Provider, or Admin then by default they are sent to consumer
                             }else{
                                 Log.d("Consumer:", "right here!")
                                 val mainIntent = Intent(this@SplashScreen, ConsumerDashboardActivity::class.java)
@@ -48,6 +49,7 @@ class SplashScreen : AppCompatActivity() {
                                 startActivity(mainIntent)
                                 finish()
                             } }
+                        // If the user has no permissions then they are a consumer
                         if(permission.size() == 0){
                             Log.d("Consumer:", "right here!")
                             val mainIntent = Intent(this@SplashScreen, ConsumerDashboardActivity::class.java)
@@ -57,6 +59,7 @@ class SplashScreen : AppCompatActivity() {
                         }
                     }
                     .addOnFailureListener{
+                        //If the check fails for any reason, then they are a consumer ( change this to an error)
                         Log.d("Consumer:", "right here!")
                         val mainIntent = Intent(this@SplashScreen, ConsumerDashboardActivity::class.java)
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
