@@ -56,6 +56,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
             startActivity(Intent(this@ConsumerSettingActivity, LoginActivity::class.java))
         }
 
+
     }
 
 }
