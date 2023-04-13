@@ -170,9 +170,9 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
                 db.collection("permissions").whereEqualTo("UID", user.uid).get()
                     .addOnSuccessListener { permission ->
-                        Log.d("Before:", permission.toString())
+                        Log.d("Login:", permission.toString())
                         for(P in permission){
-                            Log.d("Before:", P.data!!.toString())
+                            Log.d("Logging in:", P.data!!.toString())
                             if( P.data!!.get("permissions").toString() == "Merchant"){
                                 Log.d("Merchant:", "right here!")
                                 val mainIntent = Intent(this@LoginActivity, MerchantDashboardActivity::class.java)

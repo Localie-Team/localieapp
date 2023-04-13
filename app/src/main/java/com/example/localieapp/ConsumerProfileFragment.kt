@@ -87,32 +87,6 @@ class ConsumerProfileFragment : Fragment() {
                 recyclerView!!.setHasFixedSize(true)
             }
 
-//        var (listDataParent, listDataChild) = Datasource().createListData()
-//        var listAdapter = ExpandableListAdapter(requireContext(), listDataParent, listDataChild)
-//
-//        expListView!!.setAdapter(listAdapter)
-//
-//        // Expandable Listview on group click listener
-//        expListView!!.setOnGroupClickListener(ExpandableListView.OnGroupClickListener { parent, v, groupPosition, id -> // TODO GroupClickListener work
-//            false
-//        })
-//
-//        // Expandable Listview Group Expanded Listener
-//        expListView!!.setOnGroupExpandListener(ExpandableListView.OnGroupExpandListener {
-//            // TODO GroupExpandListener work
-//        })
-//
-//        // Expandable Listview Group Collapsed listener
-//        expListView!!.setOnGroupCollapseListener(ExpandableListView.OnGroupCollapseListener {
-//            // TODO GroupCollapseListener work
-//        })
-//
-//        // Expandable Listview on child click listener
-//        expListView!!.setOnChildClickListener(ExpandableListView.OnChildClickListener { parent, v, groupPosition, childPosition, id ->
-//            false
-//        })
-
-
     }
 
 
