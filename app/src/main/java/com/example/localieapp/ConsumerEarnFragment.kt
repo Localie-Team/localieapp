@@ -3,6 +3,7 @@ package com.example.localieapp
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.localieapp.model.Coupon
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.Collections
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,7 +39,7 @@ class ConsumerEarnFragment : Fragment() {
     private var coupons: List<Coupon>? = null
     private var listOfCoupons = ArrayList<Coupon>()
 
-    private var step: FloatingActionButton? = null
+    private var step: Button? = null
 
     private var isActive: Boolean = false
 
@@ -130,18 +132,47 @@ class ConsumerEarnFragment : Fragment() {
 //        }
 //    }
 
+    // TODO: remove content method that is not in use
+
+//    fun content() {
+////        val range: Int = coupons!!.size;
+//        val range: Int = listOfCoupons!!.size;
+//        val used = mutableListOf<Int>()
+//        for (i in listOfCoupons!!.indices) {
+////            print(i);
+//            var current: Int = (0..range - 1).random();
+//            while (used.contains(current)) {
+//                current = (0..range - 1).random();
+//            }
+//            used.add(current)
+//            listOfCoupons!![i].coordinate = current;
+//        }
+//        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
+//
+//        used.clear()
+//
+//        if (isActive) {
+//            // If play is active, call this method at the end of content
+//            screenAnimateRefresh(1500)
+//        }
+//    }
+
+    // Below is the content function with horizontal movement
+
     fun content() {
-//        val range: Int = coupons!!.size;
+        val numColumns = 3;
+        val numRows = 3;
         val range: Int = listOfCoupons!!.size;
         val used = mutableListOf<Int>()
+
         for (i in listOfCoupons!!.indices) {
-//            print(i);
-            var current: Int = (0..range - 1).random();
-            while (used.contains(current)) {
-                current = (0..range - 1).random();
+            if(listOfCoupons[i].coordinate == listOfCoupons.size - 1){
+                listOfCoupons!![i].coordinate = 0;
             }
-            used.add(current)
-            listOfCoupons!![i].coordinate = current;
+            else{
+                listOfCoupons!![i].coordinate += 1;
+            }
+
         }
         recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
 

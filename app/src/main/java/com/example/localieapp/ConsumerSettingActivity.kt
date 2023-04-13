@@ -12,21 +12,28 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class ConsumerSettingActivity : AppCompatActivity() {
+    // back button navigates to the dashboard
     private var back: ImageButton? = null
     private var logout: TextView? = null
 
+    // TODO: update fields below in app to display user info
     private var name: TextView? = null
     private var agerange: TextView? = null
     private var region: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // get database and authorization instances
         val db = Firebase.firestore;
         val mAuth = FirebaseAuth.getInstance()
         setContentView(R.layout.activity_consumer_settings)
+
+        // assign buttons to the Views in the layout
         back = findViewById(R.id.settings_to_dashboard_button)
         logout = findViewById(R.id.log_out)
 
+        // find user in database and get user information
         db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
             .addOnSuccessListener{ documents ->
                 for(document in documents) {
@@ -51,6 +58,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
         startActivity(mainIntent)
         })
 
+        // logs out user, navigates to login activity
         logout?.setOnClickListener {
             startActivity(Intent(this@ConsumerSettingActivity, LoginActivity::class.java))
         }

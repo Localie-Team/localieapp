@@ -90,11 +90,13 @@ class MerchantDealsFragment : Fragment() {
                 recyclerView!!.setHasFixedSize(true)
 
                 upload?.setOnClickListener(View.OnClickListener {
-                    Intent(
-                        this.context,
-                        MerchantUploadCouponsActivity::class.java
-                    )
+
+                    val mainIntent = Intent(this.context, MerchantUploadCouponsActivity::class.java)
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(mainIntent)
                 })
+
+
 
             }
     }
