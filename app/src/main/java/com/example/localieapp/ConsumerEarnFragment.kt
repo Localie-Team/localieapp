@@ -99,63 +99,6 @@ class ConsumerEarnFragment : Fragment() {
             }
 
     }
-//    override fun onResume() {
-//        super.onResume()
-//        step?.setOnClickListener(View.OnClickListener {
-////            public fun onClick(View view) {
-////
-////            }
-//        })
-//    }
-
-
-//    fun content() {
-////        val range: Int = coupons!!.size;
-//        val range: Int = listOfCoupons!!.size;
-//        val used = mutableListOf<Int>()
-//        for (i in coupons!!.indices) {
-////            print(i);
-//            var current: Int = (0..range - 1).random();
-//            while (used.contains(current)) {
-//                current = (0..range - 1).random();
-//            }
-//            used.add(current)
-//            coupons!![i].coordinate = current;
-//        }
-//        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
-//
-//        used.clear()
-//
-//        if (isActive) {
-//            // If play is active, call this method at the end of content
-//            screenAnimateRefresh(1500)
-//        }
-//    }
-
-    // TODO: remove content method that is not in use
-
-//    fun content() {
-////        val range: Int = coupons!!.size;
-//        val range: Int = listOfCoupons!!.size;
-//        val used = mutableListOf<Int>()
-//        for (i in listOfCoupons!!.indices) {
-////            print(i);
-//            var current: Int = (0..range - 1).random();
-//            while (used.contains(current)) {
-//                current = (0..range - 1).random();
-//            }
-//            used.add(current)
-//            listOfCoupons!![i].coordinate = current;
-//        }
-//        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
-//
-//        used.clear()
-//
-//        if (isActive) {
-//            // If play is active, call this method at the end of content
-//            screenAnimateRefresh(1500)
-//        }
-//    }
 
     // Below is the content function with horizontal movement
 
@@ -198,24 +141,6 @@ class ConsumerEarnFragment : Fragment() {
     fun run() {
         content();
     }
-
-
-//        val range: Int = coupons!!.size;
-//        val used = mutableListOf<Int>()
-//        for (i in coupons!!.indices) {
-////            print(i);
-//            var current : Int = (1..range).random();
-//            while (used.contains(current)) {
-//                current = (1..range).random();
-//            }
-//            used.add(current)
-//            coupons!![i].coordinate = current;
-//        }
-//        recyclerView!!.adapter?.notifyItemRangeChanged(0,range)
-//
-//
-//        // put your code here...
-//    }
 
 
     companion object {
