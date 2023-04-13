@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.localieapp.adapter.DealsGridAdapter
 //import com.example.localieapp.adapter.ExpandableListGridAdapter
-import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.model.Coupon
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -74,7 +74,7 @@ class ConsumerDealsFragment : Fragment() {
             listOfCoupons!![i].coordinate = i;
         }
             recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-            recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+            recyclerView!!.adapter = DealsGridAdapter(requireContext(), listOfCoupons!!);
             recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
             // Use this setting to improve performance if you know that changes

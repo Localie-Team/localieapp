@@ -11,7 +11,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.localieapp.adapter.GridAdapter
+import com.example.localieapp.adapter.EarnGridAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -80,7 +80,7 @@ class ConsumerEarnFragment : Fragment() {
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-                recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.adapter = EarnGridAdapter(requireContext(), listOfCoupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
