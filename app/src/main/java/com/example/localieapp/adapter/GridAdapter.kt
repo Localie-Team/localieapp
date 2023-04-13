@@ -36,6 +36,7 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        // This is required for getting the images
         val storage = Firebase.storage
 
 
@@ -45,10 +46,11 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
 //            coupons!!.get(i).coordinate = i;
             if (dataset[i].coordinate == position) {
                 val item = dataset[i]
-
+                //this creates a url refrence
                 val httpsReference = storage.getReferenceFromUrl(
                   item.url)
                 holder.textView.text = item.productName;
+                //this loads the imageview with the image using glide
                 GlideApp.with(context)
                   .load(httpsReference)
                     .diskCacheStrategy(DiskCacheStrategy.DATA)

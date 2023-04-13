@@ -26,7 +26,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_consumer_settings)
         back = findViewById(R.id.settings_to_dashboard_button)
         logout = findViewById(R.id.log_out)
-
+        // this gets the users opt in information that they give us
         db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
             .addOnSuccessListener{ documents ->
                 for(document in documents) {
@@ -42,6 +42,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
+                // if they dont have anything, just fill with null for now
                 var user = User("null","null",arrayOf("null"),arrayOf("null"), "null","null","null","null")
             }
 
