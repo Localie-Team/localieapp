@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.localieapp.adapter.GridAdapter
+import com.example.localieapp.adapter.ProfileGridAdapter
 import com.example.localieapp.model.Coupon
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -79,7 +79,7 @@ class ConsumerProfileFragment : Fragment() {
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
-                recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.adapter = ProfileGridAdapter(requireContext(), listOfCoupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
