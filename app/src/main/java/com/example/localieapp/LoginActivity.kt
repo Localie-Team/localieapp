@@ -143,6 +143,7 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 loadingBar!!.dismiss()
                 val user = mAuth!!.currentUser
+                var bundleUsers = Bundle();
                 if (task.result.additionalUserInfo!!.isNewUser) {
                     val email = user!!.email
                     val uid = user.uid

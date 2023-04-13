@@ -12,13 +12,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class GridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<GridAdapter.ItemViewHolder>() {
 
-    class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(val view: MaterialCardView) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.item_title);
         val imageView: ImageView = view.findViewById(R.id.item_image);
     }
@@ -28,17 +29,16 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_grid_item, parent, false)
 
-        return ItemViewHolder(adapterLayout)
+        return ItemViewHolder(adapterLayout as MaterialCardView)
     }
 
     override fun getItemCount(): Int {
         return dataset.size
     }
 
+
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val storage = Firebase.storage
-
-
 
         for (i in dataset.indices) {
 //            print(i);
@@ -47,7 +47,7 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
                 val item = dataset[i]
 
                 val httpsReference = storage.getReferenceFromUrl(
-                  item.url)
+                  item.url!!)
                 holder.textView.text = item.productName;
                 GlideApp.with(context)
                   .load(httpsReference)
@@ -55,6 +55,16 @@ class GridAdapter(private val context: Context, private val dataset: List<Coupon
                   .into(holder.imageView)
             }
         }
+        holder.itemView.setOnClickListener(View.OnClickListener() {
+            Log.d("onBindViewHolder:", position.toString())
+        })
+
+        holder.itemView.setOnLongClickListener(View.OnLongClickListener()
+            {
+                holder.view.setChecked(!holder.view.isChecked)
+                true
+            }
+        )
 
     }
 }

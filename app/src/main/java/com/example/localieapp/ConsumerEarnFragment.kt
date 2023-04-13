@@ -2,7 +2,6 @@ package com.example.localieapp
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.GridAdapter
-import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.ktx.firestore
@@ -34,10 +32,10 @@ class ConsumerEarnFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
-    private var coupons: List<Coupon>? = null
+    private var coupons: ArrayList<Coupon>? = null
     private var listOfCoupons = ArrayList<Coupon>()
 
-    private var step: FloatingActionButton? = null
+    private var step: Button? = null
 
     private var isActive: Boolean = false
 
@@ -62,23 +60,25 @@ class ConsumerEarnFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+
 //        var listOfCoupons = ArrayList<Coupon>()
         step = view.findViewById(R.id.step_forward_psa_button)
 
-        db.collection("coupons").get()
-            .addOnSuccessListener{ documents ->
-                for(document in documents){
-                    listOfCoupons!!.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
-                }
+//        db.collection("coupons").get()
+//            .addOnSuccessListener{ documents ->
+//                for(document in documents){
+//                    listOfCoupons!!.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+//                }
 
-                for (i in listOfCoupons!!.indices) {
+                for (i in coupons!!.indices) {
 //            print(i);
-                    listOfCoupons!![i].coordinate = i;
+                    coupons!![i].coordinate = i;
                 }
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-                recyclerView!!.adapter = GridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
@@ -94,7 +94,7 @@ class ConsumerEarnFragment : Fragment() {
                         isActive = false
                     }
                 })
-            }
+//            }
 
     }
 //    override fun onResume() {
@@ -132,16 +132,16 @@ class ConsumerEarnFragment : Fragment() {
 
     fun content() {
 //        val range: Int = coupons!!.size;
-        val range: Int = listOfCoupons!!.size;
+        val range: Int = coupons!!.size;
         val used = mutableListOf<Int>()
-        for (i in listOfCoupons!!.indices) {
+        for (i in coupons!!.indices) {
 //            print(i);
             var current: Int = (0..range - 1).random();
             while (used.contains(current)) {
                 current = (0..range - 1).random();
             }
             used.add(current)
-            listOfCoupons!![i].coordinate = current;
+            coupons!![i].coordinate = current;
         }
         recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
 
@@ -203,6 +203,7 @@ class ConsumerEarnFragment : Fragment() {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
+                    putParcelableArrayList("coupons", coupons)
                 }
             }
     }
