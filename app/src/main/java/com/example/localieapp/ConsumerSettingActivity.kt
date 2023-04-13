@@ -32,7 +32,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
         // assign buttons to the Views in the layout
         back = findViewById(R.id.settings_to_dashboard_button)
         logout = findViewById(R.id.log_out)
-
+        
         // find user in database and get user information
         db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
             .addOnSuccessListener{ documents ->
@@ -49,6 +49,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
+                // if they dont have anything, just fill with null for now
                 var user = User("null","null",arrayOf("null"),arrayOf("null"), "null","null","null","null")
             }
 

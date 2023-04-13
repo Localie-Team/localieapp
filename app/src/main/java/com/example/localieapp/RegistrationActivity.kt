@@ -71,7 +71,7 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun registerUser(emaill: String, pass: String, uname: String) {
         progressDialog!!.show()
-
+        //logs in the user while uploading to the database
         mAuth!!.createUserWithEmailAndPassword(emaill, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 progressDialog!!.dismiss()
