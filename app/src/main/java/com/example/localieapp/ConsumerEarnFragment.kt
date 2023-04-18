@@ -36,9 +36,8 @@ class ConsumerEarnFragment : Fragment() {
     private var param2: String? = null
 
     private var recyclerView: RecyclerView? = null
-    //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
+
     private var coupons: ArrayList<Coupon>? = null
-    private var listOfCoupons = ArrayList<Coupon>()
 
     private var step: Button? = null
 
@@ -59,29 +58,22 @@ class ConsumerEarnFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_earn, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        var listOfCoupons = ArrayList<Coupon>()
         step = view.findViewById(R.id.step_forward_psa_button)
 
-//        db.collection("coupons").get()
-//            .addOnSuccessListener{ documents ->
-//                for(document in documents){
-//                    listOfCoupons!!.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
-//                }
-
-                for (i in listOfCoupons!!.indices) {
-//            print(i);
-                    listOfCoupons!![i].coordinate = i;
+                for (i in coupons!!.indices) {
+                    coupons!![i].coordinate = i;
                 }
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-                recyclerView!!.adapter = EarnGridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.adapter = EarnGridAdapter(requireContext(), coupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
@@ -106,15 +98,15 @@ class ConsumerEarnFragment : Fragment() {
     fun content() {
         val numColumns = 3;
         val numRows = 3;
-        val range: Int = listOfCoupons!!.size;
+        val range: Int = coupons!!.size;
         val used = mutableListOf<Int>()
 
-        for (i in listOfCoupons!!.indices) {
-            if(listOfCoupons[i].coordinate == listOfCoupons.size - 1){
-                listOfCoupons!![i].coordinate = 0;
+        for (i in coupons!!.indices) {
+            if(coupons!![i].coordinate == coupons!!.size - 1){
+                coupons!![i].coordinate = 0;
             }
             else{
-                listOfCoupons!![i].coordinate += 1;
+                coupons!![i].coordinate += 1;
             }
 
         }
