@@ -27,6 +27,7 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
         val textView: TextView = view.findViewById(R.id.item_title);
         val imageView: ImageView = view.findViewById(R.id.item_image);
     }
+
     // This function inflates the layout for each item in the RecyclerView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // create a new view
@@ -35,6 +36,7 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
 
         return ItemViewHolder(adapterLayout)
     }
+
     // This function returns the number of items in the list of coupons
     override fun getItemCount(): Int {
         return dataset.size
@@ -47,19 +49,23 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
 
 
 
-        // Maps through the list of coupons to find the one that matches the current position
-        couponIndexMap[position]?.let { index ->
-            val item = dataset[index]
-            val httpsReference = item.url?.let {
-                storage.getReferenceFromUrl(
-                    it
-                )
+        for (i in dataset.indices) {
+            if (dataset[i].coordinate == position) {
+                val item = dataset[i]
+                // This creates a URL reference for the coupon's image in Firebase Storage
+                val httpsReference = item.url?.let {
+                    storage.getReferenceFromUrl(
+                        it
+                    )
+                }
+                // Set the text of the TextView to the coupon's product name
+                holder.textView.text = item.productName;
+                // Use the Glide library to load the coupon's image into the ImageView
+                GlideApp.with(context)
+                    .load(httpsReference)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .into(holder.imageView)
             }
-            holder.textView.text = item.productName;
-            Glide.with(context)
-                .load(httpsReference)
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .into(holder.imageView)
         }
     }
 }
