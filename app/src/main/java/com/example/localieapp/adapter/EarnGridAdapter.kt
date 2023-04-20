@@ -18,11 +18,16 @@ import com.google.firebase.storage.ktx.storage
 class EarnGridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<EarnGridAdapter.ItemViewHolder>() {
 
+    private val couponIndexMap: Map<Int, Int> = dataset.mapIndexed { index, coupon ->
+        coupon.coordinate to index
+    }.toMap()
+
+    // Class holds references to the views in each item of the RecyclerView
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.item_title);
         val imageView: ImageView = view.findViewById(R.id.item_image);
     }
-
+    // This function inflates the layout for each item in the RecyclerView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // create a new view
         val adapterLayout = LayoutInflater.from(parent.context)
@@ -30,36 +35,31 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
 
         return ItemViewHolder(adapterLayout)
     }
-
+    // This function returns the number of items in the list of coupons
     override fun getItemCount(): Int {
         return dataset.size
     }
 
+    // This function binds the data to the views for each item in the RecyclerVie
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        // This is required for getting the images
+        // This is required for getting the images from Firebase Storage
         val storage = Firebase.storage
 
 
 
-        for (i in dataset.indices) {
-//            print(i);
-//            coupons!!.get(i).coordinate = i;
-            if (dataset[i].coordinate == position) {
-                val item = dataset[i]
-                //this creates a url refrence
-                val httpsReference = item.url?.let {
-                    storage.getReferenceFromUrl(
-                        it
-                    )
-                }
-                holder.textView.text = item.productName;
-                //this loads the imageview with the image using glide
-                GlideApp.with(context)
-                  .load(httpsReference)
-                    .diskCacheStrategy(DiskCacheStrategy.DATA)
-                  .into(holder.imageView)
+        // Maps through the list of coupons to find the one that matches the current position
+        couponIndexMap[position]?.let { index ->
+            val item = dataset[index]
+            val httpsReference = item.url?.let {
+                storage.getReferenceFromUrl(
+                    it
+                )
             }
+            holder.textView.text = item.productName;
+            Glide.with(context)
+                .load(httpsReference)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .into(holder.imageView)
         }
-
     }
 }
