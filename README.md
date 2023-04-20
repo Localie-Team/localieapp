@@ -1,6 +1,13 @@
 # Localie | Team Application 
 Localie is an application that aims to connect shoppers with their local commerce options. Based on your region, Localie will provide you with a range of discounts and coupons that fit your needs as a shopper. Select what you are looking for and play games to win discounts on your favorite items
 
+# Alpha Release
+To download our alpha release, you will need to have access to an Android device. From that device, download the APK linked below. You may have to change permissions to allow your phone to downlaod the application, this can be done in your phone settings. 
+
+(ex. turning on Google Chrome's ability to download potentially unsafe files)
+
+[Download the APK here](https://drive.google.com/file/d/1-30wzKlB1_ZbGaahRV09JDtk_f9KMIj2/view?usp=share_link)
+
 # Technical Specification 
 [App Technical Spec](https://docs.google.com/document/d/1NQJ_FT_1IZIlWWGe11Z9q_DDrA0ii_uCx5Fr1JNzLvA/edit?usp=sharing)
 
