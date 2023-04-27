@@ -68,6 +68,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
 
                 navigationView = findViewById(R.id.dashboard_tab_layout)
 
+                // handles current tab selection when navigating from settings activity
                 if(curFragmentName == "Consumer_Profile"){
                     val tab = navigationView!!.getTabAt(0)
                     tab?.select()
