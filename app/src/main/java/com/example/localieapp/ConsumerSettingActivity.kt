@@ -53,10 +53,11 @@ class ConsumerSettingActivity : AppCompatActivity() {
                 var user = User("null","null",arrayOf("null"),arrayOf("null"), "null","null","null","null")
             }
 
-        // TODO: back button should navigate to Consumer Profile Fragment in Dashboard Activity
         back?.setOnClickListener(View.OnClickListener {
         val mainIntent = Intent(this@ConsumerSettingActivity, ConsumerDashboardActivity::class.java)
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        // using putExtra, we can specify which fragment in the Dashboard Activity to navigate to
+        mainIntent.putExtra("Current_Fragment", "Consumer_Profile")
         startActivity(mainIntent)
         })
 
