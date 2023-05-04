@@ -9,6 +9,7 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.localieapp.adapter.DealsGridAdapter
 //import com.example.localieapp.adapter.ExpandableListGridAdapter
 import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.model.Coupon
@@ -81,13 +82,13 @@ class ConsumerDealsFragment : Fragment() {
 //            listOfCoupons!![i].coordinate = i;
             coupons!!.get(i).coordinate = i;
         }
-            recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-            recyclerView!!.adapter = GridAdapter(requireContext(), coupons!!);
-            recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
+        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+        recyclerView!!.adapter = DealsGridAdapter(requireContext(), coupons!!);
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
-            // Use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            recyclerView!!.setHasFixedSize(true)
+        // Use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView!!.setHasFixedSize(true)
 //        }
 
     }

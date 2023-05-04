@@ -1,17 +1,22 @@
 package com.example.localieapp.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.localieapp.ConsumerSettingActivity
+import com.example.localieapp.CouponDetailsPage
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
@@ -23,7 +28,7 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
     }.toMap()
 
     // Class holds references to the views in each item of the RecyclerView
-    class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(val view: MaterialCardView) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.item_title);
         val imageView: ImageView = view.findViewById(R.id.item_image);
     }
@@ -33,7 +38,7 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_grid_item, parent, false)
 
-        return ItemViewHolder(adapterLayout)
+        return ItemViewHolder(adapterLayout as MaterialCardView)
     }
 
     // This function returns the number of items in the list of coupons
@@ -45,22 +50,38 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         // This is required for getting the images from Firebase Storage
         val storage = Firebase.storage
-
+        var item: Coupon? = null
 
         // Maps through the list of coupons to find the one that matches the current position
         couponIndexMap[position]?.let { index ->
-            val item = dataset[index]
-            val httpsReference = item.url?.let {
+            item = dataset[index]
+            val httpsReference = item!!.url?.let {
                 storage.getReferenceFromUrl(
                     it
                 )
             }
-            holder.textView.text = item.productName;
+            holder.textView.text = item!!.productName;
             Glide.with(context)
                 .load(httpsReference)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .into(holder.imageView)
         }
+        holder.itemView.setOnClickListener(View.OnClickListener() {
+            Log.d("onBindViewHolderDeals:", position.toString())
+
+            val mainIntent = Intent(context, CouponDetailsPage::class.java)
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            mainIntent.putExtra("Coupon", item)
+            context.startActivity(mainIntent)
+
+        })
+
+        holder.itemView.setOnLongClickListener(View.OnLongClickListener()
+        {
+            holder.view.setChecked(!holder.view.isChecked)
+            true
+        }
+        )
     }
 }
 
