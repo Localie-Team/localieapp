@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.example.localieapp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class ConsumerSettingActivity : AppCompatActivity() {
@@ -20,6 +21,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
     private var name: TextView? = null
     private var agerange: TextView? = null
     private var region: TextView? = null
+    private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,20 +39,14 @@ class ConsumerSettingActivity : AppCompatActivity() {
         db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
             .addOnSuccessListener{ documents ->
                 for(document in documents) {
-                    var user = User(document.data!!.get("name").toString(),
-                        document.data.get("last").toString(),
-                        document.data.get("cart") as Array<String>,
-                        document.data.get("win") as Array<String>,
-                        document.data.get("age").toString(),
-                        mAuth.currentUser!!.email.toString(),
-                        "null",
-                        mAuth.currentUser!!.uid
-                    )
+                    user = document.toObject<User>()
+                    user!!.email = mAuth.currentUser!!.email.toString()
+
                 }
             }
             .addOnFailureListener {
                 // if they dont have anything, just fill with null for now
-                var user = User("null","null",arrayOf("null"),arrayOf("null"), "null","null","null","null")
+                user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null")
             }
 
         back?.setOnClickListener(View.OnClickListener {

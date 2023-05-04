@@ -21,6 +21,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
     var myuid: String? = null
     var navigationView: TabLayout? = null
     var userEmail: MaterialToolbar? = null
+    var userName: MaterialToolbar? = null
 
     val db = Firebase.firestore;
 
@@ -38,10 +39,14 @@ class ConsumerDashboardActivity : AppCompatActivity() {
         if (user != null)
         {
             val email = user!!.email
+            val name = user!!.displayName
             val emailStr = email.toString()
+            val nameStr = name.toString()
 
+            //userName = findViewById(R.id.title_consumer_dashboard)
             userEmail = findViewById(R.id.title_consumer_dashboard)
             userEmail!!.subtitle = emailStr
+            //userName!!.subtitle = nameStr
         }
 
         var bundle = Bundle();

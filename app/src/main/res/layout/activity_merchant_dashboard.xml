@@ -14,8 +14,11 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/title_merchant_dashboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:subtitle="should be a Merchant Name"
+            app:subtitleCentered="true"
             app:titleCentered="true"
             app:title="Localie Merchant"/>
 
