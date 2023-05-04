@@ -8,6 +8,6 @@ data class User(
     val age: String? = null,
     var email: String? = null,
     val permissions: String? = null,
-    val uID: String? = null
+    val UID: String? = null
 )
 

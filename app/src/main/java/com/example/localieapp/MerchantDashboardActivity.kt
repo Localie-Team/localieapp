@@ -37,12 +37,23 @@ class MerchantDashboardActivity : AppCompatActivity() {
         // find user in database and get user information
         db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
             .addOnSuccessListener{ documents ->
+                Log.d("found UID", documents.toString())
                 for(document in documents) {
                      user = document.toObject<User>()
                    user!!.email = mAuth.currentUser!!.email.toString()
                 }
+                if (user != null)
+                {
+                    val name = user!!.name
+                    val nameStr = name.toString()
+                    Log.d("user EXIST", nameStr)
+
+                    userName = findViewById(R.id.title_merchant_dashboard)
+                    userName!!.subtitle = nameStr
+                }
             }
             .addOnFailureListener {
+                Log.d("didnt find UID", user.toString())
                 // if they dont have anything, just fill with null for now
                  user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null")
             }
@@ -52,16 +63,8 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        Log.d("user EXIST?", user.toString())
-        if (user != null)
-        {
-            val name = user!!.name
-            val nameStr = name.toString()
-            Log.d("user EXIST", nameStr)
+        //Log.d("user EXIST?", user.toString())
 
-            userName = findViewById(R.id.title_merchant_dashboard)
-            userName!!.subtitle = nameStr
-        }
 
 
 
