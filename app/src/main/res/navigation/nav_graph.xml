@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/First2Fragment">
+
+    <fragment
+        android:id="@+id/First2Fragment"
+        android:name="com.example.localieapp.First2Fragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first2" >
+
+        <action
+            android:id="@+id/action_First2Fragment_to_Second2Fragment"
+            app:destination="@id/ConsumerDealsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ConsumerDealsFragment"
+        android:name="com.example.localieapp.ConsumerDealsFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_consumer_deals" >
+    </fragment>
+</navigation>
