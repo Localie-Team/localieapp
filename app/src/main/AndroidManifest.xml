@@ -17,10 +17,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LocalieApp"
         tools:targetApi="31">
-        <activity android:name=".ConsumerEarnActivity"/>
+        <activity
+            android:name=".CouponDetailsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_coupon_details"
+            android:theme="@style/Theme.LocalieApp.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity android:name=".ConsumerEarnActivity" />
         <activity android:name=".ConsumerDashboardActivity" />
         <activity android:name=".MerchantDashboardActivity" />
-        <activity android:name=".MerchantUploadCouponsActivity"/>
+        <activity android:name=".MerchantUploadCouponsActivity" />
         <activity android:name=".ConsumerSettingActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistrationActivity" />
