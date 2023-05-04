@@ -42,11 +42,8 @@ class ConsumerDashboardActivity : AppCompatActivity() {
             val name = user!!.displayName
             val emailStr = email.toString()
             val nameStr = name.toString()
-
-            //userName = findViewById(R.id.title_consumer_dashboard)
             userEmail = findViewById(R.id.title_consumer_dashboard)
             userEmail!!.subtitle = emailStr
-            //userName!!.subtitle = nameStr
         }
 
         var bundle = Bundle();

@@ -1,16 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MerchantProfileFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_weight="10"
-        android:layout_height="50dp"
-        android:text="@string/welcome_to_you_merchant_dashboard" />
 
+
+    <ImageView
+        android:id="@+id/profile_image_merchant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:src="@drawable/rocketfizz" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textAlignment="viewStart"
+        android:textAllCaps="true"
+        android:textColor="@color/main_red"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:paddingTop="240dp"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1681 Higuera Street"
+        android:textAlignment="viewStart"
+        android:textSize="20dp"
+        android:paddingTop="270dp"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="type"
+        android:textAlignment="viewStart"
+        android:textAllCaps="true"
+        android:textColor="@color/main_red"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:paddingTop="340dp"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="General Goods"
+        android:textAlignment="viewStart"
+        android:textSize="20dp"
+        android:paddingTop="370dp"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textAlignment="viewStart"
+        android:textAllCaps="true"
+        android:textColor="@color/main_red"
+        android:textSize="20dp"
+        android:paddingTop="440dp"
+        android:paddingLeft="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A place for food, goods, and great soda!"
+        android:textAlignment="viewStart"
+        android:textSize="15dp"
+        android:paddingTop="470dp"
+        android:paddingLeft="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/profile_settings_merchant"
+        android:layout_width="65dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="346dp"
+        android:layout_marginBottom="595dp"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:src="@drawable/ic_outline_settings_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/merchant_deals_upload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Coupon(s)"
+        android:layout_gravity="center_horizontal|bottom"
+      />
 
 
 </FrameLayout>

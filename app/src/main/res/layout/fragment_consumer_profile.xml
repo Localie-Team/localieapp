@@ -44,13 +44,6 @@
 
     </LinearLayout>
 
-<!--    <ExpandableListView-->
-<!--        android:id="@+id/profile_exp_list_view"-->
-<!--        android:layout_below="@id/profile_layout"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:indicatorStart="370dp"-->
-<!--        android:indicatorEnd="0dp" />-->
 
         <LinearLayout
             android:layout_below="@id/profile_layout"

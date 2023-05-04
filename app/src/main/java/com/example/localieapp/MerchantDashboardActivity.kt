@@ -2,6 +2,7 @@ package com.example.localieapp
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.localieapp.model.Coupon
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import com.bumptech.glide.Glide
 
 class MerchantDashboardActivity : AppCompatActivity() {
     private var firebaseAuth: FirebaseAuth? = null
@@ -29,10 +31,12 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
     val db = Firebase.firestore;
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_merchant_dashboard)
 
+        storage = Firebase.storage
 
         // find user in database and get user information
         db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
@@ -46,10 +50,30 @@ class MerchantDashboardActivity : AppCompatActivity() {
                 {
                     val name = user!!.name
                     val nameStr = name.toString()
-                    Log.d("user EXIST", nameStr)
+                    val region= user!!.region
+                    val regionStr = region.toString()
 
-                    userName = findViewById(R.id.title_merchant_dashboard)
-                    userName!!.subtitle = nameStr
+                   userName = findViewById(R.id.title_merchant_dashboard)
+                    userName!!.title = nameStr
+                    userName!!.subtitle = regionStr
+
+
+                    /*
+
+                    var pic = user!!.profile_pic.toString()
+
+                    var  picMer = findViewById<ImageView>(R.id.profile_image_merchant)
+
+                    var context = picMer.context
+
+                    val httpsReference = storage!!.getReferenceFromUrl(
+                        pic
+                    )
+
+                    Glide.with(context)
+                        .load(httpsReference).into(picMer)*/
+
+
                 }
             }
             .addOnFailureListener {
@@ -64,7 +88,6 @@ class MerchantDashboardActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         //Log.d("user EXIST?", user.toString())
-
 
 
 
