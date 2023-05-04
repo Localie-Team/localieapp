@@ -11,7 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.localieapp.databinding.ActivityCouponDetailsBinding
 import com.example.localieapp.model.Coupon
 
-class CouponDetailsPage : AppCompatActivity() {
+class CouponDetailsActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityCouponDetailsBinding
@@ -24,7 +24,7 @@ class CouponDetailsPage : AppCompatActivity() {
         passedItem = @Suppress("DEPRECATION") intent.getParcelableExtra("Coupon")
         bundle = Bundle().apply { putParcelable("coupon", passedItem) }
         var fragment: Fragment? = null
-        fragment = First2Fragment();
+        fragment = FirstFragment();
         fragment.arguments = bundle
 
 

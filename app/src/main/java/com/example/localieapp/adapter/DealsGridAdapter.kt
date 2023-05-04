@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.localieapp.ConsumerSettingActivity
-import com.example.localieapp.CouponDetailsPage
+import com.example.localieapp.CouponDetailsActivity
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
 import com.google.android.material.card.MaterialCardView
@@ -69,7 +69,7 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
         holder.itemView.setOnClickListener(View.OnClickListener() {
             Log.d("onBindViewHolderDeals:", position.toString())
 
-            val mainIntent = Intent(context, CouponDetailsPage::class.java)
+            val mainIntent = Intent(context, CouponDetailsActivity::class.java)
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             mainIntent.putExtra("Coupon", item)
             context.startActivity(mainIntent)

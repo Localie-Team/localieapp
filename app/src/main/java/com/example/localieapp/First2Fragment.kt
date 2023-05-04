@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.fragment.findNavController
 import com.example.localieapp.databinding.FragmentFirstBinding
 import com.example.localieapp.model.Coupon
 
@@ -19,7 +17,7 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class First2Fragment : Fragment() {
+class FirstFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -90,7 +88,7 @@ class First2Fragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            First2Fragment().apply {
+            FirstFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
