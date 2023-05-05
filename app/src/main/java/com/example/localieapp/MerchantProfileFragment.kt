@@ -46,7 +46,7 @@ class MerchantProfileFragment : Fragment() {
         settings = view.findViewById(R.id.profile_settings_merchant)
 
         settings?.setOnClickListener(View.OnClickListener {
-            val mainIntent = Intent(activity, ConsumerSettingActivity::class.java)
+            val mainIntent = Intent(activity, MerchantSettingActivity::class.java)
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(mainIntent)
         })
