@@ -1,16 +1,15 @@
 package com.example.localieapp.model
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+data class User(
+    val name: String? = null,
+    val last: String? = null,
+    val cart: List<String>? = null,
+    val win: List<String>? = null,
+    val age: String? = null,
+    var email: String? = null,
+    val permissions: String? = null,
+    val profile_pic: String? = null,
+    val region: String? = null,
+    val UID: String? = null
+)
 
-class User(
-    var name: String,
-    var last: String,
-    var cart: Array<String>,
-    var win: Array<String>,
-    var ageRange: String,
-    var email: String,
-    var permissions: String,
-    var uID: String
-) {
-}
