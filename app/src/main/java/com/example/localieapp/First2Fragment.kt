@@ -2,11 +2,11 @@ package com.example.localieapp
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.example.localieapp.databinding.FragmentFirst2Binding
 
 /**
@@ -15,6 +15,7 @@ import com.example.localieapp.databinding.FragmentFirst2Binding
 class First2Fragment : Fragment() {
 
 private var _binding: FragmentFirst2Binding? = null
+    private var strtext: String? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -23,6 +24,7 @@ private var _binding: FragmentFirst2Binding? = null
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
 
       _binding = FragmentFirst2Binding.inflate(inflater, container, false)
       return binding.root
@@ -39,6 +41,13 @@ private var _binding: FragmentFirst2Binding? = null
             mainIntent.putExtra("Current_Fragment", "Consumer_Deals")
             startActivity(mainIntent)
         }
+        val bundle = arguments
+        Log.d("Bundle11", bundle.toString())
+
+//        val data = arguments?.getString("edttext")
+//        val textView = binding.
+//        Log.d("textView:", textView.toString())
+//        textView.text = data
     }
 
 override fun onDestroyView() {

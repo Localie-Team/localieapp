@@ -64,6 +64,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
 
                 bundle = Bundle().apply { putParcelableArrayList("coupons", listOfCoupons) }
 
+
                 val curFragmentName = intent.getStringExtra("Current_Fragment")
 
                 navigationView = findViewById(R.id.dashboard_tab_layout)

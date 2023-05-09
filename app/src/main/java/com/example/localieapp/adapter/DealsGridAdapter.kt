@@ -69,6 +69,8 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
         holder.itemView.setOnClickListener(View.OnClickListener() {
             Log.d("onBindViewHolderDeals:", position.toString())
 
+
+
             val mainIntent = Intent(context, CouponDetailsActivity::class.java)
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             mainIntent.putExtra("Coupon", item)
