@@ -127,6 +127,8 @@ class ConsumerEarnFragment : Fragment() {
             run();
         };
 
+
+
         handler.postDelayed(runnable, milliseconds)
     }
 
