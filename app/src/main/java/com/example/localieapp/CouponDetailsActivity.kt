@@ -1,7 +1,11 @@
 package com.example.localieapp
 
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -55,6 +59,15 @@ class CouponDetailsActivity : AppCompatActivity() {
 //        textView.text = passedItem!!.productName
         val textView = findViewById<TextView>(R.id.textView2)
         textView.text = passedItem!!.productName
+        val textView2 = findViewById<TextView>(R.id.description)
+        textView2.text = passedItem!!.vendor + "\n\n" + passedItem!!.coupon_value + "\n\n" + passedItem!!.date_issued
+//        val  imageView = findViewById<ImageView>(R.id.imageView2)
+        var passedItem2 : ByteArray = intent.getByteArrayExtra("Coupon2")!!
+        val bmp = BitmapFactory.decodeByteArray(passedItem2, 0, passedItem2.size)
+        val image = findViewById<View>(R.id.imageView2) as ImageView
+//        image.setImageBitmap(Bitmap.createScaledBitmap(bmp, image.width, image.height, false))
+//        image.setImageDrawable(BitmapDrawable(mContext.getResources(), bmp))
+        image.setImageBitmap(bmp)
 
 
 

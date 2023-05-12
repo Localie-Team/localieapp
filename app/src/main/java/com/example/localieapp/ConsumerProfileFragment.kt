@@ -50,6 +50,7 @@ class ConsumerProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_profile, container, false)
     }
@@ -70,7 +71,12 @@ class ConsumerProfileFragment : Fragment() {
         db.collection("coupons").get()
             .addOnSuccessListener{ documents ->
                 for(document in documents){
-                    listOfCoupons.add(Coupon(0, document.data!!.get("url").toString(), document.data!!.get("product").toString()))
+                    listOfCoupons.add(Coupon(0,
+                        document.data!!.get("url").toString(),
+                        document.data!!.get("product").toString(),
+                        document.data!!.get("vendor").toString(),
+                        document.data!!.get("value").toString(),
+                        document.data!!.get("date_issued").toString()))
                 }
 
                 for (i in listOfCoupons!!.indices) {

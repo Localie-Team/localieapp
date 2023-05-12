@@ -1,24 +1,27 @@
 package com.example.localieapp.adapter
 
+
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.localieapp.ConsumerSettingActivity
 import com.example.localieapp.CouponDetailsActivity
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
+
 
 class DealsGridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<DealsGridAdapter.ItemViewHolder>() {
@@ -74,6 +77,12 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
             val mainIntent = Intent(context, CouponDetailsActivity::class.java)
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             mainIntent.putExtra("Coupon", item)
+            val imageView = holder.imageView
+            val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val imageInByte = baos.toByteArray()
+            mainIntent.putExtra("Coupon2", imageInByte)
             context.startActivity(mainIntent)
 
         })

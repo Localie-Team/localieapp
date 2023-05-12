@@ -53,7 +53,10 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                         Coupon(
                             0,
                             document.data!!.get("url").toString(),
-                            document.data!!.get("product").toString()
+                            document.data!!.get("product").toString(),
+                            document.data!!.get("vendor").toString(),
+                            document.data!!.get("value").toString(),
+                            document.data!!.get("date_issued").toString()
                         )
                     )
                 }
