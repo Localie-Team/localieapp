@@ -50,6 +50,7 @@ class ConsumerProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_profile, container, false)
@@ -67,31 +68,23 @@ class ConsumerProfileFragment : Fragment() {
             startActivity(mainIntent)
         })
 
-        var listOfCoupons = ArrayList<Coupon>()
-        db.collection("coupons").get()
-            .addOnSuccessListener{ documents ->
-                for(document in documents){
-                    listOfCoupons.add(Coupon(0,
-                        document.data!!.get("url").toString(),
-                        document.data!!.get("product").toString(),
-                        document.data!!.get("vendor").toString(),
-                        document.data!!.get("value").toString(),
-                        document.data!!.get("date_issued").toString()))
-                }
 
-                for (i in listOfCoupons!!.indices) {
-                    listOfCoupons!![i].coordinate = i;
-                }
+        for (i in coupons!!.indices) {
+//            print(i);
+//            listOfCoupons!![i].coordinate = i;
+            coupons!!.get(i).coordinate = i;
+        }
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
-                recyclerView!!.adapter = ProfileGridAdapter(requireContext(), listOfCoupons!!);
+//                recyclerView!!.adapter = ProfileGridAdapter(requireContext(), listOfCoupons!!);
+                recyclerView!!.adapter = ProfileGridAdapter(requireContext(), coupons!!);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
                 // in content do not change the layout size of the RecyclerView
                 recyclerView!!.setHasFixedSize(true)
-            }
+//            }
 
     }
 
