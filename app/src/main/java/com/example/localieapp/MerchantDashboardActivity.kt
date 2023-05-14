@@ -38,49 +38,7 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
         storage = Firebase.storage
 
-        // find user in database and get user information
-        db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
-            .addOnSuccessListener{ documents ->
-                Log.d("found UID", documents.toString())
-                for(document in documents) {
-                     user = document.toObject<User>()
-                   user!!.email = mAuth.currentUser!!.email.toString()
-                }
-                if (user != null)
-                {
-                    val name = user!!.name
-                    val nameStr = name.toString()
-                    val region= user!!.region
-                    val regionStr = region.toString()
 
-                   userName = findViewById(R.id.title_merchant_dashboard)
-                    userName!!.title = nameStr
-                    userName!!.subtitle = regionStr
-
-
-                    /*
-
-                    var pic = user!!.profile_pic.toString()
-
-                    var  picMer = findViewById<ImageView>(R.id.profile_image_merchant)
-
-                    var context = picMer.context
-
-                    val httpsReference = storage!!.getReferenceFromUrl(
-                        pic
-                    )
-
-                    Glide.with(context)
-                        .load(httpsReference).into(picMer)*/
-
-
-                }
-            }
-            .addOnFailureListener {
-                Log.d("didnt find UID", user.toString())
-                // if they dont have anything, just fill with null for now
-                 user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null")
-            }
 
         // Firebase Storage init
         storage = Firebase.storage
@@ -93,6 +51,7 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
         var bundle = Bundle()
         var listOfCoupons = ArrayList<Coupon>()
+
         db.collection("coupons").get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
@@ -105,67 +64,117 @@ class MerchantDashboardActivity : AppCompatActivity() {
                     )
                 }
 
-
-                for (i in listOfCoupons!!.indices) {
-
-                    listOfCoupons!![i].coordinate = i;
-                }
-                bundle = Bundle().apply { putParcelableArrayList("coupons", listOfCoupons) }
-
-                navigationView = findViewById(R.id.merchant_dashboard_tab_layout)
-                val tab = navigationView!!.getTabAt(1)
-                tab?.select()
-
-                navigationView!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-
-                    override fun onTabSelected(tab: TabLayout.Tab?) {
-                        var fragment: Fragment? = null
-
-                        when (tab!!.position) {
-
-                            0 -> fragment = MerchantProfileFragment();
-                            1 -> {
-                                fragment = MerchantDealsFragment();
-                                fragment.arguments = bundle
-                            }
-
-                            2 -> fragment = MerchantMetricsFragment();
-
+                // find user in database and get user information
+                db.collection("users").whereEqualTo("UID", mAuth.currentUser!!.uid).get()
+                    .addOnSuccessListener{ Udocuments ->
+                        Log.d("found UID", Udocuments.toString())
+                        for(Udocument in Udocuments) {
+                            user = Udocument.toObject<User>()
+                            user!!.email = mAuth.currentUser!!.email.toString()
                         }
+                        if (user != null)
+                        {
+                            val name = user!!.name
+                            val nameStr = name.toString()
+                            val region= user!!.region
+                            val regionStr = region.toString()
+
+                            userName = findViewById(R.id.title_merchant_dashboard)
+                            userName!!.title = nameStr
+                            userName!!.subtitle = regionStr
 
 
-                        if (fragment != null) {
-                            Log.d("TAG", fragment.toString())
-                            val fragmentTransaction = supportFragmentManager.beginTransaction()
-                            fragmentTransaction.replace(
-                                R.id.merchant_dashboard_content,
-                                fragment,
-                                ""
+                            /*
+
+                            var pic = user!!.profile_pic.toString()
+
+                            var  picMer = findViewById<ImageView>(R.id.profile_image_merchant)
+
+                            var context = picMer.context
+
+                            val httpsReference = storage!!.getReferenceFromUrl(
+                                pic
                             )
+
+                            Glide.with(context)
+                                .load(httpsReference).into(picMer)*/
+
+
+                            for (i in listOfCoupons!!.indices) {
+
+                                listOfCoupons!![i].coordinate = i;
+                            }
+                            bundle = Bundle().apply { putParcelableArrayList("coupons", listOfCoupons)
+                                                        putParcelable("user", user)}
+
+                            navigationView = findViewById(R.id.merchant_dashboard_tab_layout)
+                            val tab = navigationView!!.getTabAt(1)
+                            tab?.select()
+
+                            navigationView!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+                                override fun onTabSelected(tab: TabLayout.Tab?) {
+                                    var fragment: Fragment? = null
+
+                                    when (tab!!.position) {
+
+                                        0 -> fragment = MerchantProfileFragment();
+                                        1 -> {
+                                            fragment = MerchantDealsFragment();
+                                            fragment.arguments = bundle
+                                        }
+
+                                        2 -> fragment = MerchantMetricsFragment();
+
+                                    }
+
+
+                                    if (fragment != null) {
+                                        Log.d("TAG", fragment.toString())
+                                        val fragmentTransaction = supportFragmentManager.beginTransaction()
+                                        fragmentTransaction.replace(
+                                            R.id.merchant_dashboard_content,
+                                            fragment,
+                                            ""
+                                        )
+                                        fragmentTransaction.commit()
+                                    }
+
+                                    // Handle tab select
+                                }
+
+                                override fun onTabReselected(tab: TabLayout.Tab?) {
+                                    // Handle tab reselect
+                                }
+
+                                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                                    // Handle tab unselect
+                                }
+                            })
+
+                            // When we open the application first
+                            // time the fragment should be shown to the user
+                            // in this case it is home fragment
+                            val fragment = MerchantDealsFragment()
+                            fragment.arguments = bundle
+
+                            val fragmentTransaction = supportFragmentManager.beginTransaction()
+                            fragmentTransaction.replace(R.id.merchant_dashboard_content, fragment, "")
                             fragmentTransaction.commit()
+
+
                         }
-
-                        // Handle tab select
+                    }
+                    .addOnFailureListener {
+                        Log.d("didnt find UID", user.toString())
+                        // if they dont have anything, just fill with null for now
+                        user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null")
                     }
 
-                    override fun onTabReselected(tab: TabLayout.Tab?) {
-                        // Handle tab reselect
-                    }
 
-                    override fun onTabUnselected(tab: TabLayout.Tab?) {
-                        // Handle tab unselect
-                    }
-                })
 
-                // When we open the application first
-                // time the fragment should be shown to the user
-                // in this case it is home fragment
-                val fragment = MerchantDealsFragment()
-                fragment.arguments = bundle
 
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.merchant_dashboard_content, fragment, "")
-                fragmentTransaction.commit()
+
 
 
 
