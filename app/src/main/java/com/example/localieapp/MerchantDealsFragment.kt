@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
+import com.example.localieapp.model.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -35,6 +37,7 @@ class MerchantDealsFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
 //    private var recyclerView: RecyclerView? = view?.findViewById<RecyclerView>(R.id.deals_recycler_view);
     private var coupons: ArrayList<Coupon>? = null
+    private var user: User? = null
 
     private var upload: Button? = null
 
@@ -55,6 +58,7 @@ class MerchantDealsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+        user = arguments?.getParcelable("user")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_merchant_deals, container, false)
     }
@@ -62,7 +66,7 @@ class MerchantDealsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        var listOfCoupons = ArrayList<Coupon>()
-
+        Log.d("found User!", user.toString())
         upload = view.findViewById(R.id.merchant_deals_upload_button)
 
 //        db.collection("coupons").get()

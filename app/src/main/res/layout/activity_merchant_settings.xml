@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MerchantSettingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <ImageButton
+            android:background="@android:color/transparent"
+            android:id="@+id/settings_to_dashboard_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_west_24"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="65dp"
+            android:textAlignment="center"
+            android:text="Settings"
+            android:textColor="@android:color/black"
+            android:textSize="26sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/user_profile_pic"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/rocketfizz" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:id="@+id/merchant_settings_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_marginStart="20dp"
+            android:text="Company Name"
+            android:textColor="@color/main_red"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/merchant_settings_edit_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_baseline_edit_24"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:id="@+id/merchant_settings_age"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_marginStart="20dp"
+            android:text="Location"
+            android:textColor="@color/main_red"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/merchant_settings_edit_age"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_baseline_edit_24"/>
+
+        <TextView
+            android:id="@+id/consumer_settings_region"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:text="Region"
+            android:textColor="@color/main_red"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/consumer_settings_edit_region"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="40dp"
+            android:src="@drawable/ic_baseline_edit_24"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:id="@+id/merchant_settings_desc"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:text="Description"
+            android:textColor="@color/main_red"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/merchant_settings_edit_desc"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_baseline_edit_24"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:id="@+id/log_out"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:text="Log Out"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

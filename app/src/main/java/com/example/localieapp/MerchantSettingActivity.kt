@@ -12,7 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class ConsumerSettingActivity : AppCompatActivity() {
+class MerchantSettingActivity : AppCompatActivity() {
     // back button navigates to the dashboard
     private var back: ImageButton? = null
     private var logout: TextView? = null
@@ -29,7 +29,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
         // get database and authorization instances
         val db = Firebase.firestore;
         val mAuth = FirebaseAuth.getInstance()
-        setContentView(R.layout.activity_consumer_settings)
+        setContentView(R.layout.activity_merchant_settings)
 
         // assign buttons to the Views in the layout
         back = findViewById(R.id.settings_to_dashboard_button)
@@ -50,16 +50,16 @@ class ConsumerSettingActivity : AppCompatActivity() {
             }
 
         back?.setOnClickListener(View.OnClickListener {
-        val mainIntent = Intent(this@ConsumerSettingActivity, ConsumerDashboardActivity::class.java)
+        val mainIntent = Intent(this@MerchantSettingActivity, MerchantDashboardActivity::class.java)
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         // using putExtra, we can specify which fragment in the Dashboard Activity to navigate to
-        mainIntent.putExtra("Current_Fragment", "Consumer_Profile")
+        mainIntent.putExtra("Current_Fragment", "Merchant_Profile")
         startActivity(mainIntent)
         })
 
         // logs out user, navigates to login activity
         logout?.setOnClickListener {
-            startActivity(Intent(this@ConsumerSettingActivity, LoginActivity::class.java))
+            startActivity(Intent(this@MerchantSettingActivity, LoginActivity::class.java))
         }
 
 

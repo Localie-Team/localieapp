@@ -33,6 +33,7 @@
         <activity android:name=".ConsumerSettingActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistrationActivity" />
+        <activity android:name=".MerchantSettingActivity" />
         <activity
             android:name=".SplashScreen"
             android:exported="true" >
