@@ -80,3 +80,4 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
         )
     }
 }
+
