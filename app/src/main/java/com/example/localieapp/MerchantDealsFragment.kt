@@ -96,9 +96,11 @@ class MerchantDealsFragment : Fragment() {
                 recyclerView!!.setHasFixedSize(true)
 
                 upload?.setOnClickListener(View.OnClickListener {
-                    Intent(
-                        this.context,
-                        MerchantUploadCouponsActivity::class.java
+                    startActivity(
+                        Intent(
+                            this.context,
+                            MerchantUploadCouponsActivity::class.java
+                    )
                     )
                 })
 
