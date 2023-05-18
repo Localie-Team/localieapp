@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.example.localieapp.model.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -70,14 +71,28 @@ class MerchantProfileFragment : Fragment() {
         locationBlock.text = locationStr
 
         val type = user?.type
-        val typeStr = location.toString()
+        val typeStr = type.toString()
 
         val typeBlock = view.findViewById<TextView>(R.id.merchant_profile_type)
-        typeBlock.text = locationStr
+        typeBlock.text = typeStr
 
+        val desc = user?.description
+        val descStr = desc.toString()
 
+        val descBlock = view.findViewById<TextView>(R.id.merchant_profile_desc)
+        descBlock.text = descStr
 
+        val pic = user!!.profile_pic.toString()
+        val picMer = view.findViewById<ImageView>(R.id.profile_image_merchant)
 
+        val desiredWidth = 800 // Specify the desired width in pixels
+        val desiredHeight = 800 // Specify the desired height in pixels
+
+        Glide.with(requireContext())
+            .load(pic)
+            .override(desiredWidth, desiredHeight)
+            .centerCrop() // Optional: Apply center crop if needed
+            .into(picMer)
 
     }
 

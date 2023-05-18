@@ -18,6 +18,7 @@ data class User(
     val region: String? = null,
     val location: String? = null,
     val type: String? = null,
+    val description: String? = null,
     val UID: String? = null
 )
 
@@ -42,6 +43,7 @@ data class User(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readString()
     ) {
     }
@@ -58,6 +60,7 @@ data class User(
         parcel.writeString(region)
         parcel.writeString(location)
         parcel.writeString(type)
+        parcel.writeString(description)
         parcel.writeString(UID)
     }
 

@@ -46,7 +46,7 @@ class MerchantSettingActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 // if they dont have anything, just fill with null for now
-                user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null")
+                user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null", "null")
             }
 
         back?.setOnClickListener(View.OnClickListener {
