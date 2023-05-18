@@ -20,9 +20,6 @@ import com.google.firebase.storage.FirebaseStorage
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private var user: User? = null
-private var storage: FirebaseStorage? = null
-
-private val db = Firebase.firestore;
 
 /**
  * A simple [Fragment] subclass.
