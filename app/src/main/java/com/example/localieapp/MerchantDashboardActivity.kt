@@ -121,7 +121,9 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
                                     when (tab!!.position) {
 
-                                        0 -> fragment = MerchantProfileFragment();
+                                        0 -> {fragment = MerchantProfileFragment();
+                                            fragment.arguments = bundle
+                                        }
                                         1 -> {
                                             fragment = MerchantDealsFragment();
                                             fragment.arguments = bundle

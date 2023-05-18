@@ -2,6 +2,7 @@ package com.example.localieapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +46,7 @@ class MerchantProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        user = arguments?.getParcelable("user")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_merchant_profile, container, false)
     }
@@ -59,7 +61,7 @@ class MerchantProfileFragment : Fragment() {
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(mainIntent)
         })
-
+        Log.d("this is User", user.toString())
 
         val location = user?.location
         val locationStr = location.toString()

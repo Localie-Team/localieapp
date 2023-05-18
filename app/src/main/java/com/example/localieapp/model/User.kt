@@ -16,16 +16,14 @@ data class User(
     val permissions: String? = null,
     val profile_pic: String? = null,
     val region: String? = null,
-    val location: String?,
-    val type: String?,
+    val location: String? = null,
+    val type: String? = null,
     val UID: String? = null
 )
 
 : Parcelable {
 
-   constructor() : this(
-        null, null, null, null, null, null, null, null, null, null, null, null
-    )
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     constructor(parcel: Parcel) : this(
@@ -58,9 +56,9 @@ data class User(
         parcel.writeString(permissions)
         parcel.writeString(profile_pic)
         parcel.writeString(region)
-        parcel.writeString(UID)
         parcel.writeString(location)
         parcel.writeString(type)
+        parcel.writeString(UID)
     }
 
     override fun describeContents(): Int {
