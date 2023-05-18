@@ -1,5 +1,6 @@
 package com.example.localieapp.model
 
+import android.location.Location
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
@@ -15,8 +16,16 @@ data class User(
     val permissions: String? = null,
     val profile_pic: String? = null,
     val region: String? = null,
+    val location: String?,
+    val type: String?,
     val UID: String? = null
-): Parcelable {
+)
+
+: Parcelable {
+
+   constructor() : this(
+        null, null, null, null, null, null, null, null, null, null, null, null
+    )
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     constructor(parcel: Parcel) : this(
@@ -28,6 +37,8 @@ data class User(
         mutableListOf<String>().apply{
             parcel.readList(this, String::class.java.classLoader)
         },
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -48,6 +59,8 @@ data class User(
         parcel.writeString(profile_pic)
         parcel.writeString(region)
         parcel.writeString(UID)
+        parcel.writeString(location)
+        parcel.writeString(type)
     }
 
     override fun describeContents(): Int {
@@ -65,4 +78,5 @@ data class User(
         }
     }
 }
+
 

@@ -7,11 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import com.example.localieapp.model.User
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private var user: User? = null
+private var storage: FirebaseStorage? = null
+
+private val db = Firebase.firestore;
 
 /**
  * A simple [Fragment] subclass.
@@ -50,6 +59,24 @@ class MerchantProfileFragment : Fragment() {
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(mainIntent)
         })
+
+
+        val location = user?.location
+        val locationStr = location.toString()
+
+        val locationBlock = view.findViewById<TextView>(R.id.merchant_profile_location)
+        locationBlock.text = locationStr
+
+        val type = user?.type
+        val typeStr = location.toString()
+
+        val typeBlock = view.findViewById<TextView>(R.id.merchant_profile_type)
+        typeBlock.text = locationStr
+
+
+
+
+
     }
 
         companion object {
