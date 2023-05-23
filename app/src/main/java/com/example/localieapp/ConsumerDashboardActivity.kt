@@ -74,16 +74,34 @@ class ConsumerDashboardActivity : AppCompatActivity() {
 
                 navigationView = findViewById(R.id.dashboard_tab_layout)
 
-                // handles current tab selection when navigating from settings activity
+                // When we open the application first time
+                // the home fragment should be shown to the user
+
+                // When navigating from the Settings Activity,
+                // the profile fragment should be shown
+
                 if(curFragmentName == "Consumer_Profile"){
                     val tab = navigationView!!.getTabAt(0)
                     tab?.select()
+                    val fragment = ConsumerProfileFragment()
+                    fragment.arguments = bundle
+                    val fragmentTransaction = supportFragmentManager.beginTransaction()
+                    fragmentTransaction.replace(R.id.content, fragment, "")
+                    fragmentTransaction.commit()
                 }
                 else{
                     val tab = navigationView!!.getTabAt(1)
                     tab?.select()
+                    val fragment = ConsumerDealsFragment()
+                    fragment.arguments = bundle
+                    val earnFragment = ConsumerEarnFragment()
+                    earnFragment.arguments = bundle
+                    val fragmentTransaction = supportFragmentManager.beginTransaction()
+                    fragmentTransaction.replace(R.id.content, fragment, "")
+                    fragmentTransaction.commit()
                 }
 
+                // handles current tab selection when navigating from settings activity
 
                 navigationView!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -125,27 +143,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                     }
                 })
 
-                // When we open the application first time
-                // the home fragment should be shown to the user
 
-                // When navigating from the Settings Activity,
-                // the profile fragment should be shown
-
-                if(curFragmentName == "Consumer_Profile"){
-                    val fragment = ConsumerProfileFragment()
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.content, fragment, "")
-                    fragmentTransaction.commit()
-                }
-                else{
-                    val fragment = ConsumerDealsFragment()
-                    fragment.arguments = bundle
-                    val earnFragment = ConsumerEarnFragment()
-                    earnFragment.arguments = bundle
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.content, fragment, "")
-                    fragmentTransaction.commit()
-                }
 
 
 
