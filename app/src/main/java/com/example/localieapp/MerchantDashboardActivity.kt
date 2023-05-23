@@ -87,28 +87,19 @@ class MerchantDashboardActivity : AppCompatActivity() {
                             userName!!.subtitle = regionStr
 
 
-                            /*
-
-                            var pic = user!!.profile_pic.toString()
-
-                            var  picMer = findViewById<ImageView>(R.id.profile_image_merchant)
-
-                            var context = picMer.context
-
-                            val httpsReference = storage!!.getReferenceFromUrl(
-                                pic
-                            )
-
-                            Glide.with(context)
-                                .load(httpsReference).into(picMer)*/
-
 
                             for (i in listOfCoupons!!.indices) {
-
-                                listOfCoupons!![i].coordinate = i;
+                                if (listOfCoupons!![i].vendor.equals(user?.name)) {
+                                    listOfCoupons!![i].coordinate = i
+                                } else {
+                                    listOfCoupons!![i].coordinate = -1 // Set coordinate to -1 for coupons with different vendor names
+                                }
                             }
-                            bundle = Bundle().apply { putParcelableArrayList("coupons", listOfCoupons)
-                                                        putParcelable("user", user)}
+
+                            bundle = Bundle().apply {
+                                putParcelableArrayList("coupons", ArrayList(listOfCoupons.filter { it.coordinate != -1 }))
+                                putParcelable("user", user)
+                            }
 
                             navigationView = findViewById(R.id.merchant_dashboard_tab_layout)
                             val tab = navigationView!!.getTabAt(1)
@@ -121,7 +112,9 @@ class MerchantDashboardActivity : AppCompatActivity() {
 
                                     when (tab!!.position) {
 
-                                        0 -> fragment = MerchantProfileFragment();
+                                        0 -> {fragment = MerchantProfileFragment();
+                                            fragment.arguments = bundle
+                                        }
                                         1 -> {
                                             fragment = MerchantDealsFragment();
                                             fragment.arguments = bundle
@@ -171,7 +164,7 @@ class MerchantDashboardActivity : AppCompatActivity() {
                     .addOnFailureListener {
                         Log.d("didnt find UID", user.toString())
                         // if they dont have anything, just fill with null for now
-                        user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null")
+                        user = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null", "null")
                     }
 
 
