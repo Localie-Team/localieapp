@@ -62,9 +62,33 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                     listOfCoupons!![i].coordinate = i;
                 }
 
+
+
                 bundle = Bundle().apply { putParcelableArrayList("coupons", listOfCoupons) }
 
                 val curFragmentName = intent.getStringExtra("Current_Fragment")
+
+                // When we open the application first time
+                // the home fragment should be shown to the user
+
+                // When navigating from the Settings Activity,
+                // the profile fragment should be shown
+
+                if(curFragmentName == "Consumer_Profile"){
+                    val fragment = ConsumerProfileFragment()
+                    val fragmentTransaction = supportFragmentManager.beginTransaction()
+                    fragmentTransaction.replace(R.id.content, fragment, "")
+                    fragmentTransaction.commit()
+                }
+                else{
+                    val fragment = ConsumerDealsFragment()
+                    fragment.arguments = bundle
+                    val earnFragment = ConsumerEarnFragment()
+                    earnFragment.arguments = bundle
+                    val fragmentTransaction = supportFragmentManager.beginTransaction()
+                    fragmentTransaction.replace(R.id.content, fragment, "")
+                    fragmentTransaction.commit()
+                }
 
                 navigationView = findViewById(R.id.dashboard_tab_layout)
 
@@ -118,28 +142,6 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                         // Handle tab unselect
                     }
                 })
-
-                // When we open the application first time
-                // the home fragment should be shown to the user
-
-                // When navigating from the Settings Activity,
-                // the profile fragment should be shown
-
-                if(curFragmentName == "Consumer_Profile"){
-                    val fragment = ConsumerProfileFragment()
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.content, fragment, "")
-                    fragmentTransaction.commit()
-                }
-                else{
-                    val fragment = ConsumerDealsFragment()
-                    fragment.arguments = bundle
-                    val earnFragment = ConsumerEarnFragment()
-                    earnFragment.arguments = bundle
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.content, fragment, "")
-                    fragmentTransaction.commit()
-                }
 
 
 
