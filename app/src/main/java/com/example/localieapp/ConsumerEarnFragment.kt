@@ -2,7 +2,6 @@ package com.example.localieapp
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +39,11 @@ class ConsumerEarnFragment : Fragment() {
 
     val db = Firebase.firestore;
 
-    private val SpanCount = 3
+    private val spanCount = 4
+
+    lateinit var dataset: ArrayList<Coupon>
+
+    lateinit var couponMatrix: ArrayList<Coupon>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,11 +67,12 @@ class ConsumerEarnFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         step = view.findViewById(R.id.step_forward_psa_button)
 
-        // Create a new ArrayList to store the duplicated and joined values
-        val couponMatrix: ArrayList<Coupon> = ArrayList()
-        var dataset = ArrayList<Coupon>()
+        couponMatrix = ArrayList()
+        dataset = ArrayList()
+
+
         // Duplicate and join the originalList three times
-        for (i in 0 until SpanCount) {
+        for (i in 0 until spanCount) {
             val shuffledList = coupons?.let { ArrayList(it) } // Create a copy of the originalList
 
             // Shuffle the copied list randomly
@@ -76,7 +80,7 @@ class ConsumerEarnFragment : Fragment() {
 
             if (shuffledList != null) {
                 couponMatrix.addAll(shuffledList)
-                dataset.addAll(shuffledList.subList(0,3))
+                dataset.addAll(shuffledList.subList(0,spanCount))
             }
         }
 
@@ -112,7 +116,7 @@ class ConsumerEarnFragment : Fragment() {
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
                 recyclerView!!.adapter = EarnGridAdapter(requireContext(), dataset);
-                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), SpanCount);
+                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
 
                 // Use this setting to improve performance if you know that changes
                 // in content do not change the layout size of the RecyclerView
@@ -134,12 +138,12 @@ class ConsumerEarnFragment : Fragment() {
     // Below is the content function with horizontal movement
 
     fun content() {
-        val numColumns = 3;
-        val numRows = 3;
-        val range: Int = coupons!!.size;
+        val numColumns = spanCount
+        val numRows = spanCount
+        val range: Int = dataset.size
         val used = mutableListOf<Int>()
 
-        for (i in coupons!!.indices) {
+        for (i in couponMatrix.indices) {
             if(coupons!![i].coordinate == coupons!!.size - 1){
                 coupons!![i].coordinate = 0;
             }
