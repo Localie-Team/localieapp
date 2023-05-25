@@ -61,6 +61,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                             document.data!!.get("date_issued").toString()
                         )
                     )
+                    Log.d("docId", document.id)
                 }
 
                 for (i in listOfCoupons!!.indices) {

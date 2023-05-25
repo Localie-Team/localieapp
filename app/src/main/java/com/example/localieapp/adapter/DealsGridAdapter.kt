@@ -18,6 +18,9 @@ import com.example.localieapp.CouponDetailsActivity
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
 import com.google.android.material.card.MaterialCardView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
@@ -25,6 +28,9 @@ import java.io.ByteArrayOutputStream
 
 class DealsGridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<DealsGridAdapter.ItemViewHolder>() {
+
+    private var db = Firebase.firestore;
+    private var firebaseAuth: FirebaseAuth? = null
 
     private val couponIndexMap: Map<Int, Int> = dataset.mapIndexed { index, coupon ->
         coupon.coordinate to index
@@ -90,11 +96,49 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
         holder.itemView.setOnLongClickListener(View.OnLongClickListener()
         {
             holder.view.setChecked(!holder.view.isChecked)
+
+            val collectionRef = db.collection("coupons")
+// Apply filters
+//            val query = collectionRef
+//                .whereEqualTo("product", item?.productName) // Filter by equality
+//                .whereEqualTo("date_issued", item?.date_issued) // Filter by equality
+            //TODO: The coupon's 'vendor' property holds the value of date_issued in the Coupon object (Misplaced)
+            val query = collectionRef.whereEqualTo("vendor", item?.date_issued).
+            whereEqualTo("product", item?.productName)
+
+// Perform the query
+            query.get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        // Process each document here
+                        val key = document.id
+
+
+                        Log.d("docRefId", key)
+                        firebaseAuth = FirebaseAuth.getInstance()
+                        var user = firebaseAuth!!.currentUser
+                        if (user != null) {
+                            Log.d("userUID", user.zzb().uid)
+                            //TODO: Consider making it not automatically add to cart but wait for push button
+                            //TODO: Make users registered actually appear in firestore collections so we update new users
+//                            val washingtonRef = db.collection("users").document(user.zzb().uid)
+                            // TODO: TEMP! UNTIL ABOVE TODO IS MET
+                            val washingtonRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+                            washingtonRef
+                                .update("cart",  FieldValue.arrayUnion(key))
+                                .addOnSuccessListener { Log.d("pushed to cart", "DocumentSnapshot successfully updated!") }
+                                .addOnFailureListener { e -> Log.w("couldnt push to cart", "Error updating document", e) }
+
+                        }
+                    }
+                }
+
             true
         }
         )
     }
 }
+
 
 
 
