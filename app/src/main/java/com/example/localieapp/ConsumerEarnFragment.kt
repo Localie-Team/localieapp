@@ -2,7 +2,6 @@ package com.example.localieapp
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.EarnGridAdapter
-import com.example.localieapp.adapter.GridAdapter
-import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.Collections
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +40,8 @@ class ConsumerEarnFragment : Fragment() {
 
     val db = Firebase.firestore;
 
+    private val SpanCount = 3
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,14 +64,55 @@ class ConsumerEarnFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         step = view.findViewById(R.id.step_forward_psa_button)
 
-                for (i in coupons!!.indices) {
-                    coupons!![i].coordinate = i;
-                }
+        // Create a new ArrayList to store the duplicated and joined values
+        val couponMatrix: ArrayList<Coupon> = ArrayList()
+        var dataset = ArrayList<Coupon>()
+        // Duplicate and join the originalList three times
+        for (i in 0 until SpanCount) {
+            val shuffledList = coupons?.let { ArrayList(it) } // Create a copy of the originalList
+
+            // Shuffle the copied list randomly
+            shuffledList?.shuffle()
+
+            if (shuffledList != null) {
+                couponMatrix.addAll(shuffledList)
+                dataset.addAll(shuffledList.subList(0,3))
+            }
+        }
+
+        for (i in 0 until dataset.size) {
+            dataset[i].coordinate = i
+        }
+
+
+
+//        var coord = 0
+//                for (i in couponMatrix.indices) {
+//                    if (coupons!!.size % (i + 1) < SpanCount){
+//                        couponMatrix[i].coordinate = coord
+//                        dataset.add(couponMatrix[i])
+//                        Log.d("index", i.toString())
+//
+//                        coord++
+//
+//                    }
+//                    else{
+//                        couponMatrix[i].coordinate = -1
+//                    }
+//
+//                }
+//
+//        for (i in dataset.indices){
+//            dataset[i].productName?.let { Log.d("Coupon", it) }
+//            Log.d("Coupon", dataset[i].coordinate.toString())
+//        }
+
+
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-                recyclerView!!.adapter = EarnGridAdapter(requireContext(), coupons!!);
-                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
+                recyclerView!!.adapter = EarnGridAdapter(requireContext(), dataset);
+                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), SpanCount);
 
                 // Use this setting to improve performance if you know that changes
                 // in content do not change the layout size of the RecyclerView
