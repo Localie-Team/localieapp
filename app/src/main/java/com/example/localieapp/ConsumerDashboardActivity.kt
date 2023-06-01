@@ -67,9 +67,10 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                     listOfCoupons!![i].coordinate = i;
                 }
 
+
+
                 bundle = Bundle().apply { putParcelableArrayList("coupons", listOfCoupons) }
-
-
+                
                 val curFragmentName = intent.getStringExtra("Current_Fragment")
 
                 navigationView = findViewById(R.id.dashboard_tab_layout)
@@ -142,10 +143,6 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                         // Handle tab unselect
                     }
                 })
-
-
-
-
 
             }
     }
