@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,9 +54,9 @@ class ConsumerEarnFragment : Fragment() {
 
     private var winningCoupon: Coupon? = null
 
-    private val columnWin = Random.nextInt(spanCount)
+    private var columnWin = Random.nextInt(spanCount)
 
-    private var offset = Random.nextInt(spanCount)
+    private var offset = Random.nextInt(1, spanCount + 1)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +85,39 @@ class ConsumerEarnFragment : Fragment() {
         couponMatrix = ArrayList()
         dataset = ArrayList()
 
+        shuffleCoupons()
 
+        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+        recyclerView!!.adapter = EarnGridAdapter(requireContext(), dataset);
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
+
+
+
+
+
+                // Use this setting to improve performance if you know that changes
+                // in content do not change the layout size of the RecyclerView
+                recyclerView!!.setHasFixedSize(true)
+                step?.setOnClickListener(View.OnClickListener {
+
+                    if (!isActive ) {
+                        isActive = true
+                        shuffleCoupons()
+                        content()
+                    }
+                    else {
+                        isActive = false
+                    }
+                })
+
+        recyclerView!!.adapter?.notifyItemRangeChanged(0, dataset.size)
+            }
+
+    private fun shuffleCoupons(){
+        columnWin = Random.nextInt(spanCount)
+        offset = Random.nextInt(1, spanCount + 1)
+        couponMatrix.clear()
+        dataset.clear()
         // Duplicate, shuffle and join the original list as many times are there are rows
         for (i in 0 until spanCount) {
             val shuffledList = coupons?.let { ArrayList(it) } // Create a copy of the originalList
@@ -119,26 +152,7 @@ class ConsumerEarnFragment : Fragment() {
             Log.d("dataset", dataset[i].productName.toString())
         }
 
-                recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-                recyclerView!!.adapter = EarnGridAdapter(requireContext(), dataset);
-                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
-
-                // Use this setting to improve performance if you know that changes
-                // in content do not change the layout size of the RecyclerView
-                recyclerView!!.setHasFixedSize(true)
-                step?.setOnClickListener(View.OnClickListener {
-
-                    if (!isActive ) {
-                        isActive = true
-                        content()
-                    }
-                    else {
-                        isActive = false
-                    }
-                })
-
-        recyclerView!!.adapter?.notifyItemRangeChanged(0, dataset.size)
-            }
+    }
 
 
 
@@ -177,6 +191,14 @@ class ConsumerEarnFragment : Fragment() {
         else{
             isActive = false
             refreshCount = 0
+            val context = requireContext()
+            val couponWon = winningCoupon!!.productName.toString()
+            val message = "You just earned $couponWon!"
+            val duration = Toast.LENGTH_LONG
+
+            val toast = Toast.makeText(context, message, duration)
+
+            toast.show()
         }
     }
 
