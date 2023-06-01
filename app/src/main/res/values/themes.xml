@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">@color/main_red</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.LocalieApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.LocalieApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.LocalieApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
