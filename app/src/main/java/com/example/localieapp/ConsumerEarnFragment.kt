@@ -2,6 +2,7 @@ package com.example.localieapp
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.example.localieapp.adapter.EarnGridAdapter
 import com.example.localieapp.model.Coupon
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,6 +49,14 @@ class ConsumerEarnFragment : Fragment() {
 
     private var refreshCount = 0
 
+    private val winIdx = 7
+
+    private var winningCoupon: Coupon? = null
+
+    private val columnWin = Random.nextInt(spanCount)
+
+    private var offset = Random.nextInt(spanCount)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,13 +64,15 @@ class ConsumerEarnFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_earn, container, false)
     }
@@ -73,7 +85,7 @@ class ConsumerEarnFragment : Fragment() {
         dataset = ArrayList()
 
 
-        // Duplicate and join the originalList three times
+        // Duplicate, shuffle and join the original list as many times are there are rows
         for (i in 0 until spanCount) {
             val shuffledList = coupons?.let { ArrayList(it) } // Create a copy of the originalList
 
@@ -85,39 +97,27 @@ class ConsumerEarnFragment : Fragment() {
             }
         }
 
+        winningCoupon = couponMatrix[0][winIdx]
+
+
+        for(i in 1 until couponMatrix.size){
+            val idx = couponMatrix[i].indexOf(winningCoupon)
+            if (idx != -1){
+                couponMatrix[i].removeAt(idx)
+                couponMatrix[i].add(winIdx + offset, winningCoupon!!)
+            }
+            offset++
+
+        }
+
         for (row in couponMatrix){
             dataset.addAll(row.subList(0,spanCount))
         }
 
         for (i in 0 until dataset.size) {
             dataset[i].coordinate = i
+            Log.d("dataset", dataset[i].productName.toString())
         }
-
-
-
-//        var coord = 0
-//                for (i in couponMatrix.indices) {
-//                    if (coupons!!.size % (i + 1) < SpanCount){
-//                        couponMatrix[i].coordinate = coord
-//                        dataset.add(couponMatrix[i])
-//                        Log.d("index", i.toString())
-//
-//                        coord++
-//
-//                    }
-//                    else{
-//                        couponMatrix[i].coordinate = -1
-//                    }
-//
-//                }
-//
-//        for (i in dataset.indices){
-//            dataset[i].productName?.let { Log.d("Coupon", it) }
-//            Log.d("Coupon", dataset[i].coordinate.toString())
-//        }
-
-
-
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
                 recyclerView!!.adapter = EarnGridAdapter(requireContext(), dataset);
@@ -136,6 +136,8 @@ class ConsumerEarnFragment : Fragment() {
                         isActive = false
                     }
                 })
+
+        recyclerView!!.adapter?.notifyItemRangeChanged(0, dataset.size)
             }
 
 
@@ -143,30 +145,31 @@ class ConsumerEarnFragment : Fragment() {
     // Below is the content function with horizontal movement
 
     fun content() {
-        val numColumns = spanCount
-        val numRows = spanCount
         val range: Int = dataset.size
-        val used = mutableListOf<Int>()
 
-        val winIdx = 7
-
-        dataset.clear()
+        Log.d("column", columnWin.toString())
 
 
-        for (row in couponMatrix){
-            val firstCoupon = row.removeAt(0)
-            row.add(firstCoupon)
-            dataset.addAll(row.subList(0,spanCount))
-        }
+        if (isActive && refreshCount < winIdx + offset) {
+            dataset.clear()
 
-        for (i in 0 until dataset.size) {
-            dataset[i].coordinate = i
-        }
-        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
 
-        used.clear()
+            for (i in 0 until couponMatrix.size){
+                val row = couponMatrix[i]
 
-        if (isActive && refreshCount <= 5) {
+                if (row.indexOf(winningCoupon) != columnWin){
+                    val firstCoupon = row.removeAt(0)
+                    row.add(firstCoupon)
+                }
+
+                dataset.addAll(row.subList(0,spanCount))
+            }
+
+            for (i in 0 until dataset.size) {
+                dataset[i].coordinate = i
+            }
+            recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
+
             // If play is active, call this method at the end of content
             refreshCount++
             screenAnimateRefresh(1500)
