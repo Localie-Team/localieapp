@@ -39,11 +39,13 @@ class ConsumerEarnFragment : Fragment() {
 
     val db = Firebase.firestore;
 
-    private val spanCount = 4
+    private val spanCount = 3
 
     lateinit var dataset: ArrayList<Coupon>
 
-    lateinit var couponMatrix: ArrayList<Coupon>
+    private lateinit var couponMatrix: ArrayList<ArrayList<Coupon>>
+
+    private var refreshCount = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,9 +81,12 @@ class ConsumerEarnFragment : Fragment() {
             shuffledList?.shuffle()
 
             if (shuffledList != null) {
-                couponMatrix.addAll(shuffledList)
-                dataset.addAll(shuffledList.subList(0,spanCount))
+                couponMatrix.add(ArrayList(shuffledList))
             }
+        }
+
+        for (row in couponMatrix){
+            dataset.addAll(row.subList(0,spanCount))
         }
 
         for (i in 0 until dataset.size) {
@@ -123,7 +128,7 @@ class ConsumerEarnFragment : Fragment() {
                 recyclerView!!.setHasFixedSize(true)
                 step?.setOnClickListener(View.OnClickListener {
 
-                    if (!isActive) {
+                    if (!isActive ) {
                         isActive = true
                         content()
                     }
@@ -143,22 +148,32 @@ class ConsumerEarnFragment : Fragment() {
         val range: Int = dataset.size
         val used = mutableListOf<Int>()
 
-        for (i in couponMatrix.indices) {
-            if(coupons!![i].coordinate == coupons!!.size - 1){
-                coupons!![i].coordinate = 0;
-            }
-            else{
-                coupons!![i].coordinate += 1;
-            }
+        val winIdx = 7
 
+        dataset.clear()
+
+
+        for (row in couponMatrix){
+            val firstCoupon = row.removeAt(0)
+            row.add(firstCoupon)
+            dataset.addAll(row.subList(0,spanCount))
+        }
+
+        for (i in 0 until dataset.size) {
+            dataset[i].coordinate = i
         }
         recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
 
         used.clear()
 
-        if (isActive) {
+        if (isActive && refreshCount <= 5) {
             // If play is active, call this method at the end of content
+            refreshCount++
             screenAnimateRefresh(1500)
+        }
+        else{
+            isActive = false
+            refreshCount = 0
         }
     }
 
