@@ -2,8 +2,6 @@ package com.example.localieapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.DealsGridAdapter
-import com.example.localieapp.adapter.GridAdapter
-import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
 import com.example.localieapp.model.User
 import com.google.firebase.firestore.ktx.firestore

@@ -5,15 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.DealsGridAdapter
 //import com.example.localieapp.adapter.ExpandableListGridAdapter
-import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.model.Coupon
-import com.google.android.material.card.MaterialCardView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -36,6 +33,7 @@ class ConsumerDealsFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     private var coupons: ArrayList<Coupon>? = null
+//    private lateinit var checkedSet: MutableList<String>
 
     val db = Firebase.firestore;
 
@@ -62,6 +60,10 @@ class ConsumerDealsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize the checkedSet
+//        checkedSet = mutableListOf()
+
 //        var listOfCoupons = ArrayList<Coupon>()
 
 
@@ -97,6 +99,7 @@ class ConsumerDealsFragment : Fragment() {
 //        view.findView
         super.onResume()
         Log.d("onResume()", "Im here!")
+//        checkedSet?.let { Log.d("checkedCouponId", it.get(0)) }
 
 //        var cnt = recyclerView?.childCount
 //        for (i in 0..cnt!!)
