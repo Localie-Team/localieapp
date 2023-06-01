@@ -78,26 +78,29 @@ class RegistrationActivity : AppCompatActivity() {
                 val user = mAuth!!.currentUser
                 val email = user!!.email
                 val uid = user.uid
-                val hashMap = HashMap<Any, String?>()
-                hashMap["email"] = email
-                hashMap["uid"] = uid
+                val hashMap = HashMap<Any, Any?>()
+                hashMap["UID"] = uid
                 hashMap["name"] = uname
-                hashMap["onlineStatus"] = "online"
-                hashMap["typingTo"] = "noOne"
-                hashMap["image"] = ""
-                val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-                val reference: DatabaseReference = database.getReference("Users")
-                reference.child(uid).setValue(hashMap)
-                Toast.makeText(
+                hashMap["cart"] = emptyList<String>()
+                db.collection("users")
+                    .add(hashMap)
+                    .addOnSuccessListener{
+                        Toast.makeText(
                     this@RegistrationActivity,
-                    "Registered User " + user.email,
-                    Toast.LENGTH_LONG
-                ).show()
+                        "Registered User " + user.email,
+                            Toast.LENGTH_LONG
+                        ).show()
 
-                val mainIntent = Intent(this@RegistrationActivity, ConsumerDashboardActivity::class.java)
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(mainIntent)
-                finish()
+                        val mainIntent = Intent(this@RegistrationActivity, ConsumerDashboardActivity::class.java)
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(mainIntent)
+                        finish()
+                    }
+                    .addOnFailureListener {  Toast.makeText(
+                        this@RegistrationActivity,
+                        "Error",
+                        Toast.LENGTH_LONG
+                    ).show()}
             } else {
                 progressDialog!!.dismiss()
                 Toast.makeText(this@RegistrationActivity, "Error", Toast.LENGTH_LONG).show()
