@@ -72,12 +72,6 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
             Log.d("onBindViewHolder:", position.toString())
         })
 
-        holder.itemView.setOnLongClickListener(View.OnLongClickListener()
-        {
-            holder.view.setChecked(!holder.view.isChecked)
-            true
-        }
-        )
     }
 }
 

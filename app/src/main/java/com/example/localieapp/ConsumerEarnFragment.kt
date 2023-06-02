@@ -1,5 +1,6 @@
 package com.example.localieapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -66,7 +67,7 @@ class ConsumerEarnFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+
     }
 
     override fun onCreateView(
@@ -74,10 +75,13 @@ class ConsumerEarnFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_earn, container, false)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         step = view.findViewById(R.id.step_forward_psa_button)
@@ -109,8 +113,6 @@ class ConsumerEarnFragment : Fragment() {
                         isActive = false
                     }
                 })
-
-        recyclerView!!.adapter?.notifyItemRangeChanged(0, dataset.size)
             }
 
     private fun shuffleCoupons(){
@@ -132,12 +134,17 @@ class ConsumerEarnFragment : Fragment() {
 
         winningCoupon = couponMatrix[0][winIdx]
 
+        Log.d("winner", winningCoupon!!.productName.toString())
+
 
         for(i in 1 until couponMatrix.size){
-            val idx = couponMatrix[i].indexOf(winningCoupon)
+            var idx = couponMatrix[i].indexOf(winningCoupon)
             if (idx != -1){
+                Log.d("winner", "here $i, $idx")
                 couponMatrix[i].removeAt(idx)
                 couponMatrix[i].add(winIdx + offset, winningCoupon!!)
+                idx = couponMatrix[i].indexOf(winningCoupon)
+                Log.d("winner", "here $i, $idx")
             }
             offset++
 
@@ -159,10 +166,6 @@ class ConsumerEarnFragment : Fragment() {
     // Below is the content function with horizontal movement
 
     fun content() {
-        val range: Int = dataset.size
-
-        Log.d("column", columnWin.toString())
-
 
         if (isActive && refreshCount < winIdx + offset) {
             dataset.clear()
@@ -175,14 +178,27 @@ class ConsumerEarnFragment : Fragment() {
                     val firstCoupon = row.removeAt(0)
                     row.add(firstCoupon)
                 }
+                else{
+                    var temp = row.indexOf(winningCoupon)
+                    Log.d("column", "$temp")
+                }
+
+
 
                 dataset.addAll(row.subList(0,spanCount))
             }
 
             for (i in 0 until dataset.size) {
                 dataset[i].coordinate = i
+                if(i == 0){
+                    Log.d("dataset1", "NEW: $i  " + dataset[i].productName.toString())
+                }
+                else{
+                    Log.d("dataset1", "$i  " + dataset[i].productName.toString())
+                }
+
             }
-            recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
+            recyclerView!!.adapter?.notifyItemRangeChanged(0, dataset.size)
 
             // If play is active, call this method at the end of content
             refreshCount++
@@ -214,6 +230,19 @@ class ConsumerEarnFragment : Fragment() {
 
     @Override
     fun run() {
+        if (dataset.size != 0){
+            for (i in 0 until dataset.size) {
+                dataset[i].coordinate = i
+                if(i == 0){
+                    Log.d("dataset2", "NEW: $i  " + dataset[i].productName.toString())
+                }
+                else{
+                    Log.d("dataset2", "$i  " + dataset[i].productName.toString())
+                }
+
+            }
+        }
+
         content();
     }
 
