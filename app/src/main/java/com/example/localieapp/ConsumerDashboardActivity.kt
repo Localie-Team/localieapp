@@ -5,11 +5,13 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.localieapp.model.Coupon
+import com.example.localieapp.model.User
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -22,6 +24,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
     var navigationView: TabLayout? = null
     var userEmail: MaterialToolbar? = null
     var userName: MaterialToolbar? = null
+    var user_data: User? = null
 
     val db = Firebase.firestore;
 
@@ -36,8 +39,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
 
         var user = firebaseAuth!!.currentUser
 
-        if (user != null)
-        {
+        if (user != null) {
             val email = user!!.email
             val name = user!!.displayName
             val emailStr = email.toString()
@@ -56,9 +58,9 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                             0,
                             document.data!!.get("url").toString(),
                             document.data!!.get("product").toString(),
-                            document.data!!.get("vendor").toString(),
+                            document.data!!.get("date_issued").toString(),
                             document.data!!.get("value").toString(),
-                            document.data!!.get("date_issued").toString()
+                            document.data!!.get("vendor").toString()
                         )
                     )
                     Log.d("docId", document.id)
@@ -68,86 +70,130 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                     listOfCoupons!![i].coordinate = i;
                 }
 
-                bundle = Bundle().apply { putParcelableArrayList("coupons", listOfCoupons) }
-
-
-                val curFragmentName = intent.getStringExtra("Current_Fragment")
-
-                navigationView = findViewById(R.id.dashboard_tab_layout)
-
-                // When we open the application first time
-                // the home fragment should be shown to the user
-
-                // When navigating from the Settings Activity,
-                // the profile fragment should be shown
-
-                if(curFragmentName == "Consumer_Profile"){
-                    val tab = navigationView!!.getTabAt(0)
-                    tab?.select()
-                    val fragment = ConsumerProfileFragment()
-                    fragment.arguments = bundle
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.content, fragment, "")
-                    fragmentTransaction.commit()
-                }
-                else{
-                    val tab = navigationView!!.getTabAt(1)
-                    tab?.select()
-                    val fragment = ConsumerDealsFragment()
-                    fragment.arguments = bundle
-                    val earnFragment = ConsumerEarnFragment()
-                    earnFragment.arguments = bundle
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.content, fragment, "")
-                    fragmentTransaction.commit()
-                }
-
-                // handles current tab selection when navigating from settings activity
-
-                navigationView!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-
-                    override fun onTabSelected(tab: TabLayout.Tab?) {
-                        var fragment: Fragment? = null
-
-                        when (tab!!.position) {
-                            0 -> {
-                                fragment = ConsumerProfileFragment();
-                                fragment.arguments = bundle
-                            }
-                            1 -> {
-                                fragment = ConsumerDealsFragment();
-                                fragment.arguments = bundle
-                            }
-                            2 -> {
-                                fragment = ConsumerEarnFragment();
-                                fragment.arguments = bundle
-                            }
+//                db.collection("users").whereEqualTo("UID", "4vlQJri9l7evGXNi7IQ2OU95AnQ2").get()
+//                    .addOnSuccessListener{ Udocuments ->
+//                        Log.d("found UID(Consumer)", Udocuments.toString())
+//                        for(Udocument in Udocuments) {
+//                            user_data = Udocument.toObject<User>()
+////                            user!!.email = mAuth.currentUser!!.email.toString()
+//                        }}.addOnFailureListener {
+//                        Log.d("didnt find UID", user.toString())
+//                        // if they dont have anything, just fill with null for now
+//                        user_data = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null", "null")
+//                    }
+                db.collection("users").document("rJVvDNzYeFExHs04YTGi").get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            user_data = document.toObject<User>()
+                            ShoppingBag.list_of_coupons = user_data?.cart as MutableList<String>
+                        } else {
+                            // Document doesn't exist
+                            Log.d("didnt find user doc", user.toString())
+//                        // if they dont have anything, just fill with null for now
+                            user_data = User(
+                                "null",
+                                "null",
+                                listOf("null"),
+                                listOf("null"),
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null"
+                            )
                         }
 
 
-                        if (fragment != null) {
-                            Log.d("TAG", fragment.toString())
+
+                        bundle = Bundle().apply {
+                            putParcelableArrayList("coupons", listOfCoupons)
+                            putParcelable("user", user_data)
+
+                        }
+
+
+                        val curFragmentName = intent.getStringExtra("Current_Fragment")
+
+                        navigationView = findViewById(R.id.dashboard_tab_layout)
+
+                        // When we open the application first time
+                        // the home fragment should be shown to the user
+
+                        // When navigating from the Settings Activity,
+                        // the profile fragment should be shown
+
+                        if (curFragmentName == "Consumer_Profile") {
+                            val tab = navigationView!!.getTabAt(0)
+                            tab?.select()
+                            val fragment = ConsumerProfileFragment()
+                            fragment.arguments = bundle
+                            val fragmentTransaction = supportFragmentManager.beginTransaction()
+                            fragmentTransaction.replace(R.id.content, fragment, "")
+                            fragmentTransaction.commit()
+                        } else {
+                            val tab = navigationView!!.getTabAt(1)
+                            tab?.select()
+                            val fragment = ConsumerDealsFragment()
+                            fragment.arguments = bundle
+                            val earnFragment = ConsumerEarnFragment()
+                            earnFragment.arguments = bundle
                             val fragmentTransaction = supportFragmentManager.beginTransaction()
                             fragmentTransaction.replace(R.id.content, fragment, "")
                             fragmentTransaction.commit()
                         }
 
-                        // Handle tab select
+                        // handles current tab selection when navigating from settings activity
+
+                        navigationView!!.addOnTabSelectedListener(object :
+                            TabLayout.OnTabSelectedListener {
+
+                            override fun onTabSelected(tab: TabLayout.Tab?) {
+                                var fragment: Fragment? = null
+
+                                when (tab!!.position) {
+                                    0 -> {
+                                        fragment = ConsumerProfileFragment();
+                                        fragment.arguments = bundle
+                                    }
+                                    1 -> {
+                                        fragment = ConsumerDealsFragment();
+                                        fragment.arguments = bundle
+                                    }
+                                    2 -> {
+                                        fragment = ConsumerEarnFragment();
+                                        fragment.arguments = bundle
+                                    }
+                                }
+
+
+                                if (fragment != null) {
+                                    Log.d("TAG", fragment.toString())
+                                    val fragmentTransaction =
+                                        supportFragmentManager.beginTransaction()
+                                    fragmentTransaction.replace(R.id.content, fragment, "")
+                                    fragmentTransaction.commit()
+                                }
+
+                                // Handle tab select
+                            }
+
+                            override fun onTabReselected(tab: TabLayout.Tab?) {
+                                // Handle tab reselect
+                            }
+
+                            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                                // Handle tab unselect
+                            }
+                        })
+
+
                     }
-
-                    override fun onTabReselected(tab: TabLayout.Tab?) {
-                        // Handle tab reselect
+                    .addOnFailureListener { exception ->
+                        // Handle any errors
                     }
-
-                    override fun onTabUnselected(tab: TabLayout.Tab?) {
-                        // Handle tab unselect
-                    }
-                })
-
-
-
-
-
             }
     }
 

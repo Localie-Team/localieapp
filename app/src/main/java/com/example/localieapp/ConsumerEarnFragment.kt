@@ -15,8 +15,11 @@ import com.example.localieapp.adapter.EarnGridAdapter
 import com.example.localieapp.adapter.GridAdapter
 import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
+import com.example.localieapp.model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.Collections
 
@@ -39,7 +42,11 @@ class ConsumerEarnFragment : Fragment() {
 
     private var coupons: ArrayList<Coupon>? = null
 
+    private var user_data: User? = null
+
     private var step: Button? = null
+
+    private var endSession: Button? = null
 
     private var isActive: Boolean = false
 
@@ -59,6 +66,7 @@ class ConsumerEarnFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+        user_data = arguments?.getParcelable("user")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_earn, container, false)
     }
@@ -66,6 +74,7 @@ class ConsumerEarnFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         step = view.findViewById(R.id.step_forward_psa_button)
+        endSession = view.findViewById(R.id.end_session_button)
 
                 for (i in coupons!!.indices) {
                     coupons!![i].coordinate = i;
@@ -89,7 +98,42 @@ class ConsumerEarnFragment : Fragment() {
                         isActive = false
                     }
                 })
-            }
+                endSession?.setOnClickListener(View.OnClickListener {
+                    val shopping_bag_list: List<String>? = user_data?.cart
+                    if (shopping_bag_list != null) {
+                        for (i in shopping_bag_list.indices) {
+                            //TODO: Change it to refer to current user (once its in database)
+                            val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+                            userRef //TODO: have it when the user clicks "add to shopping bag" it updates shopping_bag_list right away
+                                .update("cart",  FieldValue.arrayRemove(shopping_bag_list[i]))
+                                .addOnSuccessListener { Log.d("removed from cart", "DocumentSnapshot successfully updated!") }
+                                .addOnFailureListener { e -> Log.w("cant remove from cart", "Error updating document", e) }
+                        }
+                    }
+
+//                    db.collection("users").whereEqualTo("UID", "rJVvDNzYeFExHs04YTGi").get()
+//                        .addOnSuccessListener{ Udocuments ->
+//                            for(Udocument in Udocuments) {
+//                                Udocument.get("cart")
+//                            }
+//                }
+////                    val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+////                    userRef
+////                        .ge
+
+
+            })
+
+//        endSession?.setOnClickListener(View.OnClickListener {
+//            val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi").g
+//
+//            val array = userRef
+////                    val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+////                    userRef
+////                        .ge
+//
+//        })
+    }
 
 
 

@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.DealsGridAdapter
 //import com.example.localieapp.adapter.ExpandableListGridAdapter
 import com.example.localieapp.model.Coupon
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -33,8 +35,8 @@ class ConsumerDealsFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     private var coupons: ArrayList<Coupon>? = null
-//    private lateinit var checkedSet: MutableList<String>
-
+//    public lateinit var checkedSet: MutableList<String>
+    private var shoppingBagButton: Button? = null
     val db = Firebase.firestore;
 
 //    private var expListView: ExpandableListView? = null
@@ -60,7 +62,7 @@ class ConsumerDealsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        shoppingBagButton = view.findViewById(R.id.add_to_shopping_bag)
         // Initialize the checkedSet
 //        checkedSet = mutableListOf()
 
@@ -85,6 +87,7 @@ class ConsumerDealsFragment : Fragment() {
             coupons!!.get(i).coordinate = i;
         }
             recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+//            recyclerView!!.adapter = DealsGridAdapter(requireContext(), coupons!!);
             recyclerView!!.adapter = DealsGridAdapter(requireContext(), coupons!!);
             recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
@@ -93,13 +96,41 @@ class ConsumerDealsFragment : Fragment() {
             recyclerView!!.setHasFixedSize(true)
 //        }
 
+        shoppingBagButton?.setOnClickListener(View.OnClickListener {
+            if (ShoppingBag.array_of_coupons.size > 0) {
+                for (j in 0 until ShoppingBag.array_of_coupons.size) {
+                    val key = ShoppingBag.array_of_coupons[j]
+//                    Log.d("checkedCouponId", ShoppingBag.array_of_coupons[j])
+                    val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+                    userRef
+                        .update("cart",  FieldValue.arrayUnion(key))
+                        .addOnSuccessListener {
+                            ShoppingBag.list_of_coupons.add(key)
+                            Log.d("pushed to cart", "DocumentSnapshot successfully updated!")
+                            Log.d("added to coupon list", ShoppingBag.list_of_coupons.get(ShoppingBag.list_of_coupons.size-1))}
+                        .addOnFailureListener { e -> Log.w("couldnt push to cart", "Error updating document", e) }
+                }
+
+            }
+
+        })
     }
 
     override fun onResume() {
 //        view.findView
         super.onResume()
         Log.d("onResume()", "Im here!")
-//        checkedSet?.let { Log.d("checkedCouponId", it.get(0)) }
+        if (ShoppingBag.array_of_coupons.size > 0) {
+            for (j in 0 until ShoppingBag.array_of_coupons.size) {
+                Log.d("checkedCouponId", ShoppingBag.array_of_coupons[j])
+            }
+        }
+        if (ShoppingBag.list_of_coupons.size > 0) {
+            for (j in 0 until ShoppingBag.list_of_coupons.size) {
+                Log.d("shoppingbag_coupon_list", ShoppingBag.list_of_coupons[j])
+            }
+
+        }
 
 //        var cnt = recyclerView?.childCount
 //        for (i in 0..cnt!!)
