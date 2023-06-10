@@ -59,6 +59,13 @@ class ConsumerEarnFragment : Fragment() {
 
     private var offset = Random.nextInt(1, spanCount + 1)
 
+    //private var offset = 0
+
+    private lateinit var earnGridAdapter: EarnGridAdapter
+    private lateinit var shuffleHandler: Handler
+
+    private val shuffleLock = Object()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,14 +93,28 @@ class ConsumerEarnFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         step = view.findViewById(R.id.step_forward_psa_button)
 
+
         couponMatrix = ArrayList()
         dataset = ArrayList()
-
-        shuffleCoupons()
+        earnGridAdapter = EarnGridAdapter(requireContext(), dataset)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-        recyclerView!!.adapter = EarnGridAdapter(requireContext(), dataset);
+        recyclerView!!.adapter = earnGridAdapter;
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
+
+        shuffleCoupons()
+        earnGridAdapter.updateDataSet(dataset)
+        if(couponMatrix.size != 0){
+            for (row in couponMatrix){
+                Log.d("matrix1", "---------------------")
+                for (coupon in row) {
+                    Log.d("matrix1", coupon.coordinate.toString())
+                }
+            }
+        }
+
+
+
 
 
 
@@ -109,13 +130,12 @@ class ConsumerEarnFragment : Fragment() {
                         shuffleCoupons()
                         content()
                     }
-                    else {
-                        isActive = false
-                    }
                 })
             }
 
     private fun shuffleCoupons(){
+        shuffleHandler = Handler()
+        refreshCount = 0
         columnWin = Random.nextInt(spanCount)
         offset = Random.nextInt(1, spanCount + 1)
         couponMatrix.clear()
@@ -167,55 +187,62 @@ class ConsumerEarnFragment : Fragment() {
 
     fun content() {
 
-        if (isActive && refreshCount < winIdx + offset) {
-            dataset.clear()
+        synchronized(shuffleLock){
+            if (dataset[columnWin] != dataset[columnWin + spanCount] || dataset[columnWin] != dataset[columnWin + spanCount * 2]) {
+                dataset.clear()
+                for (i in 0 until couponMatrix.size){
+                    val row = couponMatrix[i]
 
+                    if (row.indexOf(winningCoupon) != columnWin){
+                        val firstCoupon = row.removeAt(0)
+                        row.add(firstCoupon)
+                    }
+                    else{
+                        var temp = row.indexOf(winningCoupon)
+                        Log.d("column", "$temp")
+                    }
 
-            for (i in 0 until couponMatrix.size){
-                val row = couponMatrix[i]
+                    dataset.addAll(row.subList(0,spanCount))
 
-                if (row.indexOf(winningCoupon) != columnWin){
-                    val firstCoupon = row.removeAt(0)
-                    row.add(firstCoupon)
+                    //recyclerView!!.adapter?.notifyItemRangeChanged(i*spanCount, spanCount)
                 }
-                else{
-                    var temp = row.indexOf(winningCoupon)
-                    Log.d("column", "$temp")
+
+                for (i in 0 until dataset.size) {
+                    dataset[i].coordinate = i
+                    val coord = dataset[i].coordinate
+                    if(i == 0){
+                        Log.d("dataset1", "NEW: $coord  " + dataset[i].productName.toString())
+                    }
+                    else{
+                        Log.d("dataset1", "$coord  " + dataset[i].productName.toString())
+                    }
+
                 }
 
+                refreshCount++
+                screenAnimateRefresh(1500)
 
+                shuffleHandler.post {
+                    earnGridAdapter.updateDataSet(dataset)
+                }
 
-                dataset.addAll(row.subList(0,spanCount))
             }
+            else{
+                isActive = false
+                val context = requireContext()
+                val couponWon = winningCoupon!!.productName.toString()
+                val message = "You just earned $couponWon!"
+                val duration = Toast.LENGTH_LONG
 
-            for (i in 0 until dataset.size) {
-                dataset[i].coordinate = i
-                if(i == 0){
-                    Log.d("dataset1", "NEW: $i  " + dataset[i].productName.toString())
-                }
-                else{
-                    Log.d("dataset1", "$i  " + dataset[i].productName.toString())
-                }
+                val toast = Toast.makeText(context, message, duration)
 
+                toast.show()
             }
-            recyclerView!!.adapter?.notifyItemRangeChanged(0, dataset.size)
-
+            //earnGridAdapter.updateDataSet(dataset)
             // If play is active, call this method at the end of content
-            refreshCount++
-            screenAnimateRefresh(1500)
-        }
-        else{
-            isActive = false
-            refreshCount = 0
-            val context = requireContext()
-            val couponWon = winningCoupon!!.productName.toString()
-            val message = "You just earned $couponWon!"
-            val duration = Toast.LENGTH_LONG
 
-            val toast = Toast.makeText(context, message, duration)
-
-            toast.show()
         }
+
     }
 
     fun screenAnimateRefresh(milliseconds : Long) {
@@ -232,7 +259,6 @@ class ConsumerEarnFragment : Fragment() {
     fun run() {
         if (dataset.size != 0){
             for (i in 0 until dataset.size) {
-                dataset[i].coordinate = i
                 if(i == 0){
                     Log.d("dataset2", "NEW: $i  " + dataset[i].productName.toString())
                 }
@@ -240,6 +266,14 @@ class ConsumerEarnFragment : Fragment() {
                     Log.d("dataset2", "$i  " + dataset[i].productName.toString())
                 }
 
+            }
+        }
+        if(couponMatrix.size != 0){
+            for (row in couponMatrix){
+                Log.d("matrix", "---------------------")
+                for (coupon in row) {
+                    Log.d("matrix", coupon.coordinate.toString())
+                }
             }
         }
 

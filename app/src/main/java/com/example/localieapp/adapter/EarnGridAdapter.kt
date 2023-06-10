@@ -16,7 +16,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class EarnGridAdapter(private val context: Context, private val dataset: List<Coupon>)
+class EarnGridAdapter(private val context: Context, private val dataset: ArrayList<Coupon>)
     : RecyclerView.Adapter<EarnGridAdapter.ItemViewHolder>() {
 
     private val couponIndexMap: Map<Int, Int> = dataset.mapIndexed { index, coupon ->
@@ -41,6 +41,15 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
     // This function returns the number of items in the list of coupons
     override fun getItemCount(): Int {
         return dataset.size
+    }
+
+    @Synchronized
+    fun updateDataSet(newDataSet: ArrayList<Coupon>){
+        for(i in newDataSet.indices){
+            dataset[i] = newDataSet[i]
+        }
+
+        notifyDataSetChanged()
     }
 
     // This function binds the data to the views for each item in the RecyclerVie
@@ -68,8 +77,18 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
                     .into(holder.imageView)
             }
         }
+            for (i in dataset.indices) {
+                dataset[i].coordinate = i
+                if(i == 0){
+                    Log.d("dataset3", "NEW: $i  " + dataset[i].productName.toString())
+                }
+                else{
+                    Log.d("dataset3", "$i  " + dataset[i].productName.toString())
+                }
+        }
+        Log.d("check:", position.toString())
         holder.itemView.setOnClickListener(View.OnClickListener() {
-            Log.d("onBindViewHolder:", position.toString())
+            Log.d("onBindViewHolder:", dataset[position].productName.toString())
         })
 
     }
