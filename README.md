@@ -6,7 +6,7 @@ To download our alpha release, you will need to have access to an Android device
 
 (ex. turning on Google Chrome's ability to download potentially unsafe files)
 
-[Download the APK here](https://drive.google.com/file/d/1-30wzKlB1_ZbGaahRV09JDtk_f9KMIj2/view?usp=share_link)
+[Download the APK here](https://drive.google.com/file/d/1gBudX-xKgAkErgiI3-vkJmqtYUPziHGy/view?usp=drive_link)
 
 # Technical Specification 
 [App Technical Spec](https://docs.google.com/document/d/1NQJ_FT_1IZIlWWGe11Z9q_DDrA0ii_uCx5Fr1JNzLvA/edit?usp=sharing)
