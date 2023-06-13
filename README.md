@@ -24,7 +24,7 @@ To download our alpha release, you will need to have access to an Android device
 [Dictionary found Here.](https://docs.google.com/document/d/1ViC7Sn1hPlN60eaz4q7Q2I_9FgK2SnmOBJN0kJ2fIY8/edit?usp=sharing)
 
 # Technical Stack Information 
-We are using **Android Studio Dolphin 2021.3.1 Patch 1** as our current version of Android Studio. Currently, everything is developed within the Android Studio engine. The backedn is connected to **Firebase Storage & Database** tools. 
+We are using **Android Studio Dolphin 2021.3.1 Patch 1** as our current version of Android Studio. Currently, everything is developed within the Android Studio engine. Authentication is using **Firebase Authentication**. The backend is connected to **Firebase Storage & Database** tools. 
 
 # Initial Setup
   
@@ -44,6 +44,15 @@ Start Editing!
 - Be sure to create a new Kotlin file that corresponds to the piece, this will be where the backend code goes
 - Next, create a corresponding .xml file, this can be editing both in code and using the design editor
 
+# Firebase
+
+1. Go to Tools > Firebase 
+2. Authentication > Google [KOTLIN]
+  a. Sign in with Localie Dev account
+  b. Add SDK
+3. (Back in Android Studio) Firebase > Cloud Firestore
+  a. Add SDK
+
 # Pushing to GitHub & Development conventions
 
 Create a new branch off dev when working on a new feature. Commmit often to your branch
@@ -58,12 +67,3 @@ chore - cleaning, refactoring
 Example: **feat: new store page added**
 
 Please create a new pull request when you are ready to merge the project into the repo! This ensure that our CI will also test your new code.
-  
-# Firebase
-
-1. Go to Tools > Firebase 
-2. Authentication > Google [KOTLIN]
-  a. Sign in with Localie Dev account
-  b. Add SDK
-3. (Back in Android Studio) Firebase > Cloud Firestore
-  a. Add SDK
