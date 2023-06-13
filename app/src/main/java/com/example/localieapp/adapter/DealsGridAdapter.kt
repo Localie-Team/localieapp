@@ -83,12 +83,12 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
             val mainIntent = Intent(context, CouponDetailsActivity::class.java)
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             mainIntent.putExtra("Coupon", item)
-            val imageView = holder.imageView
-            val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-            val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val imageInByte = baos.toByteArray()
-            mainIntent.putExtra("Coupon2", imageInByte)
+//            val imageView = holder.imageView
+//            val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+//            val baos = ByteArrayOutputStream()
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+//            val imageInByte = baos.toByteArray()
+//            mainIntent.putExtra("Coupon2", imageInByte)
             context.startActivity(mainIntent)
 
         })

@@ -60,9 +60,9 @@ class MerchantDashboardActivity : AppCompatActivity() {
                             0,
                             document.data!!.get("url").toString(),
                             document.data!!.get("product").toString(),
-                            document.data!!.get("vendor").toString(),
+                            document.data!!.get("date_issued").toString(),
                             document.data!!.get("value").toString(),
-                            document.data!!.get("date_issued").toString()
+                            document.data!!.get("vendor").toString()
                         )
                     )
                 }
@@ -87,10 +87,11 @@ class MerchantDashboardActivity : AppCompatActivity() {
                             userName!!.subtitle = regionStr
 
 
-
+                            var num = 0;
                             for (i in listOfCoupons!!.indices) {
-                                if (listOfCoupons!![i].vendor.equals(user?.name)) {
-                                    listOfCoupons!![i].coordinate = i
+
+                                if (listOfCoupons!![i].vendor.equals(user!!.UID)) {
+                                    listOfCoupons!![i].coordinate = num++;
                                 } else {
                                     listOfCoupons!![i].coordinate = -1 // Set coordinate to -1 for coupons with different vendor names
                                 }
