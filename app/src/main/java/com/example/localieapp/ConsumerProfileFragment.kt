@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.ProfileGridAdapter
 import com.example.localieapp.model.Coupon
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -34,6 +37,9 @@ class ConsumerProfileFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     private var coupons: List<Coupon>? = null
+    private var firebaseAuth: FirebaseAuth? = null
+    var userEmail: TextView? = null
+
 
     val db = Firebase.firestore;
 
@@ -58,6 +64,17 @@ class ConsumerProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        var user = firebaseAuth!!.currentUser
+
+        if (user != null)
+        {
+            val email = user!!.email
+            val emailStr = email.toString()
+            userEmail = view.findViewById(R.id.profile_text)
+            userEmail!!.text = emailStr
+        }
 
         settings = view.findViewById(R.id.profile_settings)
 //        expListView = view.findViewById(R.id.profile_exp_list_view)
