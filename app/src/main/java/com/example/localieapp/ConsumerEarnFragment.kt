@@ -19,6 +19,8 @@ import com.example.localieapp.model.Coupon
 import com.example.localieapp.model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -74,8 +76,6 @@ class ConsumerEarnFragment : Fragment() {
 
     private var offset = Random.nextInt(1, spanCount + 1)
 
-    //private var offset = 0
-
     private lateinit var earnGridAdapter: EarnGridAdapter
 
     private val shuffleLock = Object()
@@ -84,6 +84,7 @@ class ConsumerEarnFragment : Fragment() {
     private lateinit var shuffleTimer: Timer
     private lateinit var shuffleHandler: Handler
 
+    private var firebaseAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +92,9 @@ class ConsumerEarnFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        firebaseAuth = FirebaseAuth.getInstance()
+
 
 
     }
@@ -111,10 +115,17 @@ class ConsumerEarnFragment : Fragment() {
     private fun presetCoupons(shoppingCoupons: ArrayList<Coupon>) {
         var cnt = shoppingCoupons.size
         for(i in 1 until cnt){
-            var rndm = Random.nextInt(0, shoppingCoupons.size + 1 - i)
+            var rndm = Random.nextInt(0, cnt + 1 - i)
             shoppingCoupons.removeAt(rndm)
         }
-        shoppingCoupons.add()
+        for (couponId in ShoppingBag.list_of_coupons) {
+            for (temp in coupons!!) {
+                if (couponId == temp.UID) {
+                    shoppingCoupons.add(temp)
+                }
+            }
+        }
+
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -130,7 +141,8 @@ class ConsumerEarnFragment : Fragment() {
         recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
         recyclerView!!.adapter = earnGridAdapter;
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
-
+        shoppingCoupons?.clear()
+        shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
         shuffleCouponsOnStart()
         earnGridAdapter.updateDataSet(dataset)
 
@@ -194,14 +206,14 @@ class ConsumerEarnFragment : Fragment() {
         offset = Random.nextInt(1, spanCount + 1)
         couponMatrix.clear()
         dataset.clear()
-        val shuffledList = ArrayList<Coupon>()
+        val shuffledList = shoppingCoupons
         // Duplicate, shuffle and join the original list as many times are there are rows
         for (i in 0 until spanCount) {
             for (c in coupons!!){
-                shuffledList.add(c.clone())
+                shuffledList!!.add(c.clone())
             }
             // Shuffle the copied list randomly
-            shuffledList.shuffle()
+            shuffledList!!.shuffle()
 
             couponMatrix.add(ArrayList(shuffledList))
 
@@ -252,8 +264,6 @@ class ConsumerEarnFragment : Fragment() {
             }
 
             dataset.addAll(row.subList(0,spanCount))
-
-            //recyclerView!!.adapter?.notifyItemRangeChanged(i*spanCount, spanCount)
         }
 
         for (i in 0 until dataset.size) {
@@ -279,19 +289,47 @@ class ConsumerEarnFragment : Fragment() {
             }
             else{
                 isActive = false
-                val context = requireContext()
-                val couponWon = winningCoupon!!.productName.toString()
-                val message = "You just earned $couponWon!"
-                val duration = Toast.LENGTH_LONG
-                val toast = Toast.makeText(context, message, duration)
 
-                toast.show()
+
+                updateUserWins(winningCoupon!!)
+
             }
-            //earnGridAdapter.updateDataSet(dataset)
-            // If play is active, call this method at the end of content
 
         }
 
+    }
+
+    private fun updateUserWins(coupon: Coupon){
+
+
+
+        val user = firebaseAuth!!.currentUser
+        val userRef = db.collection("users").whereEqualTo("UID", user?.uid).get()
+        userRef.addOnSuccessListener { querySnapshot ->
+            for (document in querySnapshot) {
+                val winList = document.get("win") as? ArrayList<String>
+                if (winList != null) {
+                    val context = requireContext()
+                    val couponWon = coupon.productName.toString()
+                    val message = "You just earned $couponWon!"
+                    val duration = Toast.LENGTH_LONG
+                    val toast = Toast.makeText(context, message, duration)
+
+                    toast.show()
+
+                    winList.add(coupon.UID.toString())
+                    val data = hashMapOf("win" to winList)
+                    document.reference.update(data as Map<String, Any>)
+                        .addOnSuccessListener {
+                            Log.d("added", "here")
+                        }
+                        .addOnFailureListener { exception ->
+                            }
+                }
+            }
+        }.addOnFailureListener { exception ->
+            // Handle the failure case
+        }
     }
 
     fun screenAnimateRefresh(milliseconds : Long) {

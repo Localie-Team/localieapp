@@ -62,7 +62,8 @@ class MerchantDashboardActivity : AppCompatActivity() {
                             document.data!!.get("product").toString(),
                             document.data!!.get("date_issued").toString(),
                             document.data!!.get("value").toString(),
-                            document.data!!.get("vendor").toString()
+                            document.data!!.get("vendor").toString(),
+                            document.id
                         )
                     )
                 }

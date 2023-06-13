@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -23,7 +24,8 @@ class ConsumerDashboardActivity : AppCompatActivity() {
     var navigationView: TabLayout? = null
     var userEmail: MaterialToolbar? = null
     var userName: MaterialToolbar? = null
-    var user_data: User? = null
+    var user: User? = null
+
 
     val db = Firebase.firestore;
 
@@ -36,47 +38,87 @@ class ConsumerDashboardActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        var user = firebaseAuth!!.currentUser
 
-        if (user != null) {
-            val email = user!!.email
-            val name = user!!.displayName
-            val emailStr = email.toString()
-            val nameStr = name.toString()
-            userEmail = findViewById(R.id.title_consumer_dashboard)
-            userEmail!!.subtitle = emailStr
-        }
+
+
+
+        userEmail = findViewById(R.id.title_consumer_dashboard)
+        userEmail!!.subtitle = firebaseAuth!!.currentUser!!.email.toString()
+
 
         var bundle = Bundle();
         var listOfCoupons = ArrayList<Coupon>()
-        db.collection("coupons").get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    listOfCoupons.add(
-                        Coupon(
-                            0,
-                            document.data!!.get("url").toString(),
-                            document.data!!.get("product").toString(),
-                            document.data!!.get("date_issued").toString(),
-                            document.data!!.get("value").toString(),
-                            document.data!!.get("vendor").toString()
-                        )
-                    )
-                    Log.d("docId", document.id)
+        // find user in database and get user information
+        db.collection("users").whereEqualTo("UID", firebaseAuth!!.currentUser!!.uid).get()
+            .addOnSuccessListener { Udocuments ->
+                Log.d("found UID", Udocuments.toString())
+                for (Udocument in Udocuments) {
+                    user = Udocument.toObject<User>()
+                    user!!.email = firebaseAuth!!.currentUser!!.email.toString()
                 }
+                db.collection("coupons").get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
 
-                for (i in listOfCoupons!!.indices) {
-                    listOfCoupons!![i].coordinate = i;
-                }
+                            listOfCoupons.add(
+                                Coupon(
+                                    0,
+                                    document.data!!.get("url").toString(),
+                                    document.data!!.get("product").toString(),
+                                    document.data!!.get("date_issued").toString(),
+                                    document.data!!.get("value").toString(),
+                                    document.data!!.get("vendor").toString(),
+                                    document.id
+                                )
+                            )
+                            Log.d("docId", document.id)
+                        }
+
+                        for (i in listOfCoupons!!.indices) {
+                            listOfCoupons!![i].coordinate = i;
+                        }
+
+//                db.collection("users").whereEqualTo("UID", "4vlQJri9l7evGXNi7IQ2OU95AnQ2").get()
+//                    .addOnSuccessListener{ Udocuments ->
+//                        Log.d("found UID(Consumer)", Udocuments.toString())
+//                        for(Udocument in Udocuments) {
+//                            user_data = Udocument.toObject<User>()
+////                            user!!.email = mAuth.currentUser!!.email.toString()
+//                        }}.addOnFailureListener {
+//                        Log.d("didnt find UID", user.toString())
+//                        // if they dont have anything, just fill with null for now
+//                        user_data = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null", "null")
+//                    }
+                db.collection("users").document("rJVvDNzYeFExHs04YTGi").get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            user = document.toObject<User>()
+                            ShoppingBag.list_of_coupons = user?.cart as MutableList<String>
+                        } else {
+                            // Document doesn't exist
+                            Log.d("didnt find user doc", user.toString())
+//                        // if they dont have anything, just fill with null for now
+                            user = User(
+                                "null",
+                                "null",
+                                listOf("null"),
+                                listOf("null"),
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null"
+                            )
+                        }
 
 
 
                         bundle = Bundle().apply {
                             putParcelableArrayList("coupons", listOfCoupons)
-                            putParcelable("user", user_data)
-
-                        }
-
+                            putParcelable("user", user)}
 
                         val curFragmentName = intent.getStringExtra("Current_Fragment")
 
@@ -140,19 +182,20 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                                     fragmentTransaction.commit()
                                 }
 
-                        // Handle tab select
-                    }
+                                // Handle tab select
+                            }
 
-                    override fun onTabReselected(tab: TabLayout.Tab?) {
-                        // Handle tab reselect
-                    }
+                            override fun onTabReselected(tab: TabLayout.Tab?) {
+                                // Handle tab reselect
+                            }
 
-                    override fun onTabUnselected(tab: TabLayout.Tab?) {
-                        // Handle tab unselect
-                    }
-                })
+                            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                                // Handle tab unselect
+                            }
+                        })
 
+                    }
             }
     }
 
-}
+}}

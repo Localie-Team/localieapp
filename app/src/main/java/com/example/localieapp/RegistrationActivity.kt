@@ -82,6 +82,7 @@ class RegistrationActivity : AppCompatActivity() {
                 hashMap["UID"] = uid
                 hashMap["name"] = uname
                 hashMap["cart"] = emptyList<String>()
+                hashMap["win"] = emptyList<String>()
                 db.collection("users")
                     .add(hashMap)
                     .addOnSuccessListener{
