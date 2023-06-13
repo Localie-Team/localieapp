@@ -78,6 +78,42 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                             listOfCoupons!![i].coordinate = i;
                         }
 
+//                db.collection("users").whereEqualTo("UID", "4vlQJri9l7evGXNi7IQ2OU95AnQ2").get()
+//                    .addOnSuccessListener{ Udocuments ->
+//                        Log.d("found UID(Consumer)", Udocuments.toString())
+//                        for(Udocument in Udocuments) {
+//                            user_data = Udocument.toObject<User>()
+////                            user!!.email = mAuth.currentUser!!.email.toString()
+//                        }}.addOnFailureListener {
+//                        Log.d("didnt find UID", user.toString())
+//                        // if they dont have anything, just fill with null for now
+//                        user_data = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null", "null")
+//                    }
+                db.collection("users").document("rJVvDNzYeFExHs04YTGi").get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            user = document.toObject<User>()
+                            ShoppingBag.list_of_coupons = user?.cart as MutableList<String>
+                        } else {
+                            // Document doesn't exist
+                            Log.d("didnt find user doc", user.toString())
+//                        // if they dont have anything, just fill with null for now
+                            user = User(
+                                "null",
+                                "null",
+                                listOf("null"),
+                                listOf("null"),
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null",
+                                "null"
+                            )
+                        }
+
 
 
                         bundle = Bundle().apply {
@@ -162,4 +198,4 @@ class ConsumerDashboardActivity : AppCompatActivity() {
             }
     }
 
-}
+}}

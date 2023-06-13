@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.localieapp.CouponDetailsActivity
+import com.example.localieapp.ConsumerDealsFragment
 import com.example.localieapp.R
+import com.example.localieapp.ShoppingBag
 import com.example.localieapp.model.Coupon
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -28,10 +29,9 @@ import java.io.ByteArrayOutputStream
 
 class DealsGridAdapter(private val context: Context, private val dataset: List<Coupon>)
     : RecyclerView.Adapter<DealsGridAdapter.ItemViewHolder>() {
-
+//    val test: MutableList<String> = ConsumerDealsFragment.
     private var db = Firebase.firestore;
     private var firebaseAuth: FirebaseAuth? = null
-
     private val couponIndexMap: Map<Int, Int> = dataset.mapIndexed { index, coupon ->
         coupon.coordinate to index
     }.toMap()
@@ -96,14 +96,13 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
         holder.itemView.setOnLongClickListener(View.OnLongClickListener()
         {
             holder.view.setChecked(!holder.view.isChecked)
-
             val collectionRef = db.collection("coupons")
 // Apply filters
 //            val query = collectionRef
 //                .whereEqualTo("product", item?.productName) // Filter by equality
 //                .whereEqualTo("date_issued", item?.date_issued) // Filter by equality
             //TODO: The coupon's 'vendor' property holds the value of date_issued in the Coupon object (Misplaced)
-            val query = collectionRef.whereEqualTo("vendor", item?.date_issued).
+            val query = collectionRef.whereEqualTo("date_issued", item?.date_issued).
             whereEqualTo("product", item?.productName)
 
 // Perform the query
@@ -123,11 +122,13 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
                             //TODO: Make users registered actually appear in firestore collections so we update new users
 //                            val washingtonRef = db.collection("users").document(user.zzb().uid)
                             // TODO: TEMP! UNTIL ABOVE TODO IS MET
-                            val washingtonRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
-                            washingtonRef
-                                .update("cart",  FieldValue.arrayUnion(key))
-                                .addOnSuccessListener { Log.d("pushed to cart", "DocumentSnapshot successfully updated!") }
-                                .addOnFailureListener { e -> Log.w("couldnt push to cart", "Error updating document", e) }
+//                            val washingtonRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+//                            washingtonRef
+//                                .update("cart",  FieldValue.arrayUnion(key))
+//                                .addOnSuccessListener { Log.d("pushed to cart", "DocumentSnapshot successfully updated!") }
+//                                .addOnFailureListener { e -> Log.w("couldnt push to cart", "Error updating document", e) }
+//                            dealsFrag.checkedSet.add(key)
+                            ShoppingBag.array_of_coupons.add(key)
 
                         }
                     }

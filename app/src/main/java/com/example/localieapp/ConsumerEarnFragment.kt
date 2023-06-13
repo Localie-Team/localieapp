@@ -17,9 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.EarnGridAdapter
 import com.example.localieapp.model.Coupon
 import com.example.localieapp.model.User
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.*
 import java.util.stream.IntStream
@@ -45,7 +48,11 @@ class ConsumerEarnFragment : Fragment() {
 
     private var coupons: ArrayList<Coupon>? = null
 
+    private var user_data: User? = null
+
     private var step: Button? = null
+
+    private var endSession: Button? = null
 
     private var isActive: Boolean = false
 
@@ -56,6 +63,8 @@ class ConsumerEarnFragment : Fragment() {
     lateinit var dataset: ArrayList<Coupon>
 
     private lateinit var couponMatrix: ArrayList<ArrayList<Coupon>>
+
+    private var shoppingCoupons: ArrayList<Coupon>? = null
 
     private var refreshCount = 0
 
@@ -97,15 +106,33 @@ class ConsumerEarnFragment : Fragment() {
 
         coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
 
+        user_data = arguments?.getParcelable("user")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_earn, container, false)
+    }
+
+    private fun presetCoupons(shoppingCoupons: ArrayList<Coupon>) {
+        var cnt = shoppingCoupons.size
+        for(i in 1 until cnt){
+            var rndm = Random.nextInt(0, cnt + 1 - i)
+            shoppingCoupons.removeAt(rndm)
+        }
+        for (couponId in ShoppingBag.list_of_coupons) {
+            for (temp in coupons!!) {
+                if (couponId == temp.UID) {
+                    shoppingCoupons.add(temp)
+                }
+            }
+        }
+
     }
 
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         step = view.findViewById(R.id.step_forward_psa_button)
-
+        endSession = view.findViewById(R.id.end_session_button)
 
         couponMatrix = ArrayList()
         dataset = ArrayList()
@@ -114,7 +141,8 @@ class ConsumerEarnFragment : Fragment() {
         recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
         recyclerView!!.adapter = earnGridAdapter;
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
-
+        shoppingCoupons?.clear()
+        shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
         shuffleCouponsOnStart()
         earnGridAdapter.updateDataSet(dataset)
 
@@ -125,11 +153,51 @@ class ConsumerEarnFragment : Fragment() {
 
                     if (!isActive ) {
                         isActive = true
+                        shoppingCoupons?.clear()
+                        shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
+                        presetCoupons(shoppingCoupons!!)
                         shuffleCouponsOnStart()
                         content()
                     }
                 })
-            }
+                endSession?.setOnClickListener(View.OnClickListener {
+//                    val shopping_bag_list: List<String>? = user_data?.cart
+                    val shopping_bag_list: List<String>? = user_data?.cart
+                    if (shopping_bag_list != null) {
+                        for (i in shopping_bag_list.indices) {
+                            //TODO: Change it to refer to current user (once its in database)
+                            val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+                            userRef //TODO: have it when the user clicks "add to shopping bag" it updates shopping_bag_list right away
+                                .update("cart",  FieldValue.arrayRemove(shopping_bag_list[i]))
+                                .addOnSuccessListener { Log.d("removed from cart", "DocumentSnapshot successfully updated!") }
+                                .addOnFailureListener { e -> Log.w("cant remove from cart", "Error updating document", e) }
+                        }
+                        ShoppingBag.list_of_coupons.clear()
+                    }
+
+//                    db.collection("users").whereEqualTo("UID", "rJVvDNzYeFExHs04YTGi").get()
+//                        .addOnSuccessListener{ Udocuments ->
+//                            for(Udocument in Udocuments) {
+//                                Udocument.get("cart")
+//                            }
+//                }
+////                    val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+////                    userRef
+////                        .ge
+
+
+            })
+
+//        endSession?.setOnClickListener(View.OnClickListener {
+//            val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi").g
+//
+//            val array = userRef
+////                    val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+////                    userRef
+////                        .ge
+//
+//        })
+    }
 
     private fun shuffleCouponsOnStart(){
         shuffleHandler = Handler()
@@ -138,14 +206,14 @@ class ConsumerEarnFragment : Fragment() {
         offset = Random.nextInt(1, spanCount + 1)
         couponMatrix.clear()
         dataset.clear()
-        val shuffledList = ArrayList<Coupon>()
+        val shuffledList = shoppingCoupons
         // Duplicate, shuffle and join the original list as many times are there are rows
         for (i in 0 until spanCount) {
             for (c in coupons!!){
-                shuffledList.add(c.clone())
+                shuffledList!!.add(c.clone())
             }
             // Shuffle the copied list randomly
-            shuffledList.shuffle()
+            shuffledList!!.shuffle()
 
             couponMatrix.add(ArrayList(shuffledList))
 

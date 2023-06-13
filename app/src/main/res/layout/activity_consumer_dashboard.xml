@@ -8,10 +8,10 @@
     android:orientation="vertical"
     tools:context=".ConsumerDashboardActivity">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/title_consumer_dashboard"
