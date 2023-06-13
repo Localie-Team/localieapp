@@ -98,6 +98,7 @@ class ConsumerDealsFragment : Fragment() {
 
         shoppingBagButton?.setOnClickListener(View.OnClickListener {
             if (ShoppingBag.array_of_coupons.size > 0) {
+                var flag = false
                 for (j in 0 until ShoppingBag.array_of_coupons.size) {
                     val key = ShoppingBag.array_of_coupons[j]
 //                    Log.d("checkedCouponId", ShoppingBag.array_of_coupons[j])
@@ -106,7 +107,8 @@ class ConsumerDealsFragment : Fragment() {
                     userRef
                         .update("cart",  FieldValue.arrayUnion(key))
                         .addOnSuccessListener {
-                            ShoppingBag.list_of_coupons.add(key)
+//                            ShoppingBag.list_of_coupons.add(key)
+                            flag = true
                             Log.d("pushed to cart", "DocumentSnapshot successfully updated!")
                             Log.d("added to coupon list", ShoppingBag.list_of_coupons.get(ShoppingBag.list_of_coupons.size-1))}
                         .addOnFailureListener { e -> Log.w("couldnt push to cart", "Error updating document", e) }

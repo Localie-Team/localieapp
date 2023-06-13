@@ -113,17 +113,25 @@ class ConsumerEarnFragment : Fragment() {
     }
 
     private fun presetCoupons(shoppingCoupons: ArrayList<Coupon>) {
-        var cnt = shoppingCoupons.size
+        var cnt = ShoppingBag.list_of_coupons.size
+        if (cnt > 8) {
+            cnt = 8
+        }
         for(i in 1 until cnt){
             var rndm = Random.nextInt(0, cnt + 1 - i)
             shoppingCoupons.removeAt(rndm)
         }
+        var j = 0
         for (couponId in ShoppingBag.list_of_coupons) {
+            if (j == 8) {
+                break
+            }
             for (temp in coupons!!) {
                 if (couponId == temp.UID) {
-                    shoppingCoupons.add(temp)
+                    shoppingCoupons.add(temp.clone())
                 }
             }
+            j++
         }
 
     }
@@ -142,6 +150,7 @@ class ConsumerEarnFragment : Fragment() {
         recyclerView!!.adapter = earnGridAdapter;
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
         shoppingCoupons?.clear()
+
         shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
         shuffleCouponsOnStart()
         earnGridAdapter.updateDataSet(dataset)
@@ -154,7 +163,11 @@ class ConsumerEarnFragment : Fragment() {
                     if (!isActive ) {
                         isActive = true
                         shoppingCoupons?.clear()
-                        shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
+//                        shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
+                        for (c in coupons!!){
+                            shoppingCoupons!!.add(c.clone())
+                        }
+
                         presetCoupons(shoppingCoupons!!)
                         shuffleCouponsOnStart()
                         content()
@@ -173,6 +186,7 @@ class ConsumerEarnFragment : Fragment() {
                                 .addOnFailureListener { e -> Log.w("cant remove from cart", "Error updating document", e) }
                         }
                         ShoppingBag.list_of_coupons.clear()
+                        ShoppingBag.array_of_coupons.clear()
                     }
 
 //                    db.collection("users").whereEqualTo("UID", "rJVvDNzYeFExHs04YTGi").get()
@@ -206,10 +220,10 @@ class ConsumerEarnFragment : Fragment() {
         offset = Random.nextInt(1, spanCount + 1)
         couponMatrix.clear()
         dataset.clear()
-        val shuffledList = shoppingCoupons
+        val shuffledList = ArrayList<Coupon>()
         // Duplicate, shuffle and join the original list as many times are there are rows
         for (i in 0 until spanCount) {
-            for (c in coupons!!){
+            for (c in shoppingCoupons!!){
                 shuffledList!!.add(c.clone())
             }
             // Shuffle the copied list randomly
