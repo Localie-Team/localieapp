@@ -9,7 +9,8 @@ class Coupon(
     val productName: String?,
     val date_issued: String?, //TODO: Make it a String or int?
     val coupon_value: String?, //TODO: Maybe make a float depending on if calculations needed
-    val vendor: String?
+    val vendor: String?,
+    val UID: String?
 
 ) : Parcelable, Cloneable {
 
@@ -19,8 +20,8 @@ class Coupon(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readString()
-
     ) {
     }
 
@@ -31,6 +32,7 @@ class Coupon(
         parcel.writeString(date_issued)
         parcel.writeString(coupon_value)
         parcel.writeString(vendor)
+        parcel.writeString(UID)
     }
 
     override fun describeContents(): Int {
