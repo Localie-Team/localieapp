@@ -51,6 +51,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
         db.collection("coupons").get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
+
                     listOfCoupons.add(
                         Coupon(
                             0,
@@ -58,7 +59,8 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                             document.data!!.get("product").toString(),
                             document.data!!.get("date_issued").toString(),
                             document.data!!.get("value").toString(),
-                            document.data!!.get("vendor").toString()
+                            document.data!!.get("vendor").toString(),
+                            document.id
                         )
                     )
                     Log.d("docId", document.id)
