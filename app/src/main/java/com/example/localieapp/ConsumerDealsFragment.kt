@@ -102,6 +102,7 @@ class ConsumerDealsFragment : Fragment() {
                     val key = ShoppingBag.array_of_coupons[j]
 //                    Log.d("checkedCouponId", ShoppingBag.array_of_coupons[j])
                     val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+                    ShoppingBag.list_of_coupons.add(key)
                     userRef
                         .update("cart",  FieldValue.arrayUnion(key))
                         .addOnSuccessListener {

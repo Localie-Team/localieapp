@@ -99,6 +99,7 @@ class ConsumerEarnFragment : Fragment() {
                     }
                 })
                 endSession?.setOnClickListener(View.OnClickListener {
+//                    val shopping_bag_list: List<String>? = user_data?.cart
                     val shopping_bag_list: List<String>? = user_data?.cart
                     if (shopping_bag_list != null) {
                         for (i in shopping_bag_list.indices) {
@@ -109,6 +110,7 @@ class ConsumerEarnFragment : Fragment() {
                                 .addOnSuccessListener { Log.d("removed from cart", "DocumentSnapshot successfully updated!") }
                                 .addOnFailureListener { e -> Log.w("cant remove from cart", "Error updating document", e) }
                         }
+                        ShoppingBag.list_of_coupons.clear()
                     }
 
 //                    db.collection("users").whereEqualTo("UID", "rJVvDNzYeFExHs04YTGi").get()
