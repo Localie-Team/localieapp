@@ -6,7 +6,7 @@ To download our beta release, you will need to have access to an Android device.
 
 (ex. turning on Google Chrome's ability to download potentially unsafe files)
 
-[Download the APK here] [https://drive.google.com/file/d/1gBudX-xKgAkErgiI3-vkJmqtYUPziHGy/view?usp=drive_link]
+[Download the APK here](https://drive.google.com/file/d/1gBudX-xKgAkErgiI3-vkJmqtYUPziHGy/view?usp=drive_link)
 
 # Merchant Facing Demo
 
