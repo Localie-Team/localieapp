@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.ProfileGridAdapter
 import com.example.localieapp.model.Coupon
+import com.example.localieapp.model.User
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -37,6 +38,8 @@ class ConsumerProfileFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     private var coupons: List<Coupon>? = null
+
+    private var user: User? = null
     private var firebaseAuth: FirebaseAuth? = null
     var userEmail: TextView? = null
 
@@ -57,6 +60,7 @@ class ConsumerProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+        user = arguments?.getParcelable("user")
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_profile, container, false)
@@ -66,12 +70,11 @@ class ConsumerProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        var user = firebaseAuth!!.currentUser
 
-        if (user != null)
+
+        if (firebaseAuth!!.currentUser != null)
         {
-            val email = user!!.email
-            val emailStr = email.toString()
+            val emailStr = firebaseAuth!!.currentUser!!.email.toString()
             userEmail = view.findViewById(R.id.profile_text)
             userEmail!!.text = emailStr
         }
@@ -85,17 +88,19 @@ class ConsumerProfileFragment : Fragment() {
             startActivity(mainIntent)
         })
 
-
+        var wins = ArrayList<Coupon>()
+        var j = 0
         for (i in coupons!!.indices) {
-//            print(i);
-//            listOfCoupons!![i].coordinate = i;
-            coupons!!.get(i).coordinate = i;
+            if(user!!.win!!.contains(coupons!!.get(i).UID) ){
+                coupons!!.get(i).coordinate = j++
+                wins.add(coupons!!.get(i))
+            }
         }
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
 //                recyclerView!!.adapter = ProfileGridAdapter(requireContext(), listOfCoupons!!);
-                recyclerView!!.adapter = ProfileGridAdapter(requireContext(), coupons!!);
+                recyclerView!!.adapter = ProfileGridAdapter(requireContext(), wins);
                 recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
 
                 // Use this setting to improve performance if you know that changes
