@@ -13,9 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="145dp"
+        android:layout_marginTop="20dp"
         android:hint="Coupon Name"
-        app:endIconMode="clear_text">
+        app:endIconMode="clear_text"
+        android:layout_below="@+id/FirebaseImage">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/merchant_upload_coupons_name"
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/merchant_upload_coupons_name_layout"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:hint="Value"
         app:endIconMode="clear_text">
 
@@ -47,12 +48,33 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/merchant_upload_coupons_value_layout"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:paddingVertical="15dp"
         android:paddingHorizontal="15dp"
         android:textSize="16sp"
         android:background="@drawable/border"
         android:text="Dates"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/FirebaseImage"
+        android:layout_marginVertical="30dp"
+        android:scaleType="centerCrop"
+        />
+    
+    <Button
+        android:id="@+id/merchant_upload_coupons_select_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_below="@+id/merchant_upload_coupons_date"
+        android:layout_centerHorizontal="true"
+        android:text="Select Image"
+        android:textStyle="bold"
+        android:textSize="20sp"
         />
 
     <Button
@@ -61,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_below="@+id/merchant_upload_coupons_date"
+        android:layout_below="@+id/merchant_upload_coupons_select_image_button"
         android:layout_centerHorizontal="true"
         android:text="Upload"
         android:textStyle="bold"

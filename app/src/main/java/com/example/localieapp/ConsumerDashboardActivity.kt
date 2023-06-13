@@ -11,7 +11,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -69,42 +68,6 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                 for (i in listOfCoupons!!.indices) {
                     listOfCoupons!![i].coordinate = i;
                 }
-
-//                db.collection("users").whereEqualTo("UID", "4vlQJri9l7evGXNi7IQ2OU95AnQ2").get()
-//                    .addOnSuccessListener{ Udocuments ->
-//                        Log.d("found UID(Consumer)", Udocuments.toString())
-//                        for(Udocument in Udocuments) {
-//                            user_data = Udocument.toObject<User>()
-////                            user!!.email = mAuth.currentUser!!.email.toString()
-//                        }}.addOnFailureListener {
-//                        Log.d("didnt find UID", user.toString())
-//                        // if they dont have anything, just fill with null for now
-//                        user_data = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null", "null")
-//                    }
-                db.collection("users").document("rJVvDNzYeFExHs04YTGi").get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            user_data = document.toObject<User>()
-                            ShoppingBag.list_of_coupons = user_data?.cart as MutableList<String>
-                        } else {
-                            // Document doesn't exist
-                            Log.d("didnt find user doc", user.toString())
-//                        // if they dont have anything, just fill with null for now
-                            user_data = User(
-                                "null",
-                                "null",
-                                listOf("null"),
-                                listOf("null"),
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null"
-                            )
-                        }
 
 
 
@@ -177,23 +140,18 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                                     fragmentTransaction.commit()
                                 }
 
-                                // Handle tab select
-                            }
-
-                            override fun onTabReselected(tab: TabLayout.Tab?) {
-                                // Handle tab reselect
-                            }
-
-                            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                                // Handle tab unselect
-                            }
-                        })
-
-
+                        // Handle tab select
                     }
-                    .addOnFailureListener { exception ->
-                        // Handle any errors
+
+                    override fun onTabReselected(tab: TabLayout.Tab?) {
+                        // Handle tab reselect
                     }
+
+                    override fun onTabUnselected(tab: TabLayout.Tab?) {
+                        // Handle tab unselect
+                    }
+                })
+
             }
     }
 

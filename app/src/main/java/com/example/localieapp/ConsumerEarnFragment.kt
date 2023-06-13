@@ -1,19 +1,20 @@
 package com.example.localieapp
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.EarnGridAdapter
-import com.example.localieapp.adapter.GridAdapter
-import com.example.localieapp.data.Datasource
 import com.example.localieapp.model.Coupon
 import com.example.localieapp.model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,7 +22,10 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.util.Collections
+import java.util.*
+import java.util.stream.IntStream
+import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,6 +56,34 @@ class ConsumerEarnFragment : Fragment() {
 
     val db = Firebase.firestore;
 
+    private val spanCount = 3
+
+    lateinit var dataset: ArrayList<Coupon>
+
+    private lateinit var couponMatrix: ArrayList<ArrayList<Coupon>>
+
+    private var shoppingCoupons: ArrayList<Coupon>? = null
+
+    private var refreshCount = 0
+
+    private val winIdx = 7
+
+    private var winningCoupon: Coupon? = null
+
+    private var columnWin = Random.nextInt(spanCount)
+
+    private var offset = Random.nextInt(1, spanCount + 1)
+
+    //private var offset = 0
+
+    private lateinit var earnGridAdapter: EarnGridAdapter
+
+    private val shuffleLock = Object()
+
+    private val shuffleDuration = 8000L
+    private lateinit var shuffleTimer: Timer
+    private lateinit var shuffleHandler: Handler
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,43 +91,61 @@ class ConsumerEarnFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+
         user_data = arguments?.getParcelable("user")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_earn, container, false)
     }
 
+    private fun presetCoupons(shoppingCoupons: ArrayList<Coupon>) {
+        var cnt = shoppingCoupons.size
+        for(i in 1 until cnt){
+            var rndm = Random.nextInt(0, shoppingCoupons.size + 1 - i)
+            shoppingCoupons.removeAt(rndm)
+        }
+        shoppingCoupons.add()
+    }
+
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         step = view.findViewById(R.id.step_forward_psa_button)
         endSession = view.findViewById(R.id.end_session_button)
 
-                for (i in coupons!!.indices) {
-                    coupons!![i].coordinate = i;
-                }
+        couponMatrix = ArrayList()
+        dataset = ArrayList()
+        earnGridAdapter = EarnGridAdapter(requireContext(), dataset)
 
+        recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
+        recyclerView!!.adapter = earnGridAdapter;
+        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
 
-                recyclerView = view.findViewById<RecyclerView>(R.id.deals_recycler_view);
-                recyclerView!!.adapter = EarnGridAdapter(requireContext(), coupons!!);
-                recyclerView!!.layoutManager = GridLayoutManager(requireContext(), 3);
+        shuffleCouponsOnStart()
+        earnGridAdapter.updateDataSet(dataset)
 
                 // Use this setting to improve performance if you know that changes
                 // in content do not change the layout size of the RecyclerView
                 recyclerView!!.setHasFixedSize(true)
                 step?.setOnClickListener(View.OnClickListener {
 
-                    if (!isActive) {
+                    if (!isActive ) {
                         isActive = true
+                        shoppingCoupons?.clear()
+                        shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
+                        presetCoupons(shoppingCoupons!!)
+                        shuffleCouponsOnStart()
                         content()
-                    }
-                    else {
-                        isActive = false
                     }
                 })
                 endSession?.setOnClickListener(View.OnClickListener {
@@ -137,33 +187,111 @@ class ConsumerEarnFragment : Fragment() {
 //        })
     }
 
+    private fun shuffleCouponsOnStart(){
+        shuffleHandler = Handler()
+        refreshCount = 0
+        columnWin = Random.nextInt(spanCount)
+        offset = Random.nextInt(1, spanCount + 1)
+        couponMatrix.clear()
+        dataset.clear()
+        val shuffledList = ArrayList<Coupon>()
+        // Duplicate, shuffle and join the original list as many times are there are rows
+        for (i in 0 until spanCount) {
+            for (c in coupons!!){
+                shuffledList.add(c.clone())
+            }
+            // Shuffle the copied list randomly
+            shuffledList.shuffle()
+
+            couponMatrix.add(ArrayList(shuffledList))
+
+            shuffledList.clear()
+        }
+
+        winningCoupon = couponMatrix[0][winIdx]
+
+
+        for(i in 1 until couponMatrix.size){
+            val idx = findIndexOfProduct(couponMatrix[i],
+                winningCoupon!!.productName.toString(), winningCoupon!!.coupon_value.toString()
+            )
+            if (idx != -1){
+                var thisWin = couponMatrix[i].removeAt(idx)
+                couponMatrix[i].add(winIdx + offset, winningCoupon!!.clone())
+            }
+            offset++
+
+        }
+
+        var idx = 0
+        for (row in couponMatrix){
+            for (i in 0 until spanCount){
+                row[i].coordinate = idx
+                idx++
+            }
+            dataset.addAll(row.subList(0,spanCount))
+        }
+
+    }
+
+    private fun findIndexOfProduct(products: ArrayList<Coupon>, targetProductName: String, targetValue: String): Int {
+        return products.indexOfFirst { it.productName == targetProductName && it.coupon_value == targetValue }
+    }
+
+    private fun shuffleCoupons(){
+        dataset.clear()
+        for (i in 0 until couponMatrix.size){
+            val row = couponMatrix[i]
+            val idx = findIndexOfProduct(couponMatrix[i],
+                winningCoupon!!.productName.toString(), winningCoupon!!.coupon_value.toString()
+            )
+
+            if (idx != columnWin){
+                val firstCoupon = row.removeAt(0)
+                row.add(firstCoupon)
+            }
+
+            dataset.addAll(row.subList(0,spanCount))
+
+            //recyclerView!!.adapter?.notifyItemRangeChanged(i*spanCount, spanCount)
+        }
+
+        for (i in 0 until dataset.size) {
+            dataset[i].coordinate = i
+        }
+    }
+
 
 
     // Below is the content function with horizontal movement
 
     fun content() {
-        val numColumns = 3;
-        val numRows = 3;
-        val range: Int = coupons!!.size;
-        val used = mutableListOf<Int>()
 
-        for (i in coupons!!.indices) {
-            if(coupons!![i].coordinate == coupons!!.size - 1){
-                coupons!![i].coordinate = 0;
+        synchronized(shuffleLock){
+            if (isActive && refreshCount < winIdx + offset) {
+                shuffleCoupons()
+                shuffleHandler.post {
+                    earnGridAdapter.updateDataSet(dataset)
+                }
+                refreshCount++
+                screenAnimateRefresh(1000)
+
             }
             else{
-                coupons!![i].coordinate += 1;
+                isActive = false
+                val context = requireContext()
+                val couponWon = winningCoupon!!.productName.toString()
+                val message = "You just earned $couponWon!"
+                val duration = Toast.LENGTH_LONG
+                val toast = Toast.makeText(context, message, duration)
+
+                toast.show()
             }
-
-        }
-        recyclerView!!.adapter?.notifyItemRangeChanged(0, range)
-
-        used.clear()
-
-        if (isActive) {
+            //earnGridAdapter.updateDataSet(dataset)
             // If play is active, call this method at the end of content
-            screenAnimateRefresh(1500)
+
         }
+
     }
 
     fun screenAnimateRefresh(milliseconds : Long) {
