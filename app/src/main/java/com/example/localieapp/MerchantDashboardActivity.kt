@@ -90,7 +90,7 @@ class MerchantDashboardActivity : AppCompatActivity() {
                             var num = 0;
                             for (i in listOfCoupons!!.indices) {
 
-                                if (listOfCoupons!![i].vendor.equals(nameStr)) {
+                                if (listOfCoupons!![i].vendor.equals(user!!.UID)) {
                                     listOfCoupons!![i].coordinate = num++;
                                 } else {
                                     listOfCoupons!![i].coordinate = -1 // Set coordinate to -1 for coupons with different vendor names
