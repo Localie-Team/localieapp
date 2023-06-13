@@ -1,12 +1,20 @@
 # Localie | Team Application 
 Localie is an application that aims to connect shoppers with their local commerce options. Based on your region, Localie will provide you with a range of discounts and coupons that fit your needs as a shopper. Select what you are looking for and play games to win discounts on your favorite items
 
-# Alpha Release
-To download our alpha release, you will need to have access to an Android device. From that device, download the APK linked below. You may have to change permissions to allow your phone to downlaod the application, this can be done in your phone settings. 
+# Beta Release
+To download our beta release, you will need to have access to an Android device. From that device, download the APK linked below. You may have to change permissions to allow your phone to downlaod the application, this can be done in your phone settings. 
 
 (ex. turning on Google Chrome's ability to download potentially unsafe files)
 
 [Download the APK here] [https://drive.google.com/file/d/1gBudX-xKgAkErgiI3-vkJmqtYUPziHGy/view?usp=drive_link]
+
+# Merchant Facing Demo
+
+https://github.com/Localie-Team/localieapp/assets/77294804/ea166b43-fa4c-4196-b186-3147a8dbe1e3
+
+# Consumer Facing Demo
+
+https://github.com/Localie-Team/localieapp/assets/77294804/7c80a269-a229-4eb5-82f4-89d8d805194a
 
 # Technical Specification 
 [App Technical Spec](https://docs.google.com/document/d/1NQJ_FT_1IZIlWWGe11Z9q_DDrA0ii_uCx5Fr1JNzLvA/edit?usp=sharing)
@@ -24,7 +32,7 @@ To download our alpha release, you will need to have access to an Android device
 [Dictionary found Here.](https://docs.google.com/document/d/1ViC7Sn1hPlN60eaz4q7Q2I_9FgK2SnmOBJN0kJ2fIY8/edit?usp=sharing)
 
 # Technical Stack Information 
-We are using **Android Studio Dolphin 2021.3.1 Patch 1** as our current version of Android Studio. Currently, everything is developed within the Android Studio engine. Authentication is using **Firebase Authentication**. The backend is connected to **Firebase Storage & Database** tools. 
+We are using **Android Studio Dolphin 2021.3.1 Patch 1** as our current version of Android Studio. Currently, everything is developed within the Android Studio engine,using Kotlin as the language. Authentication is using **Firebase Authentication**. The backend is connected to **Firebase Storage & Database** tools. 
 
 # Initial Setup
   
