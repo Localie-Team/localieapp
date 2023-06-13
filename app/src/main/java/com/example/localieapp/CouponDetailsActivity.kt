@@ -12,10 +12,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.localieapp.databinding.ActivityCouponDetails2Binding
 import com.example.localieapp.databinding.ContentCouponDetails2Binding
 import com.example.localieapp.model.Coupon
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 
 class CouponDetailsActivity : AppCompatActivity() {
@@ -26,6 +30,8 @@ class CouponDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val storage = Firebase.storage
 
         var passedItem: Coupon? = null
         passedItem = @Suppress("DEPRECATION") intent.getParcelableExtra("Coupon")
@@ -62,12 +68,22 @@ class CouponDetailsActivity : AppCompatActivity() {
         val textView2 = findViewById<TextView>(R.id.description)
         textView2.text = passedItem!!.vendor + "\n\n" + passedItem!!.coupon_value + "\n\n" + passedItem!!.date_issued
 //        val  imageView = findViewById<ImageView>(R.id.imageView2)
-        var passedItem2 : ByteArray = intent.getByteArrayExtra("Coupon2")!!
-        val bmp = BitmapFactory.decodeByteArray(passedItem2, 0, passedItem2.size)
+//        var passedItem2 : ByteArray = intent.getByteArrayExtra("Coupon2")!!
+//        val bmp = BitmapFactory.decodeByteArray(passedItem2, 0, passedItem2.size)
         val image = findViewById<View>(R.id.imageView2) as ImageView
 //        image.setImageBitmap(Bitmap.createScaledBitmap(bmp, image.width, image.height, false))
 //        image.setImageDrawable(BitmapDrawable(mContext.getResources(), bmp))
-        image.setImageBitmap(bmp)
+//        image.setImageBitmap(bmp)
+        val httpsReference = passedItem!!.url?.let {
+            storage.getReferenceFromUrl(
+                it
+            )
+        }
+
+        Glide.with(this)
+            .load(httpsReference)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .into(image);
 
 
 
