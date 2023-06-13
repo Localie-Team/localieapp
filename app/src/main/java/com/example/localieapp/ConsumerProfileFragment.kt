@@ -91,7 +91,7 @@ class ConsumerProfileFragment : Fragment() {
         var wins = ArrayList<Coupon>()
         var j = 0
         for (i in coupons!!.indices) {
-            if(user!!.win!!.contains(coupons!!.get(i).UID) ){
+            if(user!!.win!!.contains(coupons!!.get(i).UID.toString()) ){
                 coupons!!.get(i).coordinate = j++
                 wins.add(coupons!!.get(i))
             }
