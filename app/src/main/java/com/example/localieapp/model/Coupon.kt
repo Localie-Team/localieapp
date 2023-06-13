@@ -11,7 +11,7 @@ class Coupon(
     val coupon_value: String?, //TODO: Maybe make a float depending on if calculations needed
     val vendor: String?
 
-) : Parcelable {
+) : Parcelable, Cloneable {
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -46,4 +46,6 @@ class Coupon(
             return arrayOfNulls(size)
         }
     }
+
+    public override fun clone(): Coupon = super.clone() as Coupon
 }

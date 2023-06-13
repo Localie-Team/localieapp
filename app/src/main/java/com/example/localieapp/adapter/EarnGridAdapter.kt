@@ -16,12 +16,8 @@ import com.google.android.material.card.MaterialCardView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class EarnGridAdapter(private val context: Context, private val dataset: List<Coupon>)
+class EarnGridAdapter(private val context: Context, private val matrix: ArrayList<Coupon>)
     : RecyclerView.Adapter<EarnGridAdapter.ItemViewHolder>() {
-
-    private val couponIndexMap: Map<Int, Int> = dataset.mapIndexed { index, coupon ->
-        coupon.coordinate to index
-    }.toMap()
 
     // Class holds references to the views in each item of the RecyclerView
     class ItemViewHolder(val view: MaterialCardView) : RecyclerView.ViewHolder(view) {
@@ -40,7 +36,16 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
 
     // This function returns the number of items in the list of coupons
     override fun getItemCount(): Int {
-        return dataset.size
+        return matrix.size
+    }
+
+    @Synchronized
+    fun updateDataSet(newDataSet: ArrayList<Coupon>){
+        for(i in newDataSet.indices){
+            matrix[i] = newDataSet[i]
+        }
+
+        notifyDataSetChanged()
     }
 
     // This function binds the data to the views for each item in the RecyclerVie
@@ -50,9 +55,9 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
 
 
 
-        for (i in dataset.indices) {
-            if (dataset[i].coordinate == position) {
-                val item = dataset[i]
+        for (i in matrix.indices) {
+            if (matrix[i].coordinate == holder.absoluteAdapterPosition) {
+                val item = matrix[i]
                 // This creates a URL reference for the coupon's image in Firebase Storage
                 val httpsReference = item.url?.let {
                     storage.getReferenceFromUrl(
@@ -68,9 +73,6 @@ class EarnGridAdapter(private val context: Context, private val dataset: List<Co
                     .into(holder.imageView)
             }
         }
-        holder.itemView.setOnClickListener(View.OnClickListener() {
-            Log.d("onBindViewHolder:", position.toString())
-        })
 
     }
 }
