@@ -114,16 +114,24 @@ class ConsumerEarnFragment : Fragment() {
 
     private fun presetCoupons(shoppingCoupons: ArrayList<Coupon>) {
         var cnt = ShoppingBag.list_of_coupons.size
+        if (cnt > 8) {
+            cnt = 8
+        }
         for(i in 1 until cnt){
             var rndm = Random.nextInt(0, cnt + 1 - i)
             shoppingCoupons.removeAt(rndm)
         }
+        var j = 0
         for (couponId in ShoppingBag.list_of_coupons) {
+            if (j == 8) {
+                break
+            }
             for (temp in coupons!!) {
                 if (couponId == temp.UID) {
                     shoppingCoupons.add(temp.clone())
                 }
             }
+            j++
         }
 
     }
@@ -178,6 +186,7 @@ class ConsumerEarnFragment : Fragment() {
                                 .addOnFailureListener { e -> Log.w("cant remove from cart", "Error updating document", e) }
                         }
                         ShoppingBag.list_of_coupons.clear()
+                        ShoppingBag.array_of_coupons.clear()
                     }
 
 //                    db.collection("users").whereEqualTo("UID", "rJVvDNzYeFExHs04YTGi").get()
