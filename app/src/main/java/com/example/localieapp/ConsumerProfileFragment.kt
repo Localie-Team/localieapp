@@ -2,6 +2,7 @@ package com.example.localieapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.localieapp.model.User
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
@@ -87,15 +89,21 @@ class ConsumerProfileFragment : Fragment() {
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(mainIntent)
         })
-
-        var wins = ArrayList<Coupon>()
-        var j = 0
-        for (i in coupons!!.indices) {
-            if(user!!.win!!.contains(coupons!!.get(i).UID.toString()) ){
-                coupons!!.get(i).coordinate = j++
-                wins.add(coupons!!.get(i))
-            }
-        }
+        db.collection("users").whereEqualTo("UID", firebaseAuth!!.currentUser!!.uid).get()
+            .addOnSuccessListener { Udocuments ->
+                Log.d("found UID", Udocuments.toString())
+                for (Udocument in Udocuments) {
+                    user = Udocument.toObject<User>()
+                    user!!.email = firebaseAuth!!.currentUser!!.email.toString()
+                }
+                var wins = ArrayList<Coupon>()
+                var j = 0
+                for (i in coupons!!.indices) {
+                    if(user!!.win!!.contains(coupons!!.get(i).UID.toString()) ){
+                        coupons!!.get(i).coordinate = j++
+                        wins.add(coupons!!.get(i))
+                    }
+                }
 
 
                 recyclerView = view.findViewById<RecyclerView>(R.id.profile_recycler_view);
@@ -107,6 +115,8 @@ class ConsumerProfileFragment : Fragment() {
                 // in content do not change the layout size of the RecyclerView
                 recyclerView!!.setHasFixedSize(true)
 //            }
+            }
+
 
     }
 
