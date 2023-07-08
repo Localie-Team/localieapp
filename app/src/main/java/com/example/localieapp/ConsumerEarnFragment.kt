@@ -43,10 +43,13 @@ class ConsumerEarnFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var param3: String? = null
 
     private var recyclerView: RecyclerView? = null
 
     private var coupons: ArrayList<Coupon>? = null
+
+    private var userRef: String? = null
 
     private var user_data: User? = null
 
@@ -91,6 +94,7 @@ class ConsumerEarnFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+            param3 = it.getString(ARG_PARAM2)
         }
 
         firebaseAuth = FirebaseAuth.getInstance()
@@ -105,7 +109,7 @@ class ConsumerEarnFragment : Fragment() {
     ): View? {
 
         coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
-
+        userRef = arguments?.getString("userRef")
         user_data = arguments?.getParcelable("user")
 
         // Inflate the layout for this fragment
@@ -178,9 +182,11 @@ class ConsumerEarnFragment : Fragment() {
                     val shopping_bag_list: List<String>? = user_data?.cart
                     if (shopping_bag_list != null) {
                         for (i in shopping_bag_list.indices) {
-                            //TODO: Change it to refer to current user (once its in database)
-                            val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
-                            userRef //TODO: have it when the user clicks "add to shopping bag" it updates shopping_bag_list right away
+                            val userRef = db.collection("users").document(userRef.toString())
+                    /*  TODO: CHECK Which Is More Efficient? Passing in userRef (string) or
+                            looking in collection for equal to user?.ID
+                    */
+                            userRef
                                 .update("cart",  FieldValue.arrayRemove(shopping_bag_list[i]))
                                 .addOnSuccessListener { Log.d("removed from cart", "DocumentSnapshot successfully updated!") }
                                 .addOnFailureListener { e -> Log.w("cant remove from cart", "Error updating document", e) }

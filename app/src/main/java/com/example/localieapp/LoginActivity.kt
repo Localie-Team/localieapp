@@ -92,6 +92,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     private fun showRecoverPasswordDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Recover Password")

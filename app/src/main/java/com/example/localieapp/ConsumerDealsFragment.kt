@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.localieapp.adapter.DealsGridAdapter
 //import com.example.localieapp.adapter.ExpandableListGridAdapter
 import com.example.localieapp.model.Coupon
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -32,12 +33,15 @@ class ConsumerDealsFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var param3: String? = null
 
     private var recyclerView: RecyclerView? = null
     private var coupons: ArrayList<Coupon>? = null
+    private var userRef: String? = null
 //    public lateinit var checkedSet: MutableList<String>
     private var shoppingBagButton: Button? = null
     val db = Firebase.firestore;
+    private var firebaseAuth: FirebaseAuth? = null
 
 //    private var expListView: ExpandableListView? = null
 //    private var adapter: ExpandableListGridAdapter? = null
@@ -47,8 +51,10 @@ class ConsumerDealsFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+            param3 = it.getString(ARG_PARAM2)
 //            coupons = it.getParcelableArrayList<Coupon>("coupons")
         }
+        firebaseAuth = FirebaseAuth.getInstance()
     }
 
     override fun onCreateView(
@@ -56,6 +62,7 @@ class ConsumerDealsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         coupons = arguments?.getParcelableArrayList<Coupon>("coupons")
+        userRef = arguments?.getString("userRef")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consumer_deals, container, false)
     }
@@ -102,7 +109,8 @@ class ConsumerDealsFragment : Fragment() {
                 for (j in 0 until ShoppingBag.array_of_coupons.size) {
                     val key = ShoppingBag.array_of_coupons[j]
 //                    Log.d("checkedCouponId", ShoppingBag.array_of_coupons[j])
-                    val userRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
+                    val userRef = db.collection("users").document(userRef.toString())
+//                    val userRef = db.collection("users").whereEqualTo("UID", firebaseAuth!!.currentUser!!.uid).get()
                     ShoppingBag.list_of_coupons.add(key)
                     userRef
                         .update("cart",  FieldValue.arrayUnion(key))

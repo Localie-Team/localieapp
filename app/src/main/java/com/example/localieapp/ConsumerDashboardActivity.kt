@@ -1,7 +1,9 @@
 package com.example.localieapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.localieapp.model.Coupon
@@ -10,11 +12,14 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.*
 
 class ConsumerDashboardActivity : AppCompatActivity() {
     private var firebaseAuth: FirebaseAuth? = null
@@ -25,11 +30,39 @@ class ConsumerDashboardActivity : AppCompatActivity() {
     var userEmail: MaterialToolbar? = null
     var userName: MaterialToolbar? = null
     var user: User? = null
-
+    var userRef: String? = null
+    var userUID: String? = null
 
     val db = Firebase.firestore;
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+
+    suspend fun failedConcurrentSum() {
+        runBlocking {
+
+            Log.d("firebaseAuth", "Guest Login Should Be Here")
+            try {
+                userEmail!!.subtitle = firebaseAuth!!.currentUser!!.email.toString()
+            } catch (e: Exception) {
+
+                Log.d("firebaseAuth fail", "Guest Login Should Be Here")
+
+                firebaseAuth!!.signInWithEmailAndPassword("guest@gmail.com", "guest123")
+
+                        Log.d("Login:", "aakdhsksadhs")
+
+                delay(3000) //TODO: Any other way to fix concurrency? Lock system maybe? Synchronize?
+                userEmail!!.subtitle = firebaseAuth!!.currentUser!!.email.toString()
+            }
+
+            Log.d("testing", "something")
+        }
+    }
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) = runBlocking<Unit> {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consumer_dashboard)
 
@@ -38,14 +71,25 @@ class ConsumerDashboardActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-
-
-
-
         userEmail = findViewById(R.id.title_consumer_dashboard)
-        userEmail!!.subtitle = firebaseAuth!!.currentUser!!.email.toString()
 
 
+        failedConcurrentSum()
+
+
+        try {
+            val user = Firebase.auth.currentUser
+            if (user != null) {
+                Log.d("auth_user", user!!.uid)
+            } else {
+                Log.d("auth_user", "null")
+                userUID = firebaseAuth!!.uid
+                Log.d("auth_user_Uid", userUID.toString())
+            }
+//            Log.d("auth_user", user!!.uid)
+        } catch (e: java.lang.Exception) {
+            Log.e("MYAPP", "exception", e)
+        }
         var bundle = Bundle();
         var listOfCoupons = ArrayList<Coupon>()
         // find user in database and get user information
@@ -54,7 +98,9 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                 Log.d("found UID", Udocuments.toString())
                 for (Udocument in Udocuments) {
                     user = Udocument.toObject<User>()
+                    userRef = Udocument.reference.id
                     user!!.email = firebaseAuth!!.currentUser!!.email.toString()
+                    ShoppingBag.list_of_coupons = user?.cart as MutableList<String>
                 }
                 db.collection("coupons").get()
                     .addOnSuccessListener { documents ->
@@ -78,47 +124,11 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                             listOfCoupons!![i].coordinate = i;
                         }
 
-//                db.collection("users").whereEqualTo("UID", "4vlQJri9l7evGXNi7IQ2OU95AnQ2").get()
-//                    .addOnSuccessListener{ Udocuments ->
-//                        Log.d("found UID(Consumer)", Udocuments.toString())
-//                        for(Udocument in Udocuments) {
-//                            user_data = Udocument.toObject<User>()
-////                            user!!.email = mAuth.currentUser!!.email.toString()
-//                        }}.addOnFailureListener {
-//                        Log.d("didnt find UID", user.toString())
-//                        // if they dont have anything, just fill with null for now
-//                        user_data = User("null","null",listOf("null"),listOf("null"), "null","null","null","null","null", "null", "null", "null")
-//                    }
-                db.collection("users").document("rJVvDNzYeFExHs04YTGi").get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            user = document.toObject<User>()
-                            ShoppingBag.list_of_coupons = user?.cart as MutableList<String>
-                        } else {
-                            // Document doesn't exist
-                            Log.d("didnt find user doc", user.toString())
-//                        // if they dont have anything, just fill with null for now
-                            user = User(
-                                "null",
-                                "null",
-                                listOf("null"),
-                                listOf("null"),
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null",
-                                "null"
-                            )
-                        }
-
-
 
                         bundle = Bundle().apply {
                             putParcelableArrayList("coupons", listOfCoupons)
-                            putParcelable("user", user)}
+                            putParcelable("user", user)
+                            putString("userRef", userRef)}
 
                         val curFragmentName = intent.getStringExtra("Current_Fragment")
 
@@ -194,7 +204,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                             }
                         })
 
-                    }
+//                    }
             }
     }
 

@@ -58,6 +58,7 @@ class ConsumerSettingActivity : AppCompatActivity() {
 
         // logs out user, navigates to login activity
         logout?.setOnClickListener {
+            FirebaseAuth.getInstance().signOut();
             startActivity(Intent(this@ConsumerSettingActivity, LoginActivity::class.java))
         }
 

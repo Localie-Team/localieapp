@@ -7,8 +7,8 @@ class Coupon(
     var coordinate: Int,
     val url: String?,
     val productName: String?,
-    val date_issued: String?, //TODO: Make it a String or int?
-    val coupon_value: String?, //TODO: Maybe make a float depending on if calculations needed
+    val date_issued: String?,
+    val coupon_value: String?,
     val vendor: String?,
     val UID: String?
 
