@@ -28,12 +28,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/deals_exp_list_view" >
+<!--            android:background="@drawable/border_line"-->
+<!--            android:orientation="vertical">-->
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/deals_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
+
         </LinearLayout>
 
         <Button

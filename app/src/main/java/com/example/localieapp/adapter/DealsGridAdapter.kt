@@ -95,44 +95,50 @@ class DealsGridAdapter(private val context: Context, private val dataset: List<C
 
         holder.itemView.setOnLongClickListener(View.OnLongClickListener()
         {
+            var isChecked: Boolean = false
+            if (holder.view.isChecked) { isChecked = true }
             holder.view.setChecked(!holder.view.isChecked)
-            val collectionRef = db.collection("coupons")
+            val key = item?.UID
+            if (isChecked) {
+                ShoppingBag.array_of_coupons.remove(key)
+            }
+            else {
+//            val collectionRef = db.collection("coupons")
 // Apply filters
 //            val query = collectionRef
 //                .whereEqualTo("product", item?.productName) // Filter by equality
 //                .whereEqualTo("date_issued", item?.date_issued) // Filter by equality
-            //TODO: The coupon's 'vendor' property holds the value of date_issued in the Coupon object (Misplaced)
-            val query = collectionRef.whereEqualTo("date_issued", item?.date_issued).
-            whereEqualTo("product", item?.productName)
+                //TODO: The coupon's 'vendor' property holds the value of date_issued in the Coupon object (Misplaced)
+//            val query = collectionRef.whereEqualTo("date_issued", item?.date_issued).
+//            whereEqualTo("product", item?.productName)
 
 // Perform the query
-            query.get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        // Process each document here
-                        val key = document.id
+//            query.get()
+//                .addOnSuccessListener { documents ->
+//                    for (document in documents) {
+                // Process each document here
+//                        val key = document.id
 
 
-                        Log.d("docRefId", key)
-                        firebaseAuth = FirebaseAuth.getInstance()
-                        var user = firebaseAuth!!.currentUser
-                        if (user != null) {
-                            Log.d("userUID", user.zzb().uid)
-                            //TODO: Consider making it not automatically add to cart but wait for push button
-                            //TODO: Make users registered actually appear in firestore collections so we update new users
+                Log.d("docRefId", key!!)
+//                        firebaseAuth = FirebaseAuth.getInstance()
+//                        var user = firebaseAuth!!.currentUser
+//                        if (user != null) {
+
 //                            val washingtonRef = db.collection("users").document(user.zzb().uid)
-                            // TODO: TEMP! UNTIL ABOVE TODO IS MET
+                // TODO: TEMP! UNTIL ABOVE TODO IS MET
 //                            val washingtonRef = db.collection("users").document("rJVvDNzYeFExHs04YTGi")
 //                            washingtonRef
 //                                .update("cart",  FieldValue.arrayUnion(key))
 //                                .addOnSuccessListener { Log.d("pushed to cart", "DocumentSnapshot successfully updated!") }
 //                                .addOnFailureListener { e -> Log.w("couldnt push to cart", "Error updating document", e) }
 //                            dealsFrag.checkedSet.add(key)
-                            ShoppingBag.array_of_coupons.add(key)
+                ShoppingBag.array_of_coupons.add(key)
 
-                        }
-                    }
-                }
+//                        }
+//                    }
+//                }
+            }
 
             true
         }

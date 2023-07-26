@@ -1,24 +1,22 @@
 package com.example.localieapp.adapter
 
-import android.animation.ObjectAnimator
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.localieapp.AnimationUtil
 import com.example.localieapp.R
 import com.example.localieapp.model.Coupon
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class EarnGridAdapter(private val context: Context, private val matrix: ArrayList<Coupon>)
-    : RecyclerView.Adapter<EarnGridAdapter.ItemViewHolder>() {
-    //*********
+class EarnGridAdapter1(private val context: Context, private val matrix: ArrayList<Coupon>)
+    : RecyclerView.Adapter<EarnGridAdapter1.ItemViewHolder>() {
+    //********
 //    private var previousPosition = 0
 
     // Class holds references to the views in each item of the RecyclerView
@@ -31,7 +29,7 @@ class EarnGridAdapter(private val context: Context, private val matrix: ArrayLis
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // create a new view
         val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.adapter_grid_item_earn, parent, false)
+            .inflate(R.layout.adapter_grid_item_earn1, parent, false)
 
         return ItemViewHolder(adapterLayout as MaterialCardView)
     }
@@ -76,25 +74,8 @@ class EarnGridAdapter(private val context: Context, private val matrix: ArrayLis
                     .into(holder.imageView)
             }
         }
-        holder.itemView.setOnClickListener(View.OnClickListener() {
-            Log.d("onEarnGridAdapter:", position.toString())
-
-
-            // Here's where the problem starts - this animation will animate a View object.
-            // But that View may get recycled if it is animated out of the container,
-            // and the animation will continue to fade a view that now contains unrelated
-            // content.
-            val anim: ObjectAnimator = ObjectAnimator.ofFloat<View>(holder.view, View.ALPHA, 0f)
-            anim.duration = 1000
-
-
-
-
-
-        })
+        //*******
 //        if (position != previousPosition) { // We are scrolling DOWN
-        //*********
-//        if (position < 10) { // We are scrolling DOWN
 //            AnimationUtil.animate(holder, true)
 //        }
 //        previousPosition = position

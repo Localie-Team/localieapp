@@ -48,6 +48,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                 Log.d("firebaseAuth fail", "Guest Login Should Be Here")
 
                 firebaseAuth!!.signInWithEmailAndPassword("guest@gmail.com", "guest123")
+                //TODO: SETUP: Limited functionality for guest account. Actually you shouldnt have to login a user at all.
 
                         Log.d("Login:", "aakdhsksadhs")
 
@@ -153,7 +154,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                             tab?.select()
                             val fragment = ConsumerDealsFragment()
                             fragment.arguments = bundle
-                            val earnFragment = ConsumerEarnFragment()
+                            val earnFragment = ConsumerEarnFragment1()
                             earnFragment.arguments = bundle
                             val fragmentTransaction = supportFragmentManager.beginTransaction()
                             fragmentTransaction.replace(R.id.content, fragment, "")
@@ -178,7 +179,7 @@ class ConsumerDashboardActivity : AppCompatActivity() {
                                         fragment.arguments = bundle
                                     }
                                     2 -> {
-                                        fragment = ConsumerEarnFragment();
+                                        fragment = ConsumerEarnFragment1();
                                         fragment.arguments = bundle
                                     }
                                 }
