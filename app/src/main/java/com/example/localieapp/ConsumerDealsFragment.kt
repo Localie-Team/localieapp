@@ -1,6 +1,7 @@
 package com.example.localieapp
 
 //import com.example.localieapp.adapter.ExpandableListGridAdapter
+//import FirstRowStaticRecyclerView
 import RecyclerViewItemDecoration
 import android.content.Context
 import android.os.Bundle
@@ -128,10 +129,10 @@ class ConsumerDealsFragment : Fragment() {
 //        recyclerView!!.addItemDecoration(DividerItemDecoration(this.activity, LinearLayout.VERTICAL))
 //        recyclerView!!.addItemDecoration(DividerItemDecoration(this.activity, LinearLayout.HORIZONTAL))
 //        }
-        startAutoScroll()
+//        startAutoScroll()
 
         shoppingBagButton?.setOnClickListener(View.OnClickListener {
-            stopAutoScroll() // Stop automatic scrolling when the button is clicked
+//            stopAutoScroll() // Stop automatic scrolling when the button is clicked
             if (ShoppingBag.array_of_coupons.size > 0) {
 //                var flag = false
                 for (j in 0 until ShoppingBag.array_of_coupons.size) {
@@ -181,10 +182,10 @@ class ConsumerDealsFragment : Fragment() {
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        stopAutoScroll() // Stop automatic scrolling when the fragment is destroyed
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        stopAutoScroll() // Stop automatic scrolling when the fragment is destroyed
+//    }
 
     private fun startAutoScroll() {
         isAutoScrolling = true

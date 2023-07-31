@@ -2,6 +2,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,12 @@ class RecyclerViewItemDecoration(
 
     private var horizontalDivider: Drawable = ContextCompat.getDrawable(context, horizontalDividerResId)!!
     private var verticalDivider: Drawable = ContextCompat.getDrawable(context, verticalDividerResId)!!
+
+
+    private var firstRowRecyclerView: RecyclerView? = null
+    fun setFirstRowRecyclerView(recyclerView: RecyclerView) {
+        firstRowRecyclerView = recyclerView
+    }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
@@ -64,4 +71,7 @@ class RecyclerViewItemDecoration(
             horizontalDivider.intrinsicHeight
         )
     }
+
 }
+
+

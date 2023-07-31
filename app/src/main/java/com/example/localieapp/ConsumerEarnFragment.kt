@@ -1,5 +1,6 @@
 package com.example.localieapp
 
+import RecyclerViewItemDecoration
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
@@ -42,6 +43,8 @@ class ConsumerEarnFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
 
     private var coupons: ArrayList<Coupon>? = null
+    private var scrollHandler: Handler? = null
+    private var isAutoScrolling = false
 
     private var userRef: String? = null
 
@@ -65,11 +68,13 @@ class ConsumerEarnFragment : Fragment() {
 
     private var refreshCount = 0
 
-    private val winIdx = 7
+    private val winIdx = 2 // The 44th icon (3rd section or section_2 and 12th row)
+
+    private var counterTester = 0
 
     private var winningCoupon: Coupon? = null
 
-    private var columnWin = Random.nextInt(spanCount)
+    private var rowWin = 0 // Will hold rand row from span of visible rows
 
     private var offset = Random.nextInt(1, spanCount + 1)
 
@@ -149,8 +154,12 @@ class ConsumerEarnFragment : Fragment() {
         (recyclerView?.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         recyclerView!!.adapter = earnGridAdapter;
         recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount);
+//        recyclerView!!.layoutManager = GridLayoutManager(requireContext(), spanCount, RecyclerView.HORIZONTAL, false)
+//        recyclerView!!.layoutManager = CustomGridLayoutManager(requireContext(), spanCount, RecyclerView.HORIZONTAL, false)
 //        recyclerView!!.layoutManager = HorizontalGridLayoutManager(requireContext(),spanCount);
+        recyclerView!!.setHasFixedSize(true)
 
+        recyclerView!!.addItemDecoration(RecyclerViewItemDecoration(requireContext(), R.drawable.divider, R.drawable.divider_vertical))
         shoppingCoupons?.clear()
 
         shoppingCoupons = coupons?.clone() as ArrayList<Coupon>
@@ -173,8 +182,14 @@ class ConsumerEarnFragment : Fragment() {
                         }
 
                         presetCoupons(shoppingCoupons!!)
-                        shuffleCouponsOnStart()
+//                        shuffleCouponsOnStart()
+//                        earnGridAdapter.updateDataSet(dataset)
+                        Thread.sleep(15)
                         content()
+                    }
+                    else {
+                        isActive = false
+                        stopAutoScroll()
                     }
                 })
                 endSession?.setOnClickListener(View.OnClickListener {
@@ -226,7 +241,7 @@ class ConsumerEarnFragment : Fragment() {
     private fun shuffleCouponsOnStart(){
         shuffleHandler = Handler()
         refreshCount = 0
-        columnWin = Random.nextInt(spanCount)
+        rowWin = Random.nextInt(6)
         offset = Random.nextInt(1, spanCount + 1)
         couponMatrix.clear()
         dataset.clear()
@@ -245,34 +260,42 @@ class ConsumerEarnFragment : Fragment() {
             shuffledList.clear()
         }
 
-        winningCoupon = couponMatrix[0][winIdx]
+        winningCoupon = couponMatrix[2][winIdx]
 
 
-        for(i in 1 until couponMatrix.size){
+        for(i in 0 until spanCount){
+            if (i == 2) continue;
             val idx = findIndexOfProduct(couponMatrix[i],
                 winningCoupon!!.productName.toString(), winningCoupon!!.coupon_value.toString()
             )
             if (idx != -1){
                 var thisWin = couponMatrix[i].removeAt(idx)
-                couponMatrix[i].add(winIdx + offset, winningCoupon!!.clone())
+                var tempHolder = couponMatrix[2].removeAt(i)
+                couponMatrix[i].add(idx, tempHolder)
+                couponMatrix[2].add(i,thisWin)
             }
-            offset++
+//            offset++
 
         }
 
+
+
         var idx = 0
         for (row in couponMatrix){
-            for (i in 0 until spanCount){
+            for (i in 0 until row.size){
                 row[i].coordinate = idx
                 idx++
             }
-            dataset.addAll(row.subList(0,spanCount))
+            dataset.addAll(row.subList(0,row.size))
 //            dataset.addAll(row.subList(0,spanCount))
         }
 
 
     }
 
+//    private fun findIndexOfProduct(products: ArrayList<Coupon>, targetProductName: String, targetValue: String): Int {
+//        return products.indexOfFirst { it.productName == targetProductName && it.coupon_value == targetValue }
+//    }
     private fun findIndexOfProduct(products: ArrayList<Coupon>, targetProductName: String, targetValue: String): Int {
         return products.indexOfFirst { it.productName == targetProductName && it.coupon_value == targetValue }
     }
@@ -285,17 +308,17 @@ class ConsumerEarnFragment : Fragment() {
                 winningCoupon!!.productName.toString(), winningCoupon!!.coupon_value.toString()
             )
 
-            if (idx != columnWin){
-                val firstCoupon = row.removeAt(0)
-                row.add(firstCoupon)
-            }
+//            if (idx != columnWin){
+//                val firstCoupon = row.removeAt(0)
+//                row.add(firstCoupon)
+//            }
 
-            dataset.addAll(row.subList(0,spanCount))
+            dataset.addAll(row.subList(0,row.size-1))
         }
 
-        for (i in 0 until dataset.size) {
-            dataset[i].coordinate = i
-        }
+//        for (i in 0 until dataset.size) {
+//            dataset[i].coordinate = i
+//        }
     }
 
 
@@ -304,25 +327,26 @@ class ConsumerEarnFragment : Fragment() {
 
     fun content() {
 
-        synchronized(shuffleLock){
-            if (isActive && refreshCount < winIdx + offset) {
+//        synchronized(shuffleLock){
+//            if (isActive && refreshCount < winIdx + offset) {
                 shuffleCoupons()
-                shuffleHandler.post {
-                    earnGridAdapter.updateDataSet(dataset)
-                }
+//                shuffleHandler.post {
+//                    earnGridAdapter.updateDataSet(dataset)
+//                }
                 refreshCount++
-                screenAnimateRefresh(250)
+//                screenAnimateRefresh(250)
+                startAutoScroll()
 
-            }
-            else{
-                isActive = false
+//            }
+//            else{
+//                isActive = false
+//                stopAutoScroll()
+//
+//                updateUserWins(winningCoupon!!)
+//
+//            }
 
-
-                updateUserWins(winningCoupon!!)
-
-            }
-
-        }
+//        }
 
     }
 
@@ -356,6 +380,39 @@ class ConsumerEarnFragment : Fragment() {
             }
         }.addOnFailureListener { exception ->
             // Handle the failure case
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stopAutoScroll() // Stop automatic scrolling when the fragment is destroyed
+    }
+
+    private fun startAutoScroll() {
+        isAutoScrolling = true
+//        totalScrollDistance = 0
+        val scrollSpeed = 200 // You can adjust the scroll speed here (higher values make it faster)
+        scrollHandler = Handler()
+        scrollHandler?.post(object : Runnable {
+            override fun run() {
+                if (isAutoScrolling) {
+                    val maxScroll = recyclerView?.computeHorizontalScrollRange() ?: 0
+//                    val scrollPosition = (totalScrollDistance + scrollSpeed) % maxScroll
+                    recyclerView?.smoothScrollBy(0, scrollSpeed)
+                    counterTester += 1
+                    Log.d("CounterTester",counterTester.toString())
+                    if (counterTester == 11) stopAutoScroll()
+                    scrollHandler?.postDelayed(this, 500) // Adjust the delay here (50 ms = 50 milliseconds)
+                }
+            }
+        })
+    }
+
+    private fun stopAutoScroll() {
+        isAutoScrolling = false
+        scrollHandler?.removeCallbacksAndMessages(null)
+        if (counterTester == 11) {
+            updateUserWins(winningCoupon!!)
         }
     }
 

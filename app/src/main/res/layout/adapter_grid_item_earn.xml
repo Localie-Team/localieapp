@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
-    android:checkable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:focusable="true"
+    android:checkable="true"
+    android:layout_margin="4dp"
     app:cardElevation="0dp"
     app:strokeWidth="0dp"
-    tools:ignore="TouchTargetSizeCheck">
+    >
+
+
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <!--        <GridView-->
-        <!--            android:id="@+id/simpleGridView"-->
-        <!--            android:layout_width="fill_parent"-->
-        <!--            android:layout_height="wrap_content"/>-->
 
         <com.example.localieapp.widget.SquareRelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
             <ImageView
                 android:id="@+id/item_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:importantForAccessibility="no"
                 android:scaleType="centerCrop" />
         </com.example.localieapp.widget.SquareRelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="2dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:padding="8dp">-->
 
 
-            <TextView
-                android:id="@+id/item_title"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+<!--&lt;!&ndash;            <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/item_title"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:textAppearance="?attr/textAppearanceHeadline6" />&ndash;&gt;-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
     </LinearLayout>
 
 
+
 </com.google.android.material.card.MaterialCardView>
+
